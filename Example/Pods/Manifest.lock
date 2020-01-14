@@ -1,0 +1,18 @@
+PODS:
+  - ZSViewUtil (0.0.1):
+    - ZSViewUtil/All (= 0.0.1)
+  - ZSViewUtil/All (0.0.1)
+
+DEPENDENCIES:
+  - ZSViewUtil (from `../`)
+
+EXTERNAL SOURCES:
+  ZSViewUtil:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  ZSViewUtil: 9948dacc78f22e78c2549dd086912355709053f3
+
+PODFILE CHECKSUM: d886b760df95e1c9826d5a86bed20a77e8aa177f
+
+COCOAPODS: 1.9.0.beta.2

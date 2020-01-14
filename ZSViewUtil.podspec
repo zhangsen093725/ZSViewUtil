@@ -8,8 +8,8 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZSViewUtil'
-  s.version          = '0.1.0'
-  s.summary          = 'A short description of ZSViewUtil.'
+  s.version          = '0.0.1'
+  s.summary          = '自定义 View'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-TODO: Add long description of the pod here.
+包含 Web、Toast、Animation、Player等等
                        DESC
 
   s.homepage         = 'https://github.com/zhangsen093725/ZSViewUtil'
@@ -26,11 +26,53 @@ TODO: Add long description of the pod here.
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'zhangsen093725' => '376019018@qq.com' }
   s.source           = { :git => 'https://github.com/zhangsen093725/ZSViewUtil.git', :tag => s.version.to_s }
+  s.swift_version    = '5.0'
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '8.0'
-
-  s.source_files = 'ZSViewUtil/Classes/**/*'
+  
+  s.default_subspecs = 'All'
+  
+  s.subspec 'All' do |a|
+      a.source_files = 'ZSViewUtil/Classes/**/*'
+  end
+  
+  s.subspec 'LoopScroll' do |l|
+      l.source_files = 'ZSViewUtil/Classes/LoopScroll/**/*'
+  end
+  
+  s.subspec 'Player' do |p|
+      p.source_files = 'ZSViewUtil/Classes/Player/**/*'
+  end
+  
+  s.subspec 'Toast' do |t|
+      
+      t.source_files = 'ZSViewUtil/Classes/Toast/**/*'
+      
+      t.subspec 'Load' do |l|
+          l.source_files = 'ZSViewUtil/Classes/Toast/Load/ZSLoadView.swift'
+      end
+      
+      t.subspec 'Toast' do |tt|
+          tt.source_files = 'ZSViewUtil/Classes/Toast/Toast/ZSToastView.swift'
+      end
+  end
+  
+  s.subspec 'ViewAnimation' do |v|
+      v.source_files = 'ZSViewUtil/Classes/ViewAnimation/**/*'
+  end
+  
+  s.subspec 'WebView' do |w|
+      w.source_files = 'ZSViewUtil/Classes/WebView/**/*'
+  end
+  
+  s.subspec 'Button' do |b|
+      b.source_files = 'ZSViewUtil/Classes/Button/**/*'
+  end
+  
+  s.subspec 'Field' do |f|
+      f.source_files = 'ZSViewUtil/Classes/Field/**/*'
+  end
   
   # s.resource_bundles = {
   #   'ZSViewUtil' => ['ZSViewUtil/Assets/*.png']
