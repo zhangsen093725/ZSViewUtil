@@ -116,7 +116,7 @@ open class ZSTabViewServe: NSObject, UICollectionViewDelegate, UICollectionViewD
 
         let width = zs_configTabTextSize(sizeForItemAt: indexPath.item)
 
-        return CGSize(width: width, height: collectionView.zs_h)
+        return CGSize(width: width, height: collectionView.frame.height)
     }
     
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {

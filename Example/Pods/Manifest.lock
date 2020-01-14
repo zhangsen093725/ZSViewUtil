@@ -1,18 +1,16 @@
 PODS:
-  - ZSViewUtil (0.0.1):
-    - ZSViewUtil/All (= 0.0.1)
-  - ZSViewUtil/All (0.0.1)
+  - ZSViewUtil/TabPage (0.0.3)
 
 DEPENDENCIES:
-  - ZSViewUtil (from `../`)
+  - ZSViewUtil/TabPage (from `../`)
 
 EXTERNAL SOURCES:
   ZSViewUtil:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ZSViewUtil: 9948dacc78f22e78c2549dd086912355709053f3
+  ZSViewUtil: ffc46bca62ff01f51b62504be569b9338d0cd39a
 
-PODFILE CHECKSUM: d886b760df95e1c9826d5a86bed20a77e8aa177f
+PODFILE CHECKSUM: f1b205c1f96894461d9870da46d0e6e3504541f8
 
 COCOAPODS: 1.9.0.beta.2
