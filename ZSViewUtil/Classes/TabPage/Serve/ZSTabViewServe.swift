@@ -18,7 +18,7 @@ open class ZSTabViewServe: NSObject, UICollectionViewDelegate, UICollectionViewD
     
     public weak var delegate: ZSTabViewServeDelegate?
     
-    var tabTexts: [String] = [] {
+    public var tabTexts: [String] = [] {
         didSet {
             tabView?.collectionView.reloadData()
         }
