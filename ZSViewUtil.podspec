@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZSViewUtil'
-  s.version          = '0.0.2'
+  s.version          = '0.0.3'
   s.summary          = '自定义 View'
 
 # This description is used to generate tags and improve search results.
@@ -80,6 +80,10 @@ Pod::Spec.new do |s|
   
   s.subspec 'UIExt' do |u|
       u.source_files = 'ZSViewUtil/Classes/UIExt/**/*'
+  end
+  
+  s.subspec 'TabPage' do |tp|
+      tp.source_files = 'ZSViewUtil/Classes/TabPage/**/*'
   end
   
   # s.resource_bundles = {
