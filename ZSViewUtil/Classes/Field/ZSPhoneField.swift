@@ -68,13 +68,9 @@ open class ZSPhoneField: ZSNumberField {
     
     open override func zs_filedText(from newValue: String) -> String {
         
-        print(newValue)
-        
         let text = zs_phoneText(from: super.zs_filedText(from: newValue))
         
         tempText = zs_phoneText(from: newValue)
-        
-        print(text)
         
         return text
     }
