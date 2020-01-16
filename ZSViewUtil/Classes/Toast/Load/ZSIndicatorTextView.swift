@@ -93,9 +93,11 @@ open class ZSIndicatorTextView: UIView {
         _ text: String,
         to view: UIView? = nil,
         size: CGSize = CGSize(width: 160, height: 108),
-        backgroundColor: UIColor = UIColor.black.withAlphaComponent(0.7)) {
+        backgroundColor: UIColor = UIColor.black.withAlphaComponent(0.7)) -> ZSIndicatorTextView {
         
         ZSIndicatorTextView.defult.startAnimation(text, to: view, size: size, backgroundColor: backgroundColor)
+        
+        return ZSIndicatorTextView.defult
     }
     
     public class func stopAnimation() {

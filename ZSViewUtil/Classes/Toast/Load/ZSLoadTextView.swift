@@ -96,9 +96,11 @@ open class ZSLoadTextView: UIView {
         _ text: String,
         to view: UIView? = nil,
         size: CGSize = CGSize(width: 140, height: 108),
-        backgroundColor: UIColor = UIColor.black.withAlphaComponent(0.7)) {
+        backgroundColor: UIColor = UIColor.black.withAlphaComponent(0.7)) -> ZSLoadTextView {
         
         ZSLoadTextView.defult.startAnimation(text, to: view, size: size, backgroundColor: backgroundColor)
+        
+        return ZSLoadTextView.defult
     }
     
     public class func stopAnimation() {

@@ -127,9 +127,10 @@ import UIKit
         _ text: String,
         to view: UIView? = nil,
         size: CGSize = CGSize(width: 80, height: 80),
-        backgroundColor: UIColor = UIColor.black.withAlphaComponent(0.7)) {
+        backgroundColor: UIColor = UIColor.black.withAlphaComponent(0.7)) -> ZSLoadingView {
         
         ZSLoadingView.defult.startAnimation(to: view, size: size, backgroundColor: backgroundColor)
+        return ZSLoadingView.defult
     }
     
     public class func stopAnimation() {
