@@ -13,6 +13,8 @@ open class ZSPhoneField: ZSNumberField {
     
     func shouldDeleteBlank(range: NSRange, fieldString: String) -> Bool {
     
+        guard range.location > 0 else { return false }
+        
         guard let spaceRange = Range(range, in: fieldString) else { return false }
         
         if String(fieldString[spaceRange]) == " " {
@@ -31,6 +33,8 @@ open class ZSPhoneField: ZSNumberField {
     }
     
     func shouldInsertBlank(range: NSRange, fieldString: String) -> Bool {
+        
+        guard range.location > 0 else { return false }
         
         let space = NSRange(location: range.location + range.length - 1, length: 1)
         
@@ -90,8 +94,6 @@ open class ZSPhoneField: ZSNumberField {
         
         if string == "" {
 
-            guard range.location > 0 else { return true }
-            
             if shouldDeleteBlank(range: range, fieldString: text) {
                 
                 guard let subRange = Range(NSRange(location: range.location - 1, length: range.length + 1), in: text) else { return true }
