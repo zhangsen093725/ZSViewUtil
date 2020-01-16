@@ -124,7 +124,6 @@ import UIKit
     
     
     public class func startAnimation(
-        _ text: String,
         to view: UIView? = nil,
         size: CGSize = CGSize(width: 80, height: 80),
         backgroundColor: UIColor = UIColor.black.withAlphaComponent(0.7)) -> ZSLoadingView {

@@ -7,7 +7,26 @@
 
 import UIKit
 
+@objc public protocol ZSTextFieldDelegate {
+    
+    func zs_textFieldDidEndEditing(_ textField: ZSTextField)
+    
+    @objc optional func zs_textField(_ textField: ZSTextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
+}
+
+
 open class ZSTextField: UIView, UITextFieldDelegate {
+    
+    public weak var delegate: ZSTextFieldDelegate?
+    
+    public override init(frame: CGRect) {
+        super.init(frame: frame)
+        NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidChange(_:)), name: UITextField.textDidChangeNotification, object: nil)
+    }
+    
+    required public init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     public var text: String? {
         set {
@@ -105,6 +124,15 @@ open class ZSTextField: UIView, UITextFieldDelegate {
         }
     }
     
+    public var returnKeyType: UIReturnKeyType {
+        set {
+            textField.returnKeyType = newValue
+        }
+        get {
+            return textField.returnKeyType
+        }
+    }
+    
     public var replaceVisibleText: String = "*" {
         didSet {
             text = originText
@@ -153,11 +181,11 @@ open class ZSTextField: UIView, UITextFieldDelegate {
 
     open func zs_textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        return true
+        return delegate?.zs_textField?(self, shouldChangeCharactersIn: range, replacementString: string) ?? true
     }
     
     open func zs_textFieldDidEndEditing(_ textField: UITextField) {
-        
+        delegate?.zs_textFieldDidEndEditing(self)
     }
     
     // TODO: UITextFieldDelegate
@@ -166,6 +194,10 @@ open class ZSTextField: UIView, UITextFieldDelegate {
         let isShouldReplace = zs_textField(textField, shouldChangeCharactersIn: range, replacementString: string)
         
         guard isShouldReplace else { return false }
+        
+        guard isVisibleText == false else { return true }
+        
+        guard string != "\n" else { return false }
         
         var text: String = String(originText)
         
@@ -185,5 +217,15 @@ open class ZSTextField: UIView, UITextFieldDelegate {
     
     public func textFieldDidEndEditing(_ textField: UITextField) {
         zs_textFieldDidEndEditing(textField)
+    }
+    
+    @objc public func textFieldDidChange(_ notification: NSNotification) {
+        
+        guard isVisibleText else { return }
+        originText = textField.text ?? ""
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 }

@@ -77,7 +77,7 @@ open class ZSPhoneField: ZSNumberField {
     
     public override func zs_textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
-        let _ = delegate?.zs_number?(textField: self, shouldChangeCharactersIn: range, replacementString: string)
+        let _ = delegate?.zs_textField?(self, shouldChangeCharactersIn: range, replacementString: string)
 
         if string == "\n" {
             

@@ -8,17 +8,7 @@
 
 import Foundation
 
-@objc public protocol ZSNumberFieldDelegate {
-    
-    func zs_numberTextFieldDidEndEditing(_ textField: ZSNumberField)
-    
-    @objc optional func zs_number(textField: ZSNumberField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
-}
-
-
 open class ZSNumberField: ZSTextField {
-    
-    public weak var delegate: ZSNumberFieldDelegate?
 
     private struct style {
         
@@ -64,11 +54,11 @@ open class ZSNumberField: ZSTextField {
             return true
         }
         
-        return delegate?.zs_number?(textField: self, shouldChangeCharactersIn: range, replacementString: string) ?? true
+        return delegate?.zs_textField?(self, shouldChangeCharactersIn: range, replacementString: string) ?? true
     }
     
     open override func zs_textFieldDidEndEditing(_ textField: UITextField) {
-        delegate?.zs_numberTextFieldDidEndEditing(self)
+        delegate?.zs_textFieldDidEndEditing(self)
     }
     
     // TODO: InputAccessoryAction
