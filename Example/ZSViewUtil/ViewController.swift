@@ -34,6 +34,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         view.backgroundColor = .white
+        ZSIndicatorTextView.startAnimation("哈说丹深爱的")
     }
     
     override func viewWillLayoutSubviews() {
