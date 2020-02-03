@@ -1,6 +1,6 @@
 {
   "name": "ZSViewUtil",
-  "version": "0.0.6",
+  "version": "0.1.0",
   "summary": "自定义 View",
   "description": "包含 Web、Toast、Animation、Player等等",
   "homepage": "https://github.com/zhangsen093725/ZSViewUtil",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/zhangsen093725/ZSViewUtil.git",
-    "tag": "0.0.6"
+    "tag": "0.1.0"
   },
   "swift_versions": "5.0",
   "platforms": {
@@ -26,12 +26,34 @@
       "source_files": "ZSViewUtil/Classes/**/*"
     },
     {
+      "name": "Button",
+      "source_files": "ZSViewUtil/Classes/Button/**/*"
+    },
+    {
+      "name": "DragImageView",
+      "source_files": "ZSViewUtil/Classes/DragImageView/**/*",
+      "subspecs": [
+        {
+          "name": "LongPress",
+          "source_files": "ZSViewUtil/Classes/DragImageView/LongPress/**/*"
+        }
+      ]
+    },
+    {
+      "name": "Field",
+      "source_files": "ZSViewUtil/Classes/Field/**/*"
+    },
+    {
       "name": "LoopScroll",
       "source_files": "ZSViewUtil/Classes/LoopScroll/**/*"
     },
     {
       "name": "Player",
       "source_files": "ZSViewUtil/Classes/Player/**/*"
+    },
+    {
+      "name": "Profiles",
+      "source_files": "ZSViewUtil/Classes/Profiles/**/*"
     },
     {
       "name": "Toast",
@@ -48,32 +70,20 @@
       ]
     },
     {
-      "name": "ViewAnimation",
-      "source_files": "ZSViewUtil/Classes/ViewAnimation/**/*"
-    },
-    {
-      "name": "WebView",
-      "source_files": "ZSViewUtil/Classes/WebView/**/*"
-    },
-    {
-      "name": "Button",
-      "source_files": "ZSViewUtil/Classes/Button/**/*"
-    },
-    {
-      "name": "Field",
-      "source_files": "ZSViewUtil/Classes/Field/**/*"
-    },
-    {
-      "name": "Profiles",
-      "source_files": "ZSViewUtil/Classes/Profiles/**/*"
+      "name": "TabPage",
+      "source_files": "ZSViewUtil/Classes/TabPage/**/*"
     },
     {
       "name": "UIExt",
       "source_files": "ZSViewUtil/Classes/UIExt/**/*"
     },
     {
-      "name": "TabPage",
-      "source_files": "ZSViewUtil/Classes/TabPage/**/*"
+      "name": "ViewAnimation",
+      "source_files": "ZSViewUtil/Classes/ViewAnimation/**/*"
+    },
+    {
+      "name": "WebView",
+      "source_files": "ZSViewUtil/Classes/WebView/**/*"
     }
   ],
   "swift_version": "5.0"

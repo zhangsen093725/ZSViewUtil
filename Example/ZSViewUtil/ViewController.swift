@@ -30,17 +30,33 @@ class ViewController: UIViewController {
         return button
     }()
     
+    lazy var dragView: ZSDragImageView = {
+        
+        let dragView = ZSDragImageView()
+        dragView.backgroundColor = .orange
+        view.addSubview(dragView)
+        return dragView
+    }()
+    
+    lazy var dragViewServe: ZSLongPressDragImageViewServe = {
+        
+        let dragViewServe = ZSLongPressDragImageViewServe()
+        return dragViewServe
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         view.backgroundColor = .white
-        ZSIndicatorTextView.startAnimation("哈说丹深爱的")
+//        ZSIndicatorTextView.startAnimation("哈说丹深爱的")
+        dragViewServe.setterCollectionView(dragView.collectionView)
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        textFiled.frame = CGRect(x: 30 * KWidthUnit, y: 100 * KHeightUnit, width: 200 * KWidthUnit, height: 45 * KHeightUnit)
-        button.frame = CGRect(x: 30 * KWidthUnit, y: 150 * KHeightUnit, width: 200 * KWidthUnit, height: 45 * KHeightUnit)
+//        textFiled.frame = CGRect(x: 30 * KWidthUnit, y: 100 * KHeightUnit, width: 200 * KWidthUnit, height: 45 * KHeightUnit)
+//        button.frame = CGRect(x: 30 * KWidthUnit, y: 150 * KHeightUnit, width: 200 * KWidthUnit, height: 45 * KHeightUnit)
+        dragView.frame = view.bounds
     }
 
     override func didReceiveMemoryWarning() {
