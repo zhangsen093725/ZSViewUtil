@@ -5,7 +5,7 @@
 //  Created by 张森 on 2020/2/3.
 //
 
-import Foundation
+import UIKit
 
 open class ZSDragImageItemView: UICollectionViewCell {
     
