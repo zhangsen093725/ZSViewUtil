@@ -10,7 +10,7 @@ import UIKit
 import ZSViewUtil
 
 class ViewController: UIViewController {
-
+    
     lazy var textFiled: ZSNumberField = {
         
         let textFiled = ZSNumberField()
@@ -44,21 +44,57 @@ class ViewController: UIViewController {
         return dragViewServe
     }()
     
+    public lazy var collectionView: UICollectionView = {
+        
+        let layout = ZSPlainFlowLayout()
+        layout.plainOffset = 20
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        layout.scrollDirection = .vertical
+        
+        let collectionView = UICollectionView.init(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = UIColor.white
+        collectionView.allowsSelection = true
+        collectionView.alwaysBounceVertical = true
+        collectionView.alwaysBounceHorizontal = false
+        
+        
+        
+        view.addSubview(collectionView)
+        return collectionView
+    }()
+    
+    lazy var headerView: UIView = {
+        
+        let headerView = UIView()
+        collectionView.addSubview(headerView)
+        return headerView
+    }()
+    
+    lazy var collectionViewServe: ZSPlainFlowLayoutServe = {
+        
+        let collectionViewServe = ZSPlainFlowLayoutServe()
+        return collectionViewServe
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         view.backgroundColor = .white
-//        ZSIndicatorTextView.startAnimation("哈说丹深爱的")
-        dragViewServe.setterCollectionView(dragView.collectionView)
+        //        ZSIndicatorTextView.startAnimation("哈说丹深爱的")
+        collectionViewServe.setterCollectionView(collectionView)
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-//        textFiled.frame = CGRect(x: 30 * KWidthUnit, y: 100 * KHeightUnit, width: 200 * KWidthUnit, height: 45 * KHeightUnit)
-//        button.frame = CGRect(x: 30 * KWidthUnit, y: 150 * KHeightUnit, width: 200 * KWidthUnit, height: 45 * KHeightUnit)
-        dragView.frame = view.bounds
+        //        textFiled.frame = CGRect(x: 30 * KWidthUnit, y: 100 * KHeightUnit, width: 200 * KWidthUnit, height: 45 * KHeightUnit)
+        //        button.frame = CGRect(x: 30 * KWidthUnit, y: 150 * KHeightUnit, width: 200 * KWidthUnit, height: 45 * KHeightUnit)
+        collectionView.frame = view.bounds
+        // 上面 headView 的高度
+        let headViewH = collectionView.frame.size.width * 0.4
+        // 内缩 collectionView 的显示内容
+        collectionView.contentInset = UIEdgeInsetsMake(headViewH, 0, 0, 0)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -69,6 +105,6 @@ class ViewController: UIViewController {
         textFiled.isVisibleText = !textFiled.isVisibleText
         textFiled.replaceVisibleText = "&"
     }
-
+    
 }
 
