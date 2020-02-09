@@ -210,6 +210,7 @@ import JavaScriptCore
     }
     
     public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        guard (error as NSError).code == URLError.cancelled.rawValue else { return }
         delegate?.zs_webView?(webView, loadFail: error)
     }
     
