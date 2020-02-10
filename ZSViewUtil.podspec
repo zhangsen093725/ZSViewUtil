@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZSViewUtil'
-  s.version          = '0.1.5'
+  s.version          = '0.1.6'
   s.summary          = '自定义 View'
 
 # This description is used to generate tags and improve search results.
@@ -41,6 +41,10 @@ Pod::Spec.new do |s|
       b.source_files = 'ZSViewUtil/Classes/Button/**/*'
   end
   
+  s.subspec 'CollectionView' do |c|
+      c.source_files = 'ZSViewUtil/Classes/CollectionView/**/*'
+  end
+  
   s.subspec 'DragImageView' do |d|
       d.source_files = 'ZSViewUtil/Classes/DragImageView/**/*'
   end
@@ -52,7 +56,7 @@ Pod::Spec.new do |s|
   s.subspec 'FlowLayout' do |fl|
       fl.source_files = 'ZSViewUtil/Classes/FlowLayout/**/*'
       fl.subspec 'Plain' do |l|
-          l.source_files = 'ZSViewUtil/Classes/FlowLayout/Plain/*'
+          l.source_files = 'ZSViewUtil/Classes/FlowLayout/Plain/**/*'
       end
   end
   
@@ -73,11 +77,11 @@ Pod::Spec.new do |s|
       t.source_files = 'ZSViewUtil/Classes/Toast/**/*'
       
       t.subspec 'Load' do |l|
-          l.source_files = 'ZSViewUtil/Classes/Toast/Load/*'
+          l.source_files = 'ZSViewUtil/Classes/Toast/Load/**/*'
       end
       
       t.subspec 'Toast' do |tt|
-          tt.source_files = 'ZSViewUtil/Classes/Toast/Toast/*'
+          tt.source_files = 'ZSViewUtil/Classes/Toast/Toast/**/*'
       end
   end
   

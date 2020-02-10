@@ -44,21 +44,19 @@ class ViewController: UIViewController {
         return dragViewServe
     }()
     
-    public lazy var collectionView: UICollectionView = {
+    public lazy var collectionView: ZSCollectionView = {
         
         let layout = ZSPlainFlowLayout()
         layout.plainOffset = 20
         layout.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         layout.scrollDirection = .vertical
         
-        let collectionView = UICollectionView.init(frame: .zero, collectionViewLayout: layout)
+        let collectionView = ZSCollectionView.init(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.white
         collectionView.allowsSelection = true
         collectionView.alwaysBounceVertical = true
         collectionView.alwaysBounceHorizontal = false
-        
-        
-        
+
         view.addSubview(collectionView)
         return collectionView
     }()
@@ -66,7 +64,8 @@ class ViewController: UIViewController {
     lazy var headerView: UIView = {
         
         let headerView = UIView()
-        collectionView.addSubview(headerView)
+        headerView.backgroundColor = .red
+        collectionView.collectionViewBottomView = headerView
         return headerView
     }()
     
@@ -89,10 +88,7 @@ class ViewController: UIViewController {
         //        textFiled.frame = CGRect(x: 30 * KWidthUnit, y: 100 * KHeightUnit, width: 200 * KWidthUnit, height: 45 * KHeightUnit)
         //        button.frame = CGRect(x: 30 * KWidthUnit, y: 150 * KHeightUnit, width: 200 * KWidthUnit, height: 45 * KHeightUnit)
         collectionView.frame = view.bounds
-        // 上面 headView 的高度
-        let headViewH = collectionView.frame.size.width * 0.4
-        // 内缩 collectionView 的显示内容
-        collectionView.contentInset = UIEdgeInsetsMake(headViewH, 0, 0, 0)
+        headerView.frame = CGRect(x: 0, y: 0, width: collectionView.zs_w, height: 180)
     }
     
     override func didReceiveMemoryWarning() {
