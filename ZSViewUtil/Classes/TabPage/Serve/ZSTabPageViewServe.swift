@@ -32,7 +32,6 @@ open class ZSTabPageViewServe: NSObject, UIScrollViewDelegate, UICollectionViewD
     public var selectIndex: Int = 0 {
         didSet {
             tabViewServe.selectIndex = selectIndex
-            tabPageView?.beginScrollToIndex(selectIndex, isAnimation: false)
         }
     }
     
