@@ -63,7 +63,7 @@ open class ZSTabViewServe: NSObject, UICollectionViewDelegate, UICollectionViewD
             sliderX += zs_configTabTextSize(sizeForItemAt: index) + minimumLineSpacing
         }
         
-        tabView?.beginScrollToIndex(selectIndex, sliderX: sliderX, textWidth: sliderW, isAnimation: false)
+        tabView?.beginScrollToIndex(selectIndex, sliderX: sliderX, textWidth: sliderW, isAnimation: true)
     }
     
     open func zs_buildTabView(_ tabView: ZSTabView) {

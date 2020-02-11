@@ -10,11 +10,7 @@ import UIKit
 
 open class ZSTabView: UIView {
     
-    public var isSliderHidden: Bool = false {
-        didSet {
-            sliderView.isHidden = isSliderHidden
-        }
-    }
+    public var isSliderHidden: Bool = false
     
     public var isScrollEnable: Bool = false {
         didSet {
@@ -72,6 +68,7 @@ open class ZSTabView: UIView {
     public lazy var sliderView: UIView = {
         
         let sliderView = UIView()
+        sliderView.isHidden = true
         collectionView.addSubview(sliderView)
         return sliderView
     }()
@@ -129,6 +126,8 @@ open class ZSTabView: UIView {
         }
         
         let sliderFrame = CGRect(x: (textWidth - sliderWidth) * 0.5 + sliderX, y: collectionView.frame.height - sliderHeight, width: sliderWidth, height: sliderHeight)
+        
+        sliderView.isHidden = isSliderHidden
         
         if isAnimation && sliderView.frame != .zero {
             UIView.animate(withDuration: 0.15, animations: { [weak self] in
