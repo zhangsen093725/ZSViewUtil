@@ -361,9 +361,9 @@ public class ZSPopBaseView: UIView {
 
 
 // MARK: - ZSTipView
-@objcMembers public class ZSTipView: UIView {
+@objcMembers open class ZSTipView: UIView {
     
-    private lazy var tipLabel: UILabel = {
+    public lazy var tipLabel: UILabel = {
         
         let label = UILabel()
         label.font = toastFont(14)
@@ -374,12 +374,11 @@ public class ZSPopBaseView: UIView {
         return label
     }()
     
-    public class func tip(title: String,
-                          alpha: CGFloat = 1,
-                          duration: TimeInterval = 2,
-                          numberOfLines: Int = 0,
-                          spaceHorizontal: CGFloat = 20,
-                          spaceVertical: CGFloat = 12) {
+    open class func layoutTipView(title: String,
+                                  alpha: CGFloat,
+                                  numberOfLines: Int,
+                                  spaceHorizontal: CGFloat,
+                                  spaceVertical: CGFloat) -> ZSTipView {
         
         let tipView = ZSTipView()
         tipView.alpha = 0
@@ -396,6 +395,18 @@ public class ZSPopBaseView: UIView {
         tipView.tipLabel.backgroundColor = toastColor(0, 0, 0, alpha)
         tipView.tipLabel.numberOfLines = numberOfLines
         tipView.tipLabel.text = title
+        
+        return tipView
+    }
+    
+    open class func tip(title: String,
+                        alpha: CGFloat = 1,
+                        duration: TimeInterval = 2,
+                        numberOfLines: Int = 0,
+                        spaceHorizontal: CGFloat = 20,
+                        spaceVertical: CGFloat = 12) {
+        
+        let tipView = layoutTipView(title: title, alpha: alpha, numberOfLines: numberOfLines, spaceHorizontal: spaceHorizontal, spaceVertical: spaceVertical)
         
         var controller: UIViewController? = UIApplication.shared.keyWindow?.rootViewController
         
@@ -424,20 +435,21 @@ public class ZSPopBaseView: UIView {
         }
     }
     
-    public class func showTip(_ title: String) {
+    open class func showTip(_ title: String) {
         self.tip(title: title)
     }
     
-    public class func showTip(_ title: String,
-                              duration: TimeInterval) {
+    open class func showTip(_ title: String,
+                            duration: TimeInterval) {
         self.tip(title: title, duration: duration)
     }
     
-    public class func showTip(_ title: String,
-                              numberOfLines: Int) {
+    open class func showTip(_ title: String,
+                            numberOfLines: Int) {
         self.tip(title: title, numberOfLines: numberOfLines)
     }
 }
+
 
 
 
