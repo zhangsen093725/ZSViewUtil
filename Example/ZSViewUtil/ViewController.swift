@@ -9,7 +9,7 @@
 import UIKit
 import ZSViewUtil
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, ZSPageViewServeDelegate {
     
     lazy var textFiled: ZSNumberField = {
         
@@ -56,7 +56,12 @@ class ViewController: UIViewController {
         collectionView.allowsSelection = true
         collectionView.alwaysBounceVertical = true
         collectionView.alwaysBounceHorizontal = false
-
+        collectionView.shouldMultipleGestureRecognize = true
+        if #available(iOS 11.0, *) {
+            collectionView.contentInsetAdjustmentBehavior = .never
+        } else {
+            // Fallback on earlier versions
+        }
         view.addSubview(collectionView)
         return collectionView
     }()
@@ -65,7 +70,7 @@ class ViewController: UIViewController {
         
         let headerView = UIView()
         headerView.backgroundColor = .red
-        collectionView.collectionViewBottomView = headerView
+        collectionView.collectionViewTopView = headerView
         return headerView
     }()
     
@@ -75,20 +80,41 @@ class ViewController: UIViewController {
         return collectionViewServe
     }()
     
+    lazy var contentView: ZSTabContentView = {
+        
+        let contentView = ZSTabContentView()
+        view.addSubview(contentView)
+        return contentView
+    }()
+    
+    lazy var contentServe: ZSTabContentViewServe = {
+       
+        let contentServe = ZSTabContentViewServe()
+        contentServe.pageServe.delegate = self
+        return contentServe
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         view.backgroundColor = .white
         //        ZSIndicatorTextView.startAnimation("哈说丹深爱的")
-        collectionViewServe.setterCollectionView(collectionView)
+//        collectionViewServe.setterCollectionView(collectionView)
+        
+        contentServe.zs_buildView(contentView)
+        contentServe.tabViewServe.tabTexts = ["ad", "ap", "lol"]
+        contentServe.tabCount = 3
+        contentServe.pageServe.currentPageView = tabPageControllers.first
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         //        textFiled.frame = CGRect(x: 30 * KWidthUnit, y: 100 * KHeightUnit, width: 200 * KWidthUnit, height: 45 * KHeightUnit)
         //        button.frame = CGRect(x: 30 * KWidthUnit, y: 150 * KHeightUnit, width: 200 * KWidthUnit, height: 45 * KHeightUnit)
-        collectionView.frame = view.bounds
-        headerView.frame = CGRect(x: 0, y: 0, width: collectionView.zs_w, height: 180)
+//        collectionView.frame = view.bounds
+//        headerView.frame = CGRect(x: 0, y: 0, width: collectionView.zs_w, height: 180)
+        
+        contentView.frame = view.bounds
     }
     
     override func didReceiveMemoryWarning() {
@@ -100,6 +126,36 @@ class ViewController: UIViewController {
         button.setTitle(textFiled.text, for: .normal)
         textFiled.isVisibleText = !textFiled.isVisibleText
         textFiled.replaceVisibleText = "&"
+    }
+
+    var tabPageControllers: [TableViewController] = [TableViewController(), TableViewController(), TableViewController()]
+    
+    // TODO: ZSPageViewServeDelegate
+    func vserve_tabPageView(at index: Int) -> UIView {
+        
+        var controller: TableViewController!
+        if (index < tabPageControllers.count) {
+            controller = tabPageControllers[index]
+        }
+        controller.scrollToTop = contentServe.zs_pageContentViewDidScroll()
+        controller.didMove(toParentViewController: self)
+        return controller.view
+    }
+    
+    func vserve_tabPageViewWillDisappear(at index: Int) {
+        
+        print(index)
+    }
+    
+    func vserve_tabPageViewWillAppear(at index: Int) {
+        
+        var controller: UIViewController?
+        
+        if (index < tabPageControllers.count) {
+            controller = tabPageControllers[index]
+        }
+        print("vserve_tabPageViewWillAppear\(controller)")
+        contentServe.pageServe.currentPageView = controller
     }
     
 }

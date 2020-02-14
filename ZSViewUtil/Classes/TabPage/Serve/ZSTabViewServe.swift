@@ -91,13 +91,14 @@ open class ZSTabViewServe: NSObject, UICollectionViewDelegate, UICollectionViewD
         
         cell.titleLabel.textColor = isSelected ? selectedTextColor : normalTextColor
         cell.titleLabel.font = isSelected ? selectedTextFont : normalTextFont
+        cell.titleLabel.text = tabTexts[indexPath.row]
         
         return cell
     }
     
     open func zs_configTabTextSize(sizeForItemAt index: Int) -> CGFloat {
 
-        return 0
+        return 100
     }
     
     // TODO: UICollectionViewDataSource

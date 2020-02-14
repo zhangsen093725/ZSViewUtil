@@ -22,7 +22,6 @@ open class ZSPlainFlowLayout: UICollectionViewFlowLayout {
             superAttributesArray = _superAttributesArray_
         }
         
-        
         // 创建当前不在屏幕中的section索引的集合
         let noneHeaderSections = NSMutableIndexSet()
         

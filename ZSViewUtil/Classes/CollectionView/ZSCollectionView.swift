@@ -7,7 +7,9 @@
 
 import UIKit
 
-open class ZSCollectionView: UICollectionView {
+open class ZSCollectionView: UICollectionView, UIGestureRecognizerDelegate {
+    
+    public var shouldMultipleGestureRecognize: Bool = false
     
     open var collectionViewTopView: UIView? {
         
@@ -108,4 +110,9 @@ open class ZSCollectionView: UICollectionView {
         contentInset = UIEdgeInsets(top: contentInset.top, left: contentInset.left, bottom: contentInset.bottom, right: collectionViewRightView!.frame.width)
     }
     
+    // TODO: UIGestureRecognizerDelegate
+    open func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        
+        return shouldMultipleGestureRecognize
+    }
 }

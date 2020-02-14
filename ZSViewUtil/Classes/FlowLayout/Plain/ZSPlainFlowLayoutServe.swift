@@ -56,7 +56,7 @@ open class ZSPlainFlowLayoutServe: NSObject, UICollectionViewDelegate, UICollect
         
         return CGSize(width: 0, height: 44)
     }
-
+    
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
         return CGSize(width: 0, height: 20)
@@ -65,19 +65,18 @@ open class ZSPlainFlowLayoutServe: NSObject, UICollectionViewDelegate, UICollect
     // TODO: UICollectionViewDataSource
     open func numberOfSections(in collectionView: UICollectionView) -> Int {
         
-        return 10
+        return 1
     }
     
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 20
+        return 1
     }
     
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell: UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(UICollectionViewCell.self), for: indexPath)
-        
-        cell.backgroundColor = .red
+    
         return cell
     }
     
