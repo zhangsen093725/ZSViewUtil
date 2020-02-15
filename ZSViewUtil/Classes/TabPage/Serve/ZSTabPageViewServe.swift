@@ -47,14 +47,14 @@ open class ZSTabPageViewServe: NSObject, ZSTabViewServeDelegate, ZSPageViewScrol
     }
     
     // TODO: ZSPageViewScrollDelegate
-    public func vserve_tabPageViewDidScroll(_ scrollView: UIScrollView, page: Int) {
+    open func vserve_tabPageViewDidScroll(_ scrollView: UIScrollView, page: Int) {
         
         if selectIndex != page && page < tabCount {
             selectIndex = page
         }
     }
     
-    public func vserve_tabPageViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    open func vserve_tabPageViewDidEndDecelerating(_ scrollView: UIScrollView) {
         
     }
     
