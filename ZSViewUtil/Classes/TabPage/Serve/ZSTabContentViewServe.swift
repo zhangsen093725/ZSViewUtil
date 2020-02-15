@@ -78,7 +78,7 @@ open class ZSTabContentViewServe: NSObject, UITableViewDelegate, UITableViewData
     }
     
     // TODO: ZSPageViewScrollDelegate
-    open func vserve_tabPageViewDidScroll(_ scrollView: UIScrollView) {
+    open func vserve_tabPageViewDidScroll(_ scrollView: UIScrollView, page: Int) {
         
         guard scrollView.contentSize != .zero else { return }
         
