@@ -8,8 +8,8 @@
 
 import UIKit
 
-open class ZSTabPageViewServe: NSObject, ZSTabViewServeDelegate {
-
+open class ZSTabPageViewServe: NSObject, ZSTabViewServeDelegate, ZSPageViewScrollDelegate {
+    
     public var tabViewServe = ZSTabViewServe()
     
     public var pageServe = ZSPageViewServe()
@@ -43,6 +43,19 @@ open class ZSTabPageViewServe: NSObject, ZSTabViewServeDelegate {
     
     open func zs_configPageServe(_ tabPageView: ZSTabPageView) {
         pageServe.zs_buildView(tabPageView.pageView)
+        pageServe.scrollDelegate = self
+    }
+    
+    // TODO: ZSPageViewScrollDelegate
+    public func vserve_tabPageViewDidScroll(_ scrollView: UIScrollView, page: Int) {
+        
+        if selectIndex != page && page < tabCount {
+            selectIndex = page
+        }
+    }
+    
+    public func vserve_tabPageViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        
     }
     
     // TODO: ZSTabViewServeDelegate

@@ -14,7 +14,7 @@ public protocol ZSPageViewServeDelegate: class {
 }
 
 public protocol ZSPageViewScrollDelegate: class {
-    func vserve_tabPageViewDidScroll(_ scrollView: UIScrollView)
+    func vserve_tabPageViewDidScroll(_ scrollView: UIScrollView, page: Int)
     func vserve_tabPageViewDidEndDecelerating(_ scrollView: UIScrollView)
 }
 
@@ -80,15 +80,14 @@ open class ZSPageViewServe: NSObject, UIScrollViewDelegate, UICollectionViewDele
     // TODO: UIScrollViewDelegate
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        scrollDelegate?.vserve_tabPageViewDidScroll(scrollView)
-        
         let page = Int(scrollView.contentOffset.x / scrollView.frame.width + 0.5)
+        
+        scrollDelegate?.vserve_tabPageViewDidScroll(scrollView, page: page)
         
         if selectIndex != page && page < tabCount {
             
             delegate?.vserve_tabPageViewWillAppear(at: page)
             delegate?.vserve_tabPageViewWillDisappear(at: selectIndex)
-            selectIndex = page
         }
     }
     
