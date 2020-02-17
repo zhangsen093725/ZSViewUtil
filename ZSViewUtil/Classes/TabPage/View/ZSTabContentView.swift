@@ -35,17 +35,9 @@ open class ZSTabContentView: UIView {
         return pageView
     }()
     
-    public lazy var headerView: UIView = {
-        
-        let headerView = UIView()
-        headerView.backgroundColor = .red
-        return headerView
-    }()
-    
     open override func layoutSubviews() {
         super.layoutSubviews()
         
         tableView.frame = bounds
-        headerView.frame = CGRect(x: 0, y: 0, width: 375, height: 200)
     }
 }

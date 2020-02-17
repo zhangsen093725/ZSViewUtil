@@ -35,7 +35,6 @@ open class ZSTabContentViewServe: NSObject, UITableViewDelegate, UITableViewData
     open func zs_buildView(_ contentView: ZSTabContentView) {
         contentView.tableView.delegate = self
         contentView.tableView.dataSource = self
-        contentView.tableView.tableHeaderView = contentView.headerView
         self.contentView = contentView
         zs_configContentView(contentView)
         zs_configPageServe(contentView)
