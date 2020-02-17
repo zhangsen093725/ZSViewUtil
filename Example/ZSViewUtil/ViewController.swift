@@ -104,7 +104,6 @@ class ViewController: UIViewController, ZSPageViewServeDelegate {
         contentServe.zs_buildView(contentView)
         contentServe.tabViewServe.tabTexts = ["ad", "ap", "lol"]
         contentServe.tabCount = 3
-        contentServe.pageServe.currentPageView = tabPageControllers.first
     }
     
     override func viewWillLayoutSubviews() {
@@ -149,13 +148,7 @@ class ViewController: UIViewController, ZSPageViewServeDelegate {
     
     func vserve_tabPageViewWillAppear(at index: Int) {
         
-        var controller: UIViewController?
         
-        if (index < tabPageControllers.count) {
-            controller = tabPageControllers[index]
-        }
-        print("vserve_tabPageViewWillAppear\(controller)")
-        contentServe.pageServe.currentPageView = controller
     }
     
 }

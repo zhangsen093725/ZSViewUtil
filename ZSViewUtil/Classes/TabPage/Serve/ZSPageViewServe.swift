@@ -22,8 +22,6 @@ open class ZSPageViewServe: NSObject, UIScrollViewDelegate, UICollectionViewDele
     
     public weak var pageView: ZSPageView?
     
-    public weak var currentPageView: UIViewController?
-    
     public weak var delegate: ZSPageViewServeDelegate?
     
     public weak var scrollDelegate: ZSPageViewScrollDelegate?
