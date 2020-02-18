@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'ZSViewUtil'
-  s.version          = '0.2.6'
+  s.version          = '0.2.8'
   s.summary          = '自定义 View'
 
 # This description is used to generate tags and improve search results.
@@ -62,6 +62,10 @@ Pod::Spec.new do |s|
   
   s.subspec 'LoopScroll' do |l|
       l.source_files = 'ZSViewUtil/Classes/LoopScroll/**/*'
+  end
+  
+  s.subspec 'Layer' do |ly|
+      ly.source_files = 'ZSViewUtil/Classes/Layer/**/*'
   end
   
   s.subspec 'Player' do |p|

@@ -79,6 +79,10 @@ open class ZSTabContentViewServe: NSObject, UITableViewDelegate, UITableViewData
     // TODO: ZSPageViewScrollDelegate
     open func vserve_tabPageViewDidScroll(_ scrollView: UIScrollView, page: Int) {
         
+        if selectIndex != page && page < tabCount {
+            selectIndex = page
+        }
+        
         guard scrollView.contentSize != .zero else { return }
         
         if scrollView.contentOffset.x >= 0 {

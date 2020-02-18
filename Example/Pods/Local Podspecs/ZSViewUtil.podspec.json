@@ -1,6 +1,6 @@
 {
   "name": "ZSViewUtil",
-  "version": "0.2.0",
+  "version": "0.2.7",
   "summary": "自定义 View",
   "description": "包含 Web、Toast、Animation、Player等等",
   "homepage": "https://github.com/zhangsen093725/ZSViewUtil",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/zhangsen093725/ZSViewUtil.git",
-    "tag": "0.2.0"
+    "tag": "0.2.7"
   },
   "swift_versions": "5.0",
   "platforms": {
@@ -54,6 +54,10 @@
     {
       "name": "LoopScroll",
       "source_files": "ZSViewUtil/Classes/LoopScroll/**/*"
+    },
+    {
+      "name": "Layer",
+      "source_files": "ZSViewUtil/Classes/Layer/**/*"
     },
     {
       "name": "Player",
