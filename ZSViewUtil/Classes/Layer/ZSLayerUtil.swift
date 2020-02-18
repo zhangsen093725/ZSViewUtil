@@ -11,16 +11,18 @@ public extension CAGradientLayer {
     
     /// 初始化渐变Layer
     /// - Parameters:
-    ///   - locationColors: [渐变的位置，区间在[0,1] : 对应的渐变位置的颜色]
+    ///   - locations: [渐变的位置，区间在[0,1]]
+    ///   - colors: [对应的渐变位置的颜色]
     ///   - startPointX: 渐变的水平起点，区间在[0,1]，默认为 0
     ///   - endPointX: 渐变的水平终点，区间在[0,1]，默认为 1
     ///   - startPointY: 渐变的垂直起点，区间在[0,1]，默认为 0
     ///   - endPointY: 渐变的垂直终点，区间在[0,1]，默认为 1
-    class func zs_init(_ locationColors: [NSNumber : UIColor],
+    class func zs_init(locations: [NSNumber],
+                       colors: [UIColor],
                        horizontal startPointX: CGFloat = 0,
-                       to endPointX: CGFloat = 1,
+                       toX endPointX: CGFloat = 1,
                        vertical startPointY: CGFloat = 0,
-                       to endPointY: CGFloat = 1) -> CAGradientLayer {
+                       toY endPointY: CGFloat = 1) -> Self {
         
         var _startPointX_ = startPointX > 1 ? 1 : startPointX
         _startPointX_ = startPointX < 0 ? 0 : startPointX
@@ -34,16 +36,14 @@ public extension CAGradientLayer {
         var _endPointY_ = endPointY > 1 ? 1 : endPointY
         _endPointY_ = endPointY < 0 ? 0 : endPointY
         
-        var locations: [NSNumber] = []
-        var colors: [CGColor] = []
-        for (key, value) in locationColors {
-            locations.append(key)
-            colors.append(value.cgColor)
+        var _colors_: [CGColor] = []
+        for color in colors {
+            _colors_.append(color.cgColor)
         }
         
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = colors
+        let gradientLayer = Self()
         gradientLayer.locations = locations
+        gradientLayer.colors = _colors_
         gradientLayer.startPoint = CGPoint(x: _startPointX_, y: _startPointY_)
         gradientLayer.endPoint = CGPoint(x: _endPointX_, y: _endPointY_)
         return gradientLayer
@@ -60,9 +60,9 @@ public extension CAReplicatorLayer {
     ///   - count: 图层总数
     ///   - delay: 每一个图层相对于前一个的延迟
     ///   - backgroundColor: 图层背景颜色
-    ///   - offsetX: 相对于前一个图层的偏移量
-    ///   - offsetY: 相对于前一个图层的偏移量
-    ///   - offsetZ: 相对于前一个图层的偏移量
+    ///   - offsetX: 相对于前一个图层的偏移量，起始从0计算，默认为0
+    ///   - offsetY: 相对于前一个图层的偏移量，起始从0计算，默认为0
+    ///   - offsetZ: 相对于前一个图层的偏移量，起始从0计算，默认为0
     ///   - offsetRed: 相对于前一个图层颜色的渐变，（取值-1~+1）
     ///   - offsetGreen: 相对于前一个图层颜色的渐变，（取值-1~+1）
     ///   - offsetBlue: 相对于前一个图层颜色的渐变，（取值-1~+1）
@@ -74,9 +74,9 @@ public extension CAReplicatorLayer {
                        offsetZ: CGFloat = 0,
                        offsetRed: Float = 0,
                        offsetGreen: Float = 0,
-                       offsetBlue: Float = 0) -> CAReplicatorLayer {
+                       offsetBlue: Float = 0) -> Self {
         
-        let replicatorLayer = CAReplicatorLayer()
+        let replicatorLayer = Self()
         
         // 设置复制层里面包含子层的个数
         replicatorLayer.instanceCount = count

@@ -49,7 +49,6 @@ import Foundation
         keyAnimation.path = path
         keyAnimation.duration = duration
         keyAnimation.isRemovedOnCompletion = true
-        
         add(keyAnimation, forKey: nil)
     }
 }
@@ -126,6 +125,7 @@ import Foundation
         // 动画结束时是否执行逆动画
         basicAnimation.autoreverses = true
         basicAnimation.repeatCount = repeatCount
+        basicAnimation.isRemovedOnCompletion = false
         add(basicAnimation, forKey: "scale")
     }
 }
