@@ -74,7 +74,7 @@ public extension CAReplicatorLayer {
                        offsetZ: CGFloat = 0,
                        offsetRed: Float = 0,
                        offsetGreen: Float = 0,
-                       offsetBlue: Float = 0) {
+                       offsetBlue: Float = 0) -> CAReplicatorLayer {
         
         let replicatorLayer = CAReplicatorLayer()
         
@@ -103,5 +103,7 @@ public extension CAReplicatorLayer {
         replicatorLayer.instanceRedOffset = _offsetRed_
         replicatorLayer.instanceGreenOffset = _offsetGreen_
         replicatorLayer.instanceBlueOffset = _offsetBlue_
+        
+        return replicatorLayer
     }
 }
