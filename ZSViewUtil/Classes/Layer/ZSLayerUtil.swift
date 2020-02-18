@@ -8,7 +8,7 @@
 import UIKit
 
 public extension CAGradientLayer {
-
+    
     /// 初始化渐变Layer
     /// - Parameters:
     ///   - locationColors: [渐变的位置，区间在[0,1] : 对应的渐变位置的颜色]
@@ -48,6 +48,60 @@ public extension CAGradientLayer {
         gradientLayer.endPoint = CGPoint(x: _endPointX_, y: _endPointY_)
         return gradientLayer
     }
+}
+
+
+
+
+public extension CAReplicatorLayer {
     
-    
+    /// 复制图层
+    /// - Parameters:
+    ///   - count: 图层总数
+    ///   - delay: 每一个图层相对于前一个的延迟
+    ///   - backgroundColor: 图层背景颜色
+    ///   - offsetX: 相对于前一个图层的偏移量
+    ///   - offsetY: 相对于前一个图层的偏移量
+    ///   - offsetZ: 相对于前一个图层的偏移量
+    ///   - offsetRed: 相对于前一个图层颜色的渐变，（取值-1~+1）
+    ///   - offsetGreen: 相对于前一个图层颜色的渐变，（取值-1~+1）
+    ///   - offsetBlue: 相对于前一个图层颜色的渐变，（取值-1~+1）
+    class func zs_init(_ count: Int,
+                       delay: TimeInterval = 0,
+                       backgroundColor: UIColor,
+                       offsetX: CGFloat = 0,
+                       offsetY: CGFloat = 0,
+                       offsetZ: CGFloat = 0,
+                       offsetRed: Float = 0,
+                       offsetGreen: Float = 0,
+                       offsetBlue: Float = 0) {
+        
+        let replicatorLayer = CAReplicatorLayer()
+        
+        // 设置复制层里面包含子层的个数
+        replicatorLayer.instanceCount = count
+        
+        // 设置子层相对于前一个层的偏移量
+        replicatorLayer.instanceTransform = CATransform3DMakeTranslation(offsetX, offsetY, offsetZ)
+        
+        // 设置子层相对于前一个层的延迟时间
+        replicatorLayer.instanceDelay = delay
+        
+        // 设置层的颜色，(前提是要设置层的背景颜色，如果没有设置背景颜色，默认是透明的，再设置这个属性不会有效果。
+        replicatorLayer.instanceColor = backgroundColor.cgColor
+        
+        var _offsetRed_ = offsetRed > 1 ? 1 : offsetRed
+        _offsetRed_ = offsetRed < -1 ? -1 : offsetRed
+        
+        var _offsetGreen_ = offsetGreen > 1 ? 1 : offsetGreen
+        _offsetGreen_ = offsetGreen < -1 ? -1 : offsetGreen
+        
+        var _offsetBlue_ = offsetBlue > 1 ? 1 : offsetBlue
+        _offsetBlue_ = offsetBlue < -1 ? -1 : offsetBlue
+        
+        // 颜色的渐变，相对于前一个层的渐变（取值-1~+1）.RGB有三种颜色，所以这里也是绿红蓝三种。
+        replicatorLayer.instanceRedOffset = _offsetRed_
+        replicatorLayer.instanceGreenOffset = _offsetGreen_
+        replicatorLayer.instanceBlueOffset = _offsetBlue_
+    }
 }

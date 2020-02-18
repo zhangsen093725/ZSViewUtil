@@ -9,8 +9,12 @@ import Foundation
 
 @objc public extension CALayer {
     
-    @objc func zs_animationScale(values: [Float],
-                           duration: TimeInterval) {
+    /// 缩放动画
+    /// - Parameters:
+    ///   - duration: 动画时长
+    ///   - values: 缩放值，数值表示放大或缩小多少倍
+    @objc func zs_keyFrameScale(animation duration: TimeInterval,
+                                scale values: [Float]) {
         
         let keyAnimation = CAKeyframeAnimation(keyPath: "transform.scale")
         keyAnimation.duration = duration
@@ -20,61 +24,108 @@ import Foundation
         add(keyAnimation, forKey: "Scale")
     }
     
-    @objc func zs_animationRevole() {
+    /// 抖动动画
+    /// - Parameters:
+    ///   - duration: 动画时长
+    ///   - startPoint: 动画起始位置
+    ///   - offsetPoint: 动画偏移位置
+    @objc func zs_keyFrameShake(animation duration: TimeInterval,
+                                in startPoint: CGPoint,
+                                offsetPoint: CGPoint) {
+        
+        let keyAnimation = CAKeyframeAnimation(keyPath: "position")
+        
+        let path = CGMutablePath()
+        
+        path.move(to: startPoint)
+        
+        for index in 3...0 {
+            path.addLine(to: CGPoint(x: startPoint.x - (offsetPoint.x * CGFloat(index)), y: startPoint.y - (offsetPoint.y * CGFloat(index))))
+            path.addLine(to: CGPoint(x: startPoint.x + (offsetPoint.x * CGFloat(index)), y: startPoint.y + (offsetPoint.y * CGFloat(index))))
+        }
+        
+        path.closeSubpath()
+        
+        keyAnimation.path = path
+        keyAnimation.duration = duration
+        keyAnimation.isRemovedOnCompletion = true
+        
+        add(keyAnimation, forKey: nil)
+    }
+}
+
+
+@objc public extension CALayer {
+    
+    /// 转圈动画
+    /// - Parameters:
+    ///   - duration: 动画时长
+    ///   - fromValue: 其实位置
+    ///   - toValue: 结束位置
+    ///   - repeatCount: 重复次数
+    @objc func zs_basicRevole(animation duration: TimeInterval = 2,
+                              fromValue: Double = 0,
+                              toValue: Double = -.pi * 2.0,
+                              repeatCount: Float = MAXFLOAT) {
         
         let basicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-        basicAnimation.toValue = -.pi * 2.0
+        basicAnimation.fromValue = fromValue
+        basicAnimation.toValue = toValue
         basicAnimation.timingFunction = CAMediaTimingFunction(name: .easeOut)
-        basicAnimation.duration = 2
-        basicAnimation.repeatCount = MAXFLOAT//你可以设置到最大的整数值
+        basicAnimation.duration = duration
+        basicAnimation.repeatCount = repeatCount
         basicAnimation.isCumulative = false
         basicAnimation.isRemovedOnCompletion = false
         basicAnimation.fillMode = .forwards
         add(basicAnimation, forKey: "Rotation")
     }
     
-    @objc func zs_animationMove(to endPoint: CGPoint,
-                          duration: TimeInterval,
-                          delay: TimeInterval,
-                          repeat: Int,
-                          option: UIView.AnimationOptions) {
+    /// 移动动画
+    /// - Parameters:
+    ///   - duration: 动画时长
+    ///   - delay: 间隔时间
+    ///   - endPoint: 终点位置
+    ///   - repeatCount: 重复次数
+    @objc func zs_basicMove(animation duration: TimeInterval,
+                            delay: TimeInterval = 0,
+                            to endPoint: CGPoint,
+                            repeatCount: Float = 0) {
         
         let basicAnimation = CABasicAnimation(keyPath: "position")
-        // 1秒后执行
         basicAnimation.beginTime = CACurrentMediaTime() + delay
-        // 持续时间
         basicAnimation.duration = duration
-        // 重复次数
         basicAnimation.repeatCount = repeatCount
         basicAnimation.isRemovedOnCompletion = false
-        // 起始位置
         basicAnimation.fromValue = position
-        // 终止位置
         basicAnimation.toValue = CGPoint(x: position.x + endPoint.x, y: position.y + endPoint.y)
-        // 添加动画
         add(basicAnimation, forKey: "move")
     }
     
-    @objc func zs_animationShake(for frame: CGRect) {
+    /// 纵坐标缩放动画
+    /// - Parameters:
+    ///   - duration: 动画时长
+    ///   - startPoint: 动画起始位置，锚点，范围在[0,1]
+    ///   - endValue: 最终的缩放倍数
+    ///   - repeatCount: 重复次数
+    @objc func zs_basicScaleY(animation duration: TimeInterval,
+                              startPoint: CGPoint = CGPoint(x: 0.5, y: 0.5),
+                              value: CGFloat,
+                              repeatCount: Float = MAXFLOAT) {
         
-        let keyAnimation = CAKeyframeAnimation(keyPath: "position")
+        var anchorPointX = startPoint.x > 1 ? 1 : startPoint.x
+        anchorPointX = startPoint.x < 0 ? 0 : startPoint.x
         
-        let path = CGMutablePath()
+        var anchorPointY = startPoint.y > 1 ? 1 : startPoint.y
+        anchorPointY = startPoint.y < 0 ? 0 : startPoint.y
         
-        let startPoint = CGPoint(x: frame.origin.x + frame.width * 0.5, y: frame.origin.y + frame.height * 0.5)
-        path.move(to: startPoint)
+        anchorPoint = CGPoint(x: anchorPointX, y: anchorPointY)
         
-        for index in 3...0 {
-            path.addLine(to: CGPoint(x: startPoint.x - frame.width * 0.02 * CGFloat(index), y: startPoint.y))
-            path.addLine(to: CGPoint(x: startPoint.x - frame.width * 0.02 * CGFloat(index), y: startPoint.y))
-        }
-        
-        path.closeSubpath()
-        
-        keyAnimation.path = path
-        keyAnimation.duration = 0.5
-        keyAnimation.isRemovedOnCompletion = true
-        
-        add(keyAnimation, forKey: nil)
+        let basicAnimation = CABasicAnimation.init(keyPath: "transform.scale.y")
+        basicAnimation.toValue = value
+        basicAnimation.duration = duration
+        // 动画结束时是否执行逆动画
+        basicAnimation.autoreverses = true
+        basicAnimation.repeatCount = repeatCount
+        add(basicAnimation, forKey: "scale")
     }
 }
