@@ -58,6 +58,10 @@ open class ZSTabPageViewServe: NSObject, ZSTabViewServeDelegate, ZSPageViewScrol
         
     }
     
+    open func vserve_tabPageViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        
+    }
+    
     // TODO: ZSTabViewServeDelegate
     open func vserve_tabViewDidSelected(at index: Int) {
         tabPageView?.beginScrollToIndex(index, isAnimation: true)
