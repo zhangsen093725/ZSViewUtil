@@ -15,6 +15,7 @@ open class ZSTabContentViewServe: NSObject, UITableViewDelegate, UITableViewData
     
     public var pageServe = ZSPageViewServe()
     
+    private var isDecelerating: Bool = false
     private var isShouldBaseScroll: Bool = true
     private var isShouldContentScroll: Bool = false
     
@@ -85,14 +86,19 @@ open class ZSTabContentViewServe: NSObject, UITableViewDelegate, UITableViewData
         
         guard scrollView.contentSize != .zero else { return }
         
-        if scrollView.contentOffset.x >= 0 {
+        if scrollView.contentOffset.x >= 0 && isDecelerating {
             isShouldContentScroll = !isShouldBaseScroll
             contentView?.tableView.isScrollEnabled = false
             return
         }
     }
     
+    open func vserve_tabPageViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        isDecelerating = true
+    }
+    
     open func vserve_tabPageViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        isDecelerating = false
         contentView?.tableView.isScrollEnabled = true
     }
     

@@ -15,6 +15,7 @@ public protocol ZSPageViewServeDelegate: class {
 
 public protocol ZSPageViewScrollDelegate: class {
     func vserve_tabPageViewDidScroll(_ scrollView: UIScrollView, page: Int)
+    func vserve_tabPageViewWillBeginDecelerating(_ scrollView: UIScrollView)
     func vserve_tabPageViewDidEndDecelerating(_ scrollView: UIScrollView)
 }
 
@@ -89,7 +90,11 @@ open class ZSPageViewServe: NSObject, UIScrollViewDelegate, UICollectionViewDele
         }
     }
     
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    open func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        scrollDelegate?.vserve_tabPageViewWillBeginDecelerating(scrollView)
+    }
+    
+    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         scrollDelegate?.vserve_tabPageViewDidEndDecelerating(scrollView)
     }
     
