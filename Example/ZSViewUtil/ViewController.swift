@@ -94,6 +94,24 @@ class ViewController: UIViewController, ZSPageViewServeDelegate {
         return contentServe
     }()
     
+    
+    lazy var shapeView: UIView = {
+        
+        let view = UIView()
+        view.clipsToBounds = true
+        view.backgroundColor = .red
+        self.view.addSubview(view)
+        return view
+    }()
+    
+    lazy var shapeLayer: CAShapeLayer = {
+        
+        let layer = CAShapeLayer.zs_init(roundingCorners: [.topLeft, .bottomLeft], cornerRadius: 10, to: shapeView.layer)
+        
+        return layer
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -113,7 +131,9 @@ class ViewController: UIViewController, ZSPageViewServeDelegate {
 //        collectionView.frame = view.bounds
 //        headerView.frame = CGRect(x: 0, y: 0, width: collectionView.zs_w, height: 180)
         
-        contentView.frame = view.bounds
+//        contentView.frame = view.bounds
+        shapeView.frame = CGRect(x: 100, y: 200, width: 100, height: 50)
+        shapeLayer.frame = shapeView.bounds
     }
     
     override func didReceiveMemoryWarning() {

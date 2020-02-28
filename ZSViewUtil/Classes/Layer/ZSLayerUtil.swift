@@ -7,7 +7,7 @@
 
 import UIKit
 
-public extension CAGradientLayer {
+@objc public extension CAGradientLayer {
     
     /// 初始化渐变Layer
     /// - Parameters:
@@ -53,7 +53,7 @@ public extension CAGradientLayer {
 
 
 
-public extension CAReplicatorLayer {
+@objc public extension CAReplicatorLayer {
     
     /// 复制图层
     /// - Parameters:
