@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class ZSTabBaseTableView: UITableView, UIGestureRecognizerDelegate {
+@objcMembers open class ZSTabBaseTableView: UITableView, UIGestureRecognizerDelegate {
     
     // TODO: UIGestureRecognizerDelegate
     open func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {

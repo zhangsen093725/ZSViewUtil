@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class ZSTabPageViewServe: NSObject, ZSTabViewServeDelegate, ZSPageViewScrollDelegate {
+@objcMembers open class ZSTabPageViewServe: NSObject, ZSTabViewServeDelegate, ZSPageViewScrollDelegate {
     
     public var tabViewServe = ZSTabViewServe()
     

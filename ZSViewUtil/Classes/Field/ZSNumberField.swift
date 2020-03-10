@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class ZSNumberField: ZSTextField {
+@objcMembers open class ZSNumberField: ZSTextField {
 
     private struct style {
         

@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class ZSIndicatorTextView: UIView {
+@objcMembers open class ZSIndicatorTextView: UIView {
 
     private static let `defult` = ZSIndicatorTextView()
     

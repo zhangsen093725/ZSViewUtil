@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class ZSLongPressDragImageViewServe: ZSDragImageViewServe {
+@objcMembers open class ZSLongPressDragImageViewServe: ZSDragImageViewServe {
     
     public var isShaking: Bool = false
     

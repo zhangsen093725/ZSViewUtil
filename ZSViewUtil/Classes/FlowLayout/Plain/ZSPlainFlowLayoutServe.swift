@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class ZSPlainFlowLayoutServe: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+@objcMembers open class ZSPlainFlowLayoutServe: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     public weak var collectionView: UICollectionView?
     

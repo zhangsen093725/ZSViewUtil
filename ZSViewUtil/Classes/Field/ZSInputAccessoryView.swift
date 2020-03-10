@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class ZSInputAccessoryView: UIView {
+@objcMembers open class ZSInputAccessoryView: UIView {
 
     private struct style {
         

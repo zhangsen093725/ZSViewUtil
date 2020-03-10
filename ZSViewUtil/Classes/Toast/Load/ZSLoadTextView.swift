@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class ZSLoadTextView: UIView {
+@objcMembers open class ZSLoadTextView: UIView {
     
     private static let `defult` = ZSLoadTextView()
     

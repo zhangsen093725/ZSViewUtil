@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class ZSTabView: UIView {
+@objcMembers open class ZSTabView: UIView {
     
     public var isSliderHidden: Bool = false
     

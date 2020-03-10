@@ -8,11 +8,11 @@
 
 import UIKit
 
-public protocol ZSTabViewServeDelegate: class {
+@objc public protocol ZSTabViewServeDelegate {
     func vserve_tabViewDidSelected(at index: Int)
 }
 
-open class ZSTabViewServe: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+@objcMembers open class ZSTabViewServe: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     public weak var tabView: ZSTabView?
     

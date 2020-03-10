@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class ZSDragImageView: UIView {
+@objcMembers open class ZSDragImageView: UIView {
     
     public lazy var collectionView: UICollectionView = {
         

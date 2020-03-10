@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class ZSPlainFlowLayout: UICollectionViewFlowLayout {
+@objcMembers open class ZSPlainFlowLayout: UICollectionViewFlowLayout {
     // 设置停留偏移量Y，默认为64
     public var plainOffset: CGFloat = 64
     

@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class ZSTabPageView: UIView {
+@objcMembers open class ZSTabPageView: UIView {
     
     open lazy var tabView: ZSTabView = {
         

@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class ZSPhoneField: ZSNumberField {
+@objcMembers open class ZSPhoneField: ZSNumberField {
     
     public var tempText: String = ""
     

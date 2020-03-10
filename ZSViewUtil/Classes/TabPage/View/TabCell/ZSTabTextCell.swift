@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class ZSTabTextCell: UICollectionViewCell {
+@objcMembers open class ZSTabTextCell: UICollectionViewCell {
     
     public lazy var titleLabel: UILabel = {
         

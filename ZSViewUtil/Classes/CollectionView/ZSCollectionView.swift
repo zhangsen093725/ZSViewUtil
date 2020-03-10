@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class ZSCollectionView: UICollectionView, UIGestureRecognizerDelegate {
+@objcMembers open class ZSCollectionView: UICollectionView, UIGestureRecognizerDelegate {
     
     public var shouldMultipleGestureRecognize: Bool = false
     

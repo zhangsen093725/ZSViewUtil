@@ -7,7 +7,7 @@
 
 import UIKit
 
-public protocol ZSLoopScrollViewDataSource: class {
+@objc public protocol ZSLoopScrollViewDataSource {
     
     /// 滚动视图的总数
     /// - Parameter loopScrollView: loopScrollView
@@ -30,7 +30,16 @@ public protocol ZSLoopScrollViewDataSource: class {
     func zs_loopScrollView(_ loopScrollView: ZSLoopScrollView, sizeAt index: Int, isFirst: Bool, isLast: Bool) -> CGSize
 }
 
-public class ZSLoopScrollView: UIView, UIScrollViewDelegate {
+@objc public protocol ZSLoopScrollViewDelegate {
+    
+    /// 滚动视图Item的点击
+    /// - Parameters:
+    ///   - loopScrollView: loopScrollView
+    ///   - index: 当前的index
+    func zs_loopScrollView(_ loopScrollView: ZSLoopScrollView, didSelectedItemFor index: Int)
+}
+
+@objcMembers public class ZSLoopScrollView: UIView, UIScrollViewDelegate {
     
     /// scrollView
     public var scrollView: UIScrollView {
@@ -69,7 +78,10 @@ public class ZSLoopScrollView: UIView, UIScrollViewDelegate {
     var _loopPageCount_: Int = 0
     
     /// 滚动视图的数据配置
-    public var dataSource: ZSLoopScrollViewDataSource?
+    public weak var dataSource: ZSLoopScrollViewDataSource?
+    
+    /// 滚动视图的交互
+    public weak var delegate: ZSLoopScrollViewDelegate?
     
     /// 是否开启自动滚动，默认为 true
     public var isAutoScroll: Bool = true
@@ -79,7 +91,7 @@ public class ZSLoopScrollView: UIView, UIScrollViewDelegate {
     
     /// 是否开启循环滚动，默认是true
     public var isLoopScroll: Bool = true
-
+    
     override public func layoutSubviews() {
         super.layoutSubviews()
         scrollView.frame = bounds
@@ -100,8 +112,13 @@ public class ZSLoopScrollView: UIView, UIScrollViewDelegate {
     /// 获取复用的同一视图的方法
     /// - Parameter index: 当前的index
     public func viewWithIndex<ResultValue: UIView>(_ index: Int) -> ResultValue? {
-
-        return scrollView.viewWithTag(index + 101) as? ResultValue
+        
+        return view(with: index) as? ResultValue
+    }
+    
+    public func view(with index: Int) -> UIView? {
+        
+        return scrollView.viewWithTag(index + 101)
     }
     
     /// 刷新数据源
@@ -109,6 +126,22 @@ public class ZSLoopScrollView: UIView, UIScrollViewDelegate {
         
         layoutSubviews()
     }
+    
+    func getContentView(for index: Int) -> UIButton {
+        
+        var contentView: UIButton? = viewWithIndex(index)
+        
+        if contentView == nil {
+            
+            contentView = UIButton(type: .custom)
+            contentView?.removeTarget(self, action: #selector(didSelected(_:)), for: .touchUpInside)
+            contentView?.addTarget(self, action: #selector(didSelected(_:)), for: .touchUpInside)
+        }
+        scrollView.addSubview(contentView!)
+        
+        return contentView!
+    }
+    
     
     func refreshItemUI(_ pageCount: Int) {
         
@@ -129,6 +162,8 @@ public class ZSLoopScrollView: UIView, UIScrollViewDelegate {
             
             guard let view = dataSource?.zs_loopScrollView(self, itemAt: index, isFirst: isFirst, isLast: isLast) else { continue }
             
+            let contentView = getContentView(for: index)
+            
             var subFrame: CGRect = CGRect(x: (scrollView.frame.width - size.width) * 0.5 + scrollView.frame.width * CGFloat(page), y: (scrollView.frame.height - size.height) * 0.5, width: size.width, height: size.height)
             
             var subTag = 101 + index
@@ -145,10 +180,14 @@ public class ZSLoopScrollView: UIView, UIScrollViewDelegate {
                 subTag = 101 + index
             }
             
-            view.frame = subFrame
-            view.tag = subTag
+            contentView.frame = subFrame
+            view.frame = contentView.bounds
             
-            scrollView.addSubview(view)
+            if contentView.tag == 0 {
+                contentView.addSubview(view)
+            }
+            
+            contentView.tag = subTag
         }
         
         beginAutoLoopScroll()
@@ -182,7 +221,14 @@ public class ZSLoopScrollView: UIView, UIScrollViewDelegate {
         let offsetX = CGFloat(page) * scrollView.frame.width + scrollView.frame.width
         scrollView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: true)
     }
-
+    
+    // TODO: Action
+    @objc func didSelected(_ sender: UIButton) {
+        
+        let index = sender.tag - 101
+        delegate?.zs_loopScrollView(self, didSelectedItemFor: index)
+    }
+    
     
     // TODO: UIScrollViewDelegate
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {

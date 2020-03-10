@@ -7,19 +7,19 @@
 
 import UIKit
 
-public protocol ZSPageViewServeDelegate: class {
+@objc public protocol ZSPageViewServeDelegate {
     func vserve_tabPageView(at index: Int) -> UIView
     func vserve_tabPageViewWillDisappear(at index: Int)
     func vserve_tabPageViewWillAppear(at index: Int)
 }
 
-public protocol ZSPageViewScrollDelegate: class {
+@objc public protocol ZSPageViewScrollDelegate {
     func vserve_tabPageViewDidScroll(_ scrollView: UIScrollView, page: Int)
     func vserve_tabPageViewWillBeginDecelerating(_ scrollView: UIScrollView)
     func vserve_tabPageViewDidEndDecelerating(_ scrollView: UIScrollView)
 }
 
-open class ZSPageViewServe: NSObject, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+@objcMembers open class ZSPageViewServe: NSObject, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     public weak var pageView: ZSPageView?
     

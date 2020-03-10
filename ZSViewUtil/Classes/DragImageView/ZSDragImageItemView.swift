@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class ZSDragImageItemView: UICollectionViewCell {
+@objcMembers open class ZSDragImageItemView: UICollectionViewCell {
     
     public var itemGestureRecognizerHandle: ((_ gestureRecognizer: UIGestureRecognizer)->Void)?
     

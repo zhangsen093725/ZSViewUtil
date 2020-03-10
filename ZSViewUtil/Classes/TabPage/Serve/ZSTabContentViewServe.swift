@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class ZSTabContentViewServe: NSObject, UITableViewDelegate, UITableViewDataSource, ZSTabViewServeDelegate, ZSPageViewScrollDelegate {
+@objcMembers open class ZSTabContentViewServe: NSObject, UITableViewDelegate, UITableViewDataSource, ZSTabViewServeDelegate, ZSPageViewScrollDelegate {
 
     public weak var contentView: ZSTabContentView?
     

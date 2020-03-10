@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class ZSTabContentView: UIView {
+@objcMembers open class ZSTabContentView: UIView {
     
     public lazy var tableView: ZSTabBaseTableView = {
         

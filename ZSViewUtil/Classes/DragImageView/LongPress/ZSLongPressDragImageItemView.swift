@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class ZSLongPressDragImageItemView: ZSDragImageItemView  {
+@objcMembers open class ZSLongPressDragImageItemView: ZSDragImageItemView  {
     
     open override func configGestureRecognizer() {
         let logPress = UILongPressGestureRecognizer(target: self, action: #selector(gestureRecognizerAction(_:)))

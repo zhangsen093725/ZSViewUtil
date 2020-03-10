@@ -15,7 +15,7 @@ import UIKit
 }
 
 
-open class ZSTextField: UIView, UITextFieldDelegate {
+@objcMembers open class ZSTextField: UIView, UITextFieldDelegate {
     
     public weak var delegate: ZSTextFieldDelegate?
     

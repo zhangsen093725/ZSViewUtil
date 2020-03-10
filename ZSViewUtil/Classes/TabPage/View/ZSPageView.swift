@@ -7,7 +7,7 @@
 
 import UIKit
 
-open class ZSPageView: UIView {
+@objcMembers open class ZSPageView: UIView {
     
     private var _waitLayoutScrollToIndex_: Int = 0
     
