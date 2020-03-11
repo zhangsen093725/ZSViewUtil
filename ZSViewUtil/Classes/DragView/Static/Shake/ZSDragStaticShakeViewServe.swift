@@ -83,7 +83,7 @@ import UIKit
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell: ZSDragStaticShakeItemView = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(ZSDragStaticShakeItemView.self), for: indexPath) as! ZSDragStaticShakeItemView
-        cell.imageView.backgroundColor = .brown
+        cell.backgroundColor = .brown
         cell.itemGestureRecognizerHandle = { [weak self] (gestureRecognizer) in
             self?.itemGestureRecognizer(gestureRecognizer)
         }

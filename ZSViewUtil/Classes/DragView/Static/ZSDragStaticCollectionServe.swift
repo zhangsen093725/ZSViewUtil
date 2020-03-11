@@ -158,12 +158,9 @@ import UIKit
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell: ZSDragStaticItemView = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(ZSDragStaticItemView.self), for: indexPath) as! ZSDragStaticItemView
-        cell.imageView.backgroundColor = .brown
+        cell.backgroundColor = .brown
         cell.itemGestureRecognizerHandle = { [weak self] (gestureRecognizer) in
             self?.itemGestureRecognizer(gestureRecognizer)
-        }
-        cell.itemEditHandle = { [weak self] (cell) in
-            self?.itemEditForCell(cell)
         }
         return cell
     }
