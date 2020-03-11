@@ -1,5 +1,5 @@
 //
-//  ZSLongPressDragImageItemView.swift
+//  ZSDragStaticShakeItemView.swift
 //  Pods-ZSViewUtil_Example
 //
 //  Created by 张森 on 2020/2/3.
@@ -7,11 +7,11 @@
 
 import UIKit
 
-@objcMembers open class ZSLongPressDragImageItemView: ZSDragImageItemView  {
+@objcMembers open class ZSDragStaticShakeItemView: ZSDragStaticItemView  {
     
     open override func configGestureRecognizer() {
-        let logPress = UILongPressGestureRecognizer(target: self, action: #selector(gestureRecognizerAction(_:)))
-        addGestureRecognizer(logPress)
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(gestureRecognizerAction(_:)))
+        addGestureRecognizer(longPress)
     }
     
     open func beginShakeAnimation() {

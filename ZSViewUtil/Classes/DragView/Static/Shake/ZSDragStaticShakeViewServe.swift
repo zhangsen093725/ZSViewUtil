@@ -1,5 +1,5 @@
 //
-//  ZSLongPressDragImageViewServe.swift
+//  ZSDragStaticShakeViewServe.swift
 //  Pods-ZSViewUtil_Example
 //
 //  Created by 张森 on 2020/2/3.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-@objcMembers open class ZSLongPressDragImageViewServe: ZSDragImageViewServe {
+@objcMembers open class ZSDragStaticShakeViewServe: ZSDragStaticCollectionServe {
     
     public var isShaking: Bool = false
     
@@ -20,14 +20,14 @@ import UIKit
     }
     
     open override func configCollectionView(_ collectionView: UICollectionView) {
-        collectionView.register(ZSLongPressDragImageItemView.self, forCellWithReuseIdentifier: NSStringFromClass(ZSLongPressDragImageItemView.self))
+        collectionView.register(ZSDragStaticShakeItemView.self, forCellWithReuseIdentifier: NSStringFromClass(ZSDragStaticShakeItemView.self))
     }
     
     func itemViewAnimation(isBegin: Bool) {
         
         for cell in collectionView?.visibleCells ?? [] {
             
-            let longPressCell = cell as! ZSLongPressDragImageItemView
+            let longPressCell = cell as! ZSDragStaticShakeItemView
             
             isBegin ? longPressCell.beginShakeAnimation() : longPressCell.endShakeAnimation()
         }
@@ -55,9 +55,7 @@ import UIKit
     }
     
     @objc public func runDisplayLink(_ displayLink: CADisplayLink) -> Void {
-        print(displayLink)
         displayCount -= 1
-        
         if displayCount <= 0 {
             isShaking = false
             itemViewAnimation(isBegin: false)
@@ -84,7 +82,7 @@ import UIKit
     // TODO: UICollectionViewDataSource
     open override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell: ZSLongPressDragImageItemView = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(ZSLongPressDragImageItemView.self), for: indexPath) as! ZSLongPressDragImageItemView
+        let cell: ZSDragStaticShakeItemView = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(ZSDragStaticShakeItemView.self), for: indexPath) as! ZSDragStaticShakeItemView
         cell.imageView.backgroundColor = .brown
         cell.itemGestureRecognizerHandle = { [weak self] (gestureRecognizer) in
             self?.itemGestureRecognizer(gestureRecognizer)

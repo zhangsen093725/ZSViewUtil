@@ -1,25 +1,25 @@
 //
-//  ZSDragImageViewServe.swift
+//  ZSDragStaticCollectionServe.swift
 //  Pods-ZSViewUtil_Example
 //
-//  Created by 张森 on 2020/2/3.
+//  Created by 张森 on 2020/3/11.
 //
 
 import UIKit
 
-@objcMembers open class ZSDragImageViewServe: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+@objcMembers open class ZSDragStaticCollectionServe: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     public weak var collectionView: UICollectionView?
     
     public var dragPoint: CGPoint = .zero
     
-    public var dragItemSnapshotView: UIView!
+    public var dragItemSnapshotView: UIView?
     
-    public var dragIndexPath: IndexPath!
+    public var dragIndexPath: IndexPath?
     
-    public var moveIndexPath: IndexPath!
+    public var moveIndexPath: IndexPath?
     
-    public var dragCell: ZSDragImageItemView!
+    public var dragCell: UICollectionViewCell?
     
     open func setterCollectionView(_ collectionView: UICollectionView) {
         collectionView.delegate = self
@@ -29,7 +29,7 @@ import UIKit
     }
     
     open func configCollectionView(_ collectionView: UICollectionView) {
-        collectionView.register(ZSDragImageItemView.self, forCellWithReuseIdentifier: NSStringFromClass(ZSDragImageItemView.self))
+        collectionView.register(ZSDragStaticItemView.self, forCellWithReuseIdentifier: NSStringFromClass(ZSDragStaticItemView.self))
     }
     
     private func updateDataSourceForDragItem(_ isMoveToBack: Bool) {
@@ -55,24 +55,28 @@ import UIKit
     // TODO: GestureRecognizerAction
     open func itemGestureRecognizerStateBegin(_ gestureRecognizer: UIGestureRecognizer) {
         
-        let cell = gestureRecognizer.view as! ZSDragImageItemView
+        guard let cell = gestureRecognizer.view as? UICollectionViewCell else { return }
         
         dragItemSnapshotView = cell.snapshotView(afterScreenUpdates: true)
-        dragItemSnapshotView.center = cell.center
-        collectionView?.addSubview(dragItemSnapshotView)
+        dragItemSnapshotView?.center = cell.center
+        collectionView?.addSubview(dragItemSnapshotView!)
         dragIndexPath = collectionView?.indexPath(for: cell)
         dragCell = cell
-        dragCell.isHidden = true
+        dragCell?.isHidden = true
         dragPoint = gestureRecognizer.location(in: collectionView)
     }
     
     open func itemGestureRecognizerStateChaged(_ gestureRecognizer: UIGestureRecognizer) {
         
+        guard dragItemSnapshotView != nil else { return }
+        
+        guard let _dragIndexPath_ = dragIndexPath else { return }
+        
         let tranx: CGFloat = gestureRecognizer.location(ofTouch: 0, in: collectionView).x - dragPoint.x
         let trany:CGFloat = gestureRecognizer.location(ofTouch: 0, in: collectionView).y - dragPoint.y
         
         // 跟随偏移量拖动
-        dragItemSnapshotView.center = dragItemSnapshotView.center.applying(CGAffineTransform(translationX: tranx, y: trany))
+        dragItemSnapshotView!.center = dragItemSnapshotView!.center.applying(CGAffineTransform(translationX: tranx, y: trany))
         
         // 更新拖动结果
         dragPoint = gestureRecognizer.location(ofTouch: 0, in: collectionView)
@@ -80,20 +84,21 @@ import UIKit
         // 遍历可见Item，根据勾股定理计算是否需要交换位置
         for _cell_ in collectionView?.visibleCells ?? [] {
             
-            guard collectionView?.indexPath(for: _cell_) != dragIndexPath else { continue }
+            guard collectionView?.indexPath(for: _cell_) != _dragIndexPath_ else { continue }
             
             guard let _moveIndexPath_ = collectionView?.indexPath(for: _cell_) else { continue }
             
             // 计算偏移量
-            let offset: CGFloat = sqrt(pow(dragItemSnapshotView.center.y - _cell_.center.y, 2) + pow(dragItemSnapshotView.center.x - _cell_.center.x, 2))
+            let offset: CGFloat = sqrt(pow(dragItemSnapshotView!.center.y - _cell_.center.y, 2) + pow(dragItemSnapshotView!.center.x - _cell_.center.x, 2))
             
-            if offset <= dragItemSnapshotView.bounds.width * 0.5 {
+            if offset <= dragItemSnapshotView!.bounds.width * 0.5 {
                 
                 moveIndexPath = _moveIndexPath_
                 // 更新数据源
-                updateDataSourceForDragItem(moveIndexPath.item > dragIndexPath.item)
-                collectionView?.moveItem(at: dragIndexPath, to: moveIndexPath)
-                dragIndexPath = moveIndexPath
+                updateDataSourceForDragItem(_moveIndexPath_.item > _dragIndexPath_.item)
+                
+                collectionView?.moveItem(at: _dragIndexPath_, to: _moveIndexPath_)
+                dragIndexPath = _moveIndexPath_
                 break
             }
         }
@@ -101,8 +106,8 @@ import UIKit
     
     open func itemGestureRecognizerStateEnd(_ gestureRecognizer: UIGestureRecognizer) {
         
-        dragItemSnapshotView.removeFromSuperview()
-        dragCell.isHidden = false
+        dragItemSnapshotView?.removeFromSuperview()
+        dragCell?.isHidden = false
     }
     
     open func itemGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
@@ -124,9 +129,9 @@ import UIKit
     // TODO: EditAction
     open func itemEditForCell(_ cell: UICollectionViewCell) {
         
-//        guard let editIndexPath = collectionView?.indexPath(for: cell) else { return }
-//        DataSource.remove(at: dragIndexPath.item)
-//        collectionView?.deleteItems(at: editIndexPath)
+        //        guard let editIndexPath = collectionView?.indexPath(for: cell) else { return }
+        //        DataSource.remove(at: dragIndexPath.item)
+        //        collectionView?.deleteItems(at: editIndexPath)
     }
     
     // TODO: UICollectionViewDelegateFlowLayout
@@ -152,7 +157,7 @@ import UIKit
     
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell: ZSDragImageItemView = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(ZSDragImageItemView.self), for: indexPath) as! ZSDragImageItemView
+        let cell: ZSDragStaticItemView = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(ZSDragStaticItemView.self), for: indexPath) as! ZSDragStaticItemView
         cell.imageView.backgroundColor = .brown
         cell.itemGestureRecognizerHandle = { [weak self] (gestureRecognizer) in
             self?.itemGestureRecognizer(gestureRecognizer)

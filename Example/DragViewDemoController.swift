@@ -11,17 +11,17 @@ import ZSViewUtil
 
 class DragViewDemoController: UIViewController {
     
-    lazy var dragView: ZSDragImageView = {
+    lazy var dragView: ZSDragCollectionView = {
         
-        let dragView = ZSDragImageView()
+        let dragView = ZSDragCollectionView()
         dragView.backgroundColor = .orange
         view.addSubview(dragView)
         return dragView
     }()
     
-    lazy var dragViewServe: ZSLongPressDragImageViewServe = {
+    lazy var dragViewServe: ZSDragStaticShakeViewServe = {
         
-        let dragViewServe = ZSLongPressDragImageViewServe()
+        let dragViewServe = ZSDragStaticShakeViewServe()
         return dragViewServe
     }()
     
@@ -36,7 +36,7 @@ class DragViewDemoController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        dragView.frame = CGRect(x: 30 * KWidthUnit, y: 100 * KHeightUnit, width: 200 * KWidthUnit, height: 300 * KHeightUnit)
+        dragView.frame = CGRect(x: 30 * KWidthUnit, y: 100 * KHeightUnit, width: 300 * KWidthUnit, height: 300 * KHeightUnit)
     }
     
     override func didReceiveMemoryWarning() {

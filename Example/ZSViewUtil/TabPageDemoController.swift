@@ -30,7 +30,7 @@ class TabPageDemoController: UIViewController, ZSPageViewServeDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         view.backgroundColor = .white
         //        ZSIndicatorTextView.startAnimation("哈说丹深爱的")
-//        collectionViewServe.setterCollectionView(collectionView)
+//        collectionViewServe.setterDragCollectionView(collectionView)
         
         contentServe.zs_buildView(contentView)
         contentServe.tabViewServe.tabTexts = ["ad", "ap", "lol"]

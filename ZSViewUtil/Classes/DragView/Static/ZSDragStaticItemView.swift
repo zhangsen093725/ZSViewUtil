@@ -7,11 +7,9 @@
 
 import UIKit
 
-@objcMembers open class ZSDragImageItemView: UICollectionViewCell {
+@objcMembers open class ZSDragStaticItemView: UICollectionViewCell {
     
     public var itemGestureRecognizerHandle: ((_ gestureRecognizer: UIGestureRecognizer)->Void)?
-    
-    public var itemEditHandle: ((_ cell: ZSDragImageItemView)->Void)?
     
     private lazy var backView: UIView = {
         
@@ -22,35 +20,14 @@ import UIKit
         return backView
     }()
     
-    public lazy var imageView: UIImageView = {
-        
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        backView.addSubview(imageView)
-        return imageView
-    }()
-    
-    public lazy var editBtn: UIButton = {
-        
-        let editBtn = UIButton(type: .system)
-        editBtn.tintColor = .clear
-        editBtn.isHidden = true
-        editBtn.addTarget(self, action: #selector(editAction), for: .touchUpInside)
-        backView.addSubview(editBtn)
-        return editBtn
-    }()
-    
     override open func layoutSubviews() {
         super.layoutSubviews()
         backView.frame = contentView.bounds
-        imageView.frame = backView.bounds
     }
     
     open override func prepareForReuse() {
         super.prepareForReuse()
         itemGestureRecognizerHandle = nil
-        itemEditHandle = nil
     }
     
     open func configGestureRecognizer() {
@@ -62,11 +39,5 @@ import UIKit
      
         guard itemGestureRecognizerHandle != nil else { return }
         itemGestureRecognizerHandle!(gestureRecognizer)
-    }
-    
-    @objc open func editAction() {
-        
-        guard itemEditHandle != nil else { return }
-        itemEditHandle!(self)
     }
 }
