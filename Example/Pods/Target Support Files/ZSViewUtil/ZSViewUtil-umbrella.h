@@ -10,6 +10,11 @@
 #endif
 #endif
 
+#import "PFAxisDirection.h"
+#import "PFMatrix.h"
+#import "PFMatrixTransform.h"
+#import "PFPoint.h"
+#import "PFRadian.h"
 
 FOUNDATION_EXPORT double ZSViewUtilVersionNumber;
 FOUNDATION_EXPORT const unsigned char ZSViewUtilVersionString[];
