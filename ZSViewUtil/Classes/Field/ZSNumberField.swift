@@ -9,18 +9,11 @@
 import Foundation
 
 @objcMembers open class ZSNumberField: ZSTextField {
-
-    private struct style {
-        
-        struct input {
-            static let color: UIColor = UIColor.white.filed_dark(UIColor(red: 82 / 255, green: 82 / 255, blue: 82 / 255, alpha: 1))
-        }
-    }
     
     open lazy var zs_inputAccessoryView: ZSInputAccessoryView = {
         
         let inputAccessoryView = ZSInputAccessoryView()
-        inputAccessoryView.backgroundColor = style.input.color
+        inputAccessoryView.backgroundColor = UIColor.white.filed_dark(UIColor(red: 82 / 255, green: 82 / 255, blue: 82 / 255, alpha: 1))
         inputAccessoryView.cancelBtn.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
         inputAccessoryView.doneBtn.addTarget(self, action: #selector(doneAction), for: .touchUpInside)
         inputAccessoryView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 44)

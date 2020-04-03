@@ -26,7 +26,7 @@ import UIKit
         layer.add(rotation, forKey: "shake")
     }
     
-    open func endShakeAnimation(){
+    open func endShakeAnimation() {
         layer.removeAnimation(forKey: "shake")
     }
 }

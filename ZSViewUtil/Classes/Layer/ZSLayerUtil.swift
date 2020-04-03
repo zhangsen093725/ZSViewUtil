@@ -17,6 +17,7 @@ import UIKit
     ///   - endPointX: 渐变的水平终点，区间在[0,1]，默认为 1
     ///   - startPointY: 渐变的垂直起点，区间在[0,1]，默认为 0
     ///   - endPointY: 渐变的垂直终点，区间在[0,1]，默认为 1
+    @discardableResult
     class func zs_init(locations: [NSNumber],
                        colors: [UIColor],
                        horizontal startPointX: CGFloat = 0,
@@ -66,6 +67,7 @@ import UIKit
     ///   - offsetRed: 相对于前一个图层颜色的渐变，（取值-1~+1）
     ///   - offsetGreen: 相对于前一个图层颜色的渐变，（取值-1~+1）
     ///   - offsetBlue: 相对于前一个图层颜色的渐变，（取值-1~+1）
+    @discardableResult
     class func zs_init(_ count: Int,
                        delay: TimeInterval = 0,
                        backgroundColor: UIColor,

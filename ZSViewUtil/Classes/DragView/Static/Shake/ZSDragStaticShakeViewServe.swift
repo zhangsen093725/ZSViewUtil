@@ -54,7 +54,7 @@ import UIKit
         displayLink = nil
     }
     
-    @objc public func runDisplayLink(_ displayLink: CADisplayLink) -> Void {
+    @objc public func runDisplayLink(_ displayLink: CADisplayLink) {
         displayCount -= 1
         if displayCount <= 0 {
             isShaking = false

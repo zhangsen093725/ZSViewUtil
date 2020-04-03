@@ -9,6 +9,7 @@ import UIKit
 
 @objc public extension CAShapeLayer {
     
+    @discardableResult
     class func zs_init(roundingCorners corners: UIRectCorner,
                        cornerRadius: CGFloat,
                        to layer: CALayer) -> Self {

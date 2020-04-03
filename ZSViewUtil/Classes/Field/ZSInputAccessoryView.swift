@@ -8,14 +8,6 @@
 import UIKit
 
 @objcMembers open class ZSInputAccessoryView: UIView {
-
-    private struct style {
-        
-        struct button {
-            static let font: UIFont = .systemFont(ofSize: 15)
-            static let color: UIColor = UIColor.systemBlue.filed_dark(UIColor(red: 82 / 255, green: 82 / 255, blue: 82 / 255, alpha: 1))
-        }
-    }
     
     public lazy var cancelBtn: UIButton = {
         
@@ -34,8 +26,8 @@ import UIKit
     private func createBtn() -> UIButton {
         
         let button = UIButton(type: .system)
-        button.titleLabel?.font = style.button.font
-        button.setTitleColor(style.button.color, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 15)
+        button.setTitleColor(UIColor.systemBlue.filed_dark(UIColor(red: 82 / 255, green: 82 / 255, blue: 82 / 255, alpha: 1)), for: .normal)
         addSubview(button)
         return button
     }
