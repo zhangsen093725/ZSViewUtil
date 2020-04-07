@@ -47,3 +47,13 @@ class SphereViewController: UIViewController {
         return labels
     }
 }
+
+
+class ZSTabViewServe_: ZSTabViewServe {
+    
+    override func zs_configTabView() {
+        super.zs_configTabView()
+    }
+    
+    
+}

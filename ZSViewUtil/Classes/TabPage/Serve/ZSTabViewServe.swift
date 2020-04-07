@@ -12,59 +12,53 @@ import UIKit
     func vserve_tabViewDidSelected(at index: Int)
 }
 
+@objc public protocol ZSTabViewServeDataSource {
+    @objc optional func vserve_tabViewText(at index: Int) -> String?
+}
+
 @objcMembers open class ZSTabViewServe: NSObject, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     public weak var tabView: ZSTabView?
     
     public weak var delegate: ZSTabViewServeDelegate?
     
-    public var tabTexts: [String] = [] {
-        didSet {
-            tabView?.collectionView.reloadData()
-        }
-    }
+    public weak var dataSource: ZSTabViewServeDataSource?
     
+    /// tab count
     public var tabCount: Int = 0 {
         didSet {
             tabView?.collectionView.reloadData()
         }
     }
     
+    /// 当前选择的 tab 索引
     public var selectIndex: Int = 0 {
         didSet {
             zs_scrollToIndex()
         }
     }
     
+    /// tab 之间的间隙
     public var minimumLineSpacing: CGFloat = 8 {
         didSet {
             tabView?.collectionView.reloadData()
         }
     }
     
+    /// tab insert
     public var tabViewInsert: UIEdgeInsets = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10) {
         didSet {
             tabView?.collectionView.reloadData()
         }
     }
-    
-    open func zs_scrollToIndex() {
-        
-        var sliderX: CGFloat = tabViewInsert.left
-        var sliderW: CGFloat = 0
-        
-        for (index, _) in tabTexts.enumerated() {
-            
-            if index == selectIndex {
-                sliderW = zs_configTabTextSize(sizeForItemAt: index)
-                break
-            }
-            
-            sliderX += zs_configTabTextSize(sizeForItemAt: index) + minimumLineSpacing
-        }
-        
-        tabView?.beginScrollToIndex(selectIndex, sliderX: sliderX, textWidth: sliderW, isAnimation: true)
-    }
+}
+
+
+/**
+ * 1. TabViewServe 提供外部重写的方法
+ * 2. 需要自定义每个Tab的样式，可重新以下的方法达到目的
+ */
+@objc extension ZSTabViewServe {
     
     open func zs_buildTabView(_ tabView: ZSTabView) {
         self.tabView = tabView
@@ -91,15 +85,42 @@ import UIKit
         
         cell.titleLabel.textColor = isSelected ? selectedTextColor : normalTextColor
         cell.titleLabel.font = isSelected ? selectedTextFont : normalTextFont
-        cell.titleLabel.text = tabTexts[indexPath.row]
+        cell.titleLabel.text = (dataSource?.vserve_tabViewText?(at: indexPath.item)) ?? "标题\(indexPath.item)"
         
         return cell
     }
     
-    open func zs_configTabTextSize(sizeForItemAt index: Int) -> CGFloat {
+    open func zs_configTabCellWidth(sizeForItemAt index: Int) -> CGFloat {
 
         return 100
     }
+    
+    open func zs_scrollToIndex() {
+        
+        var sliderX: CGFloat = tabViewInsert.left
+        var sliderW: CGFloat = 0
+        
+        for index in (0..<tabCount) {
+            
+            if index == selectIndex {
+                sliderW = zs_configTabCellWidth(sizeForItemAt: index)
+                break
+            }
+            
+            sliderX += zs_configTabCellWidth(sizeForItemAt: index) + minimumLineSpacing
+        }
+        
+        tabView?.beginScrollToIndex(selectIndex, sliderX: sliderX, textWidth: sliderW, isAnimation: true)
+    }
+}
+
+
+
+/**
+ * 1. UICollectionView 的代理
+ * 2. 可根据需求进行重写
+ */
+@objc extension ZSTabViewServe {
     
     // TODO: UICollectionViewDataSource
     open func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -115,7 +136,7 @@ import UIKit
     // TODO: UICollectionViewDelegateFlowLayout
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
-        let width = zs_configTabTextSize(sizeForItemAt: indexPath.item)
+        let width = zs_configTabCellWidth(sizeForItemAt: indexPath.item)
 
         return CGSize(width: width, height: collectionView.frame.height)
     }
@@ -131,7 +152,7 @@ import UIKit
     }
     
     // TODO: UICollectionViewDelegate
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    open func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         selectIndex = indexPath.item
         delegate?.vserve_tabViewDidSelected(at: indexPath.item)

@@ -30,11 +30,4 @@ import UIKit
         tabView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 44)
         pageView.frame = CGRect(x: 0, y: tabView.frame.maxY, width: bounds.width, height: bounds.height - tabView.frame.maxY)
     }
-    
-    // TODO: 动画处理
-    open func beginScrollToIndex(_ index: Int,
-                                 isAnimation: Bool) {
-        
-        pageView.beginScrollToIndex(index, isAnimation: isAnimation)
-    }
 }

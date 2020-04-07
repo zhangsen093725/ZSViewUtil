@@ -10,30 +10,42 @@ import UIKit
 
 @objcMembers open class ZSTabPageViewServe: NSObject, ZSTabViewServeDelegate, ZSPageViewScrollDelegate {
     
+    /// tab view item 样式Serve
     public var tabViewServe = ZSTabViewServe()
     
-    public var pageServe = ZSPageViewServe()
+    /// page view item 样式 Serve
+    public var pageViewServe = ZSPageViewServe()
     
     public weak var tabPageView: ZSTabPageView?
     
     public var tabCount: Int = 0 {
         didSet {
             tabViewServe.tabCount = tabCount
-            pageServe.tabCount = tabCount
+            pageViewServe.tabCount = tabCount
         }
     }
     
+    /// 当前选中的 TabPage 索引
     public var selectIndex: Int = 0 {
         didSet {
             tabViewServe.selectIndex = selectIndex
-            pageServe.selectIndex = selectIndex
+            pageViewServe.selectIndex = selectIndex
         }
     }
+}
+
+
+
+/**
+* 1. ZSTabPageViewServe 提供外部重写的方法
+* 2. 需要自定义Serve，可重新以下的方法达到目的
+*/
+@objc extension ZSTabPageViewServe {
     
     open func zs_buildTabView(_ tabPageView: ZSTabPageView) {
         self.tabPageView = tabPageView
         zs_configTabViewServe(tabPageView)
-        zs_configPageServe(tabPageView)
+        zs_configPageViewServe(tabPageView)
     }
     
     open func zs_configTabViewServe(_ tabPageView: ZSTabPageView) {
@@ -41,10 +53,18 @@ import UIKit
         tabViewServe.delegate = self
     }
     
-    open func zs_configPageServe(_ tabPageView: ZSTabPageView) {
-        pageServe.zs_buildView(tabPageView.pageView)
-        pageServe.scrollDelegate = self
+    open func zs_configPageViewServe(_ tabPageView: ZSTabPageView) {
+        pageViewServe.zs_buildView(tabPageView.pageView)
+        pageViewServe.scrollDelegate = self
     }
+}
+
+
+/**
+* 1. ZSPageViewScrollDelegate 的代理
+* 2. 可根据需求进行重写
+*/
+@objc extension ZSTabPageViewServe {
     
     // TODO: ZSPageViewScrollDelegate
     open func vserve_tabPageViewDidScroll(_ scrollView: UIScrollView, page: Int) {
@@ -64,6 +84,6 @@ import UIKit
     
     // TODO: ZSTabViewServeDelegate
     open func vserve_tabViewDidSelected(at index: Int) {
-        tabPageView?.beginScrollToIndex(index, isAnimation: true)
+        tabPageView?.pageView.beginScrollToIndex(index, isAnimation: true)
     }
 }

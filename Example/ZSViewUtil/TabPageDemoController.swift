@@ -9,7 +9,7 @@
 import UIKit
 import ZSViewUtil
 
-class TabPageDemoController: UIViewController, ZSPageViewServeDelegate {
+class TabPageDemoController: UIViewController, ZSPageViewServeDelegate, ZSTabViewServeDataSource {
     
     lazy var contentView: ZSTabContentView = {
         
@@ -21,9 +21,12 @@ class TabPageDemoController: UIViewController, ZSPageViewServeDelegate {
     lazy var contentServe: ZSTabContentViewServe = {
        
         let contentServe = ZSTabContentViewServe()
-        contentServe.pageServe.delegate = self
+        contentServe.pageViewServe.delegate = self
+        contentServe.tabViewServe.dataSource = self
         return contentServe
     }()
+    
+    var tabTexts: [String] = ["ad", "ap", "lol"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +36,8 @@ class TabPageDemoController: UIViewController, ZSPageViewServeDelegate {
 //        collectionViewServe.setterDragCollectionView(collectionView)
         
         contentServe.zs_buildView(contentView)
-        contentServe.tabViewServe.tabTexts = ["ad", "ap", "lol"]
-        contentServe.tabCount = 3
+        contentServe.tabCount = tabTexts.count
+        contentServe.selectIndex = 2
     }
     
     override func viewWillLayoutSubviews() {
@@ -70,6 +73,11 @@ class TabPageDemoController: UIViewController, ZSPageViewServeDelegate {
     func vserve_tabPageViewWillAppear(at index: Int) {
         
         
+    }
+    
+    // TODO: ZSTabViewServeDataSource
+    func vserve_tabViewText(at index: Int) -> String? {
+        return tabTexts[index]
     }
     
 }

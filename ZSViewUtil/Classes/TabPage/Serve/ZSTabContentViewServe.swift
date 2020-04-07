@@ -8,30 +8,44 @@
 import UIKit
 
 @objcMembers open class ZSTabContentViewServe: NSObject, UITableViewDelegate, UITableViewDataSource, ZSTabViewServeDelegate, ZSPageViewScrollDelegate {
-
+    
     public weak var contentView: ZSTabContentView?
     
     public var tabViewServe = ZSTabViewServe()
     
-    public var pageServe = ZSPageViewServe()
+    public var pageViewServe = ZSPageViewServe()
     
-    private var isDecelerating: Bool = false
+    /// 是否开始拖拽
+    private var isBeginDecelerating: Bool = false
+    
+    /// tabview 是否可以滚动
     private var isShouldBaseScroll: Bool = true
+    
+    /// tab content 是否可以滚动
     private var isShouldContentScroll: Bool = false
     
     public var tabCount: Int = 0 {
         didSet {
             tabViewServe.tabCount = tabCount
-            pageServe.tabCount = tabCount
+            pageViewServe.tabCount = tabCount
         }
     }
     
     public var selectIndex: Int = 0 {
         didSet {
             tabViewServe.selectIndex = selectIndex
-            pageServe.selectIndex = selectIndex
+            pageViewServe.selectIndex = selectIndex
         }
     }
+}
+
+
+
+/**
+* 1. ZSTabContentViewServe 提供外部重写的方法
+* 2. 需要自定义TabContentView的样式，可重新以下的方法达到目的
+*/
+@objc extension ZSTabContentViewServe {
     
     open func zs_buildView(_ contentView: ZSTabContentView) {
         contentView.tableView.delegate = self
@@ -53,8 +67,8 @@ import UIKit
     }
     
     open func zs_configPageServe(_ contentView: ZSTabContentView) {
-        pageServe.zs_buildView(contentView.pageView)
-        pageServe.scrollDelegate = self
+        pageViewServe.zs_buildView(contentView.pageView)
+        pageViewServe.scrollDelegate = self
     }
     
     open func zs_pageContentViewDidScroll() -> (_ scrollView: UIScrollView, _ currentOffset: CGPoint) -> CGPoint {
@@ -76,6 +90,15 @@ import UIKit
             return scrollView.contentOffset
         }
     }
+}
+
+
+
+/**
+ * 1. ZSPageViewScrollDelegate 和 ZSTabViewServeDelegate
+ * 2. 可根据需求进行重写
+ */
+@objc extension ZSTabContentViewServe {
     
     // TODO: ZSPageViewScrollDelegate
     open func vserve_tabPageViewDidScroll(_ scrollView: UIScrollView, page: Int) {
@@ -86,7 +109,7 @@ import UIKit
         
         guard scrollView.contentSize != .zero else { return }
         
-        if scrollView.contentOffset.x >= 0 && isDecelerating {
+        if scrollView.contentOffset.x >= 0 && isBeginDecelerating {
             isShouldContentScroll = !isShouldBaseScroll
             contentView?.tableView.isScrollEnabled = false
             return
@@ -94,13 +117,27 @@ import UIKit
     }
     
     open func vserve_tabPageViewWillBeginDecelerating(_ scrollView: UIScrollView) {
-        isDecelerating = true
+        isBeginDecelerating = true
     }
     
     open func vserve_tabPageViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        isDecelerating = false
+        isBeginDecelerating = false
         contentView?.tableView.isScrollEnabled = true
     }
+    
+    // TODO: ZSTabViewServeDelegate
+    open func vserve_tabViewDidSelected(at index: Int) {
+        contentView?.pageView.beginScrollToIndex(index, isAnimation: true)
+    }
+}
+
+
+
+/**
+ * 1. UITableView 的代理
+ * 2. 可根据需求进行重写
+ */
+@objc extension ZSTabContentViewServe {
     
     // UIScrollViewDelegate
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -152,7 +189,7 @@ import UIKit
         
         cell.contentView.addSubview(view)
         view.frame = cell.contentView.bounds
-
+        
         return cell
     }
     
@@ -172,9 +209,5 @@ import UIKit
         
         return 44
     }
-    
-    // TODO: ZSTabViewServeDelegate
-    open func vserve_tabViewDidSelected(at index: Int) {
-        contentView?.pageView.beginScrollToIndex(index, isAnimation: true)
-    }
 }
+

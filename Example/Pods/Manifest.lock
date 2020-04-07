@@ -1,7 +1,7 @@
 PODS:
-  - ZSViewUtil (0.3.7):
-    - ZSViewUtil/All (= 0.3.7)
-  - ZSViewUtil/All (0.3.7)
+  - ZSViewUtil (0.3.9):
+    - ZSViewUtil/All (= 0.3.9)
+  - ZSViewUtil/All (0.3.9)
 
 DEPENDENCIES:
   - ZSViewUtil (from `../`)
@@ -11,7 +11,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ZSViewUtil: cd9fa810eb6f432695d5c62aa23623523cfbf10f
+  ZSViewUtil: 84e9861e45c9fd77639e709abf32b243f7bcafab
 
 PODFILE CHECKSUM: d886b760df95e1c9826d5a86bed20a77e8aa177f
 

@@ -10,16 +10,20 @@ import UIKit
 
 @objcMembers open class ZSTabView: UIView {
     
+    /// 是否隐藏底部的滑块
     public var isSliderHidden: Bool = false
     
+    /// 是否可以滑动
     public var isScrollEnable: Bool = false {
         didSet {
             collectionView.isScrollEnabled = isScrollEnable
         }
     }
     
+    /// 滑块的长度
     public var sliderWidth: CGFloat = 0
     
+    /// 滑块的厚度
     public var sliderHeight: CGFloat = 2
     
     struct WaitLayout {
@@ -34,7 +38,7 @@ import UIKit
         
         struct Scroll {
             var index: Int = 0
-            var isAnimation: Bool = true
+            var isAnimation: Bool = false
         }
         
         struct Slider {
@@ -78,8 +82,12 @@ import UIKit
         collectionView.frame = bounds
         beginScrollToIndex(waitLayout.scroll.index, sliderX: waitLayout.slider.x, textWidth: waitLayout.slider.width, isAnimation: waitLayout.scroll.isAnimation)
     }
+}
+
+
+// TODO: 动画处理
+@objc extension ZSTabView {
     
-    // TODO: 动画处理
     open func beginScrollToIndex(_ index: Int,
                                  sliderX: CGFloat,
                                  textWidth: CGFloat,
