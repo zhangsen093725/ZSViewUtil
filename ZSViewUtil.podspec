@@ -68,8 +68,13 @@ Pod::Spec.new do |s|
       ly.source_files = 'ZSViewUtil/Classes/Layer/**/*'
   end
   
-  s.subspec 'Player' do |p|
-      p.source_files = 'ZSViewUtil/Classes/Player/**/*'
+  s.subspec 'Preview' do |p|
+      
+      p.source_files = 'ZSViewUtil/Classes/Preview/**/*'
+      
+      s.subspec 'Player' do |pl|
+          pl.source_files = 'ZSViewUtil/Classes/Preview/Player/**/*'
+      end
   end
   
   s.subspec 'Profiles' do |pr|
@@ -115,5 +120,6 @@ Pod::Spec.new do |s|
 
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+   s.dependency 'SDWebImage'
+   s.dependency 'Kingfisher'
 end

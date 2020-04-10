@@ -1,6 +1,6 @@
 {
   "name": "ZSViewUtil",
-  "version": "0.3.9",
+  "version": "0.4.0",
   "summary": "自定义 View",
   "description": "包含 Web、Toast、Animation、Player等等",
   "homepage": "https://github.com/zhangsen093725/ZSViewUtil",
@@ -13,13 +13,21 @@
   },
   "source": {
     "git": "https://github.com/zhangsen093725/ZSViewUtil.git",
-    "tag": "0.3.9"
+    "tag": "0.4.0"
   },
   "swift_versions": "5.0",
   "platforms": {
     "ios": "8.0"
   },
   "default_subspecs": "All",
+  "dependencies": {
+    "SDWebImage": [
+
+    ],
+    "Kingfisher": [
+
+    ]
+  },
   "subspecs": [
     {
       "name": "All",
@@ -61,7 +69,11 @@
     },
     {
       "name": "Player",
-      "source_files": "ZSViewUtil/Classes/Player/**/*"
+      "source_files": "ZSViewUtil/Classes/Preview/Player/**/*"
+    },
+    {
+      "name": "Preview",
+      "source_files": "ZSViewUtil/Classes/Preview/**/*"
     },
     {
       "name": "Profiles",
