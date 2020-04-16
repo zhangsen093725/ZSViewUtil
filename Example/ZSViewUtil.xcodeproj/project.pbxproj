@@ -7,51 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2A8C5997EE24C11B7268538C /* Pods_ZSViewUtil_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9DA86621AABAFC054BB3FB /* Pods_ZSViewUtil_Tests.framework */; };
 		45C2A2CA7AD7F89C2F188D05 /* Pods_ZSViewUtil_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 644F297BFB71B86FE5DFE1F6 /* Pods_ZSViewUtil_Example.framework */; };
 		521015FA243DD36700854840 /* MediaPreviewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521015F9243DD36700854840 /* MediaPreviewDemoController.swift */; };
-		521ACF5D241B7B8000A819AE /* SphereViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521ACF5C241B7B8000A819AE /* SphereViewController.swift */; };
-		522173DE23F68E7800276314 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 522173DD23F68E7800276314 /* TableViewController.swift */; };
-		52C31E7624178B55000DCA54 /* DragViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C31E7524178B55000DCA54 /* DragViewDemoController.swift */; };
-		52C31E7824178C29000DCA54 /* ShapeDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C31E7724178C29000DCA54 /* ShapeDemoController.swift */; };
-		52C31E7A24178C5C000DCA54 /* TextFieldDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C31E7924178C5C000DCA54 /* TextFieldDemoController.swift */; };
-		52C31E7C24178CBC000DCA54 /* CollectionViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C31E7B24178CBC000DCA54 /* CollectionViewDemoController.swift */; };
+		52A9531D2446EC5400CB3BE1 /* CollectionViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A953162446EC5300CB3BE1 /* CollectionViewDemoController.swift */; };
+		52A9531E2446EC5400CB3BE1 /* SphereViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A953172446EC5300CB3BE1 /* SphereViewController.swift */; };
+		52A9531F2446EC5400CB3BE1 /* ShapeDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A953182446EC5300CB3BE1 /* ShapeDemoController.swift */; };
+		52A953202446EC5400CB3BE1 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A953192446EC5300CB3BE1 /* TableViewController.swift */; };
+		52A953212446EC5400CB3BE1 /* TabPageDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A9531A2446EC5400CB3BE1 /* TabPageDemoController.swift */; };
+		52A953222446EC5400CB3BE1 /* DragViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A9531B2446EC5400CB3BE1 /* DragViewDemoController.swift */; };
+		52A953232446EC5400CB3BE1 /* TextFieldDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A9531C2446EC5400CB3BE1 /* TextFieldDemoController.swift */; };
 		607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD51AFB9204008FA782 /* AppDelegate.swift */; };
-		607FACD81AFB9204008FA782 /* TabPageDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACD71AFB9204008FA782 /* TabPageDemoController.swift */; };
 		607FACDB1AFB9204008FA782 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 607FACD91AFB9204008FA782 /* Main.storyboard */; };
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
-		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		607FACE61AFB9204008FA782 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 607FACC81AFB9204008FA782 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 607FACCF1AFB9204008FA782;
-			remoteInfo = ZSViewUtil;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		279176C5C3837861AFB32416 /* Pods-ZSViewUtil_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZSViewUtil_Tests.release.xcconfig"; path = "Target Support Files/Pods-ZSViewUtil_Tests/Pods-ZSViewUtil_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		42C39839D7ECDE3DDBC92564 /* Pods-ZSViewUtil_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZSViewUtil_Tests.debug.xcconfig"; path = "Target Support Files/Pods-ZSViewUtil_Tests/Pods-ZSViewUtil_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		521015F9243DD36700854840 /* MediaPreviewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPreviewDemoController.swift; sourceTree = "<group>"; };
-		521ACF5C241B7B8000A819AE /* SphereViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SphereViewController.swift; sourceTree = "<group>"; };
-		522173DD23F68E7800276314 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		52C31E7524178B55000DCA54 /* DragViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragViewDemoController.swift; sourceTree = "<group>"; };
-		52C31E7724178C29000DCA54 /* ShapeDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeDemoController.swift; sourceTree = "<group>"; };
-		52C31E7924178C5C000DCA54 /* TextFieldDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldDemoController.swift; sourceTree = "<group>"; };
-		52C31E7B24178CBC000DCA54 /* CollectionViewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewDemoController.swift; sourceTree = "<group>"; };
+		52A953162446EC5300CB3BE1 /* CollectionViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDemoController.swift; sourceTree = "<group>"; };
+		52A953172446EC5300CB3BE1 /* SphereViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SphereViewController.swift; sourceTree = "<group>"; };
+		52A953182446EC5300CB3BE1 /* ShapeDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapeDemoController.swift; sourceTree = "<group>"; };
+		52A953192446EC5300CB3BE1 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		52A9531A2446EC5400CB3BE1 /* TabPageDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabPageDemoController.swift; sourceTree = "<group>"; };
+		52A9531B2446EC5400CB3BE1 /* DragViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragViewDemoController.swift; sourceTree = "<group>"; };
+		52A9531C2446EC5400CB3BE1 /* TextFieldDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextFieldDemoController.swift; sourceTree = "<group>"; };
 		607FACD01AFB9204008FA782 /* ZSViewUtil_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZSViewUtil_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACD41AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACD51AFB9204008FA782 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		607FACD71AFB9204008FA782 /* TabPageDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabPageDemoController.swift; sourceTree = "<group>"; };
 		607FACDA1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		607FACDC1AFB9204008FA782 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		607FACDF1AFB9204008FA782 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		607FACE51AFB9204008FA782 /* ZSViewUtil_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZSViewUtil_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		644F297BFB71B86FE5DFE1F6 /* Pods_ZSViewUtil_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZSViewUtil_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,14 +56,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				45C2A2CA7AD7F89C2F188D05 /* Pods_ZSViewUtil_Example.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		607FACE21AFB9204008FA782 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				2A8C5997EE24C11B7268538C /* Pods_ZSViewUtil_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -99,7 +78,6 @@
 			isa = PBXGroup;
 			children = (
 				607FACD01AFB9204008FA782 /* ZSViewUtil_Example.app */,
-				607FACE51AFB9204008FA782 /* ZSViewUtil_Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -107,9 +85,15 @@
 		607FACD21AFB9204008FA782 /* Example for ZSViewUtil */ = {
 			isa = PBXGroup;
 			children = (
+				521015F9243DD36700854840 /* MediaPreviewDemoController.swift */,
+				52A953162446EC5300CB3BE1 /* CollectionViewDemoController.swift */,
+				52A9531B2446EC5400CB3BE1 /* DragViewDemoController.swift */,
+				52A953182446EC5300CB3BE1 /* ShapeDemoController.swift */,
+				52A953172446EC5300CB3BE1 /* SphereViewController.swift */,
+				52A953192446EC5300CB3BE1 /* TableViewController.swift */,
+				52A9531A2446EC5400CB3BE1 /* TabPageDemoController.swift */,
+				52A9531C2446EC5400CB3BE1 /* TextFieldDemoController.swift */,
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
-				607FACD71AFB9204008FA782 /* TabPageDemoController.swift */,
-				522173DD23F68E7800276314 /* TableViewController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -150,12 +134,6 @@
 				87C78FEB063FB263C69E80B0 /* ZSViewUtil.podspec */,
 				D698B09A2392A6E080E4EF3F /* README.md */,
 				AB3F2421E0F9F3B91DA2CC0D /* LICENSE */,
-				521ACF5C241B7B8000A819AE /* SphereViewController.swift */,
-				52C31E7524178B55000DCA54 /* DragViewDemoController.swift */,
-				52C31E7924178C5C000DCA54 /* TextFieldDemoController.swift */,
-				52C31E7B24178CBC000DCA54 /* CollectionViewDemoController.swift */,
-				52C31E7724178C29000DCA54 /* ShapeDemoController.swift */,
-				521015F9243DD36700854840 /* MediaPreviewDemoController.swift */,
 			);
 			name = "Podspec Metadata";
 			sourceTree = "<group>";
@@ -202,25 +180,6 @@
 			productReference = 607FACD01AFB9204008FA782 /* ZSViewUtil_Example.app */;
 			productType = "com.apple.product-type.application";
 		};
-		607FACE41AFB9204008FA782 /* ZSViewUtil_Tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "ZSViewUtil_Tests" */;
-			buildPhases = (
-				22D36CF6811AD45FB1188CDC /* [CP] Check Pods Manifest.lock */,
-				607FACE11AFB9204008FA782 /* Sources */,
-				607FACE21AFB9204008FA782 /* Frameworks */,
-				607FACE31AFB9204008FA782 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				607FACE71AFB9204008FA782 /* PBXTargetDependency */,
-			);
-			name = ZSViewUtil_Tests;
-			productName = Tests;
-			productReference = 607FACE51AFB9204008FA782 /* ZSViewUtil_Tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -233,12 +192,9 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = KJD33Q387P;
 						LastSwiftMigration = 0900;
-					};
-					607FACE41AFB9204008FA782 = {
-						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0900;
-						TestTargetID = 607FACCF1AFB9204008FA782;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -257,7 +213,6 @@
 			projectRoot = "";
 			targets = (
 				607FACCF1AFB9204008FA782 /* ZSViewUtil_Example */,
-				607FACE41AFB9204008FA782 /* ZSViewUtil_Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -273,38 +228,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		607FACE31AFB9204008FA782 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		22D36CF6811AD45FB1188CDC /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ZSViewUtil_Tests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 		25BF54A9B6E14A0840F13A98 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -356,35 +282,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				607FACD81AFB9204008FA782 /* TabPageDemoController.swift in Sources */,
 				521015FA243DD36700854840 /* MediaPreviewDemoController.swift in Sources */,
-				52C31E7824178C29000DCA54 /* ShapeDemoController.swift in Sources */,
-				52C31E7A24178C5C000DCA54 /* TextFieldDemoController.swift in Sources */,
-				521ACF5D241B7B8000A819AE /* SphereViewController.swift in Sources */,
-				52C31E7624178B55000DCA54 /* DragViewDemoController.swift in Sources */,
-				52C31E7C24178CBC000DCA54 /* CollectionViewDemoController.swift in Sources */,
-				522173DE23F68E7800276314 /* TableViewController.swift in Sources */,
+				52A953222446EC5400CB3BE1 /* DragViewDemoController.swift in Sources */,
+				52A953202446EC5400CB3BE1 /* TableViewController.swift in Sources */,
+				52A9531D2446EC5400CB3BE1 /* CollectionViewDemoController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		607FACE11AFB9204008FA782 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				607FACEC1AFB9204008FA782 /* Tests.swift in Sources */,
+				52A953232446EC5400CB3BE1 /* TextFieldDemoController.swift in Sources */,
+				52A953212446EC5400CB3BE1 /* TabPageDemoController.swift in Sources */,
+				52A9531E2446EC5400CB3BE1 /* SphereViewController.swift in Sources */,
+				52A9531F2446EC5400CB3BE1 /* ShapeDemoController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		607FACE71AFB9204008FA782 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 607FACCF1AFB9204008FA782 /* ZSViewUtil_Example */;
-			targetProxy = 607FACE61AFB9204008FA782 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		607FACD91AFB9204008FA782 /* Main.storyboard */ = {
@@ -510,12 +420,16 @@
 			baseConfigurationReference = A426C219E8505AD72F929619 /* Pods-ZSViewUtil_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KJD33Q387P;
 				INFOPLIST_FILE = ZSViewUtil/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.ZSViewUtil-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
@@ -526,54 +440,18 @@
 			baseConfigurationReference = 7AAB27003211310AFBC2DF50 /* Pods-ZSViewUtil_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KJD33Q387P;
 				INFOPLIST_FILE = ZSViewUtil/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.ZSViewUtil-Example";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
-			};
-			name = Release;
-		};
-		607FACF31AFB9204008FA782 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 42C39839D7ECDE3DDBC92564 /* Pods-ZSViewUtil_Tests.debug.xcconfig */;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZSViewUtil_Example.app/ZSViewUtil_Example";
-			};
-			name = Debug;
-		};
-		607FACF41AFB9204008FA782 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 279176C5C3837861AFB32416 /* Pods-ZSViewUtil_Tests.release.xcconfig */;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = Tests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZSViewUtil_Example.app/ZSViewUtil_Example";
 			};
 			name = Release;
 		};
@@ -594,15 +472,6 @@
 			buildConfigurations = (
 				607FACF01AFB9204008FA782 /* Debug */,
 				607FACF11AFB9204008FA782 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		607FACF21AFB9204008FA782 /* Build configuration list for PBXNativeTarget "ZSViewUtil_Tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				607FACF31AFB9204008FA782 /* Debug */,
-				607FACF41AFB9204008FA782 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

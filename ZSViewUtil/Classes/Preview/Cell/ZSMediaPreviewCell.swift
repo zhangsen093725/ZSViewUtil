@@ -8,9 +8,14 @@
 import UIKit
 
 @objc public protocol ZSMediaPreviewCellDelegate: class {
-
-    func zs_mediaPreviewCellScrollViewDidScroll(_ scrollView: UIScrollView)
     
+    func zs_mediaPreviewCellScrollViewDidSingleTap()
+    func zs_mediaPreviewCellScrollViewDidLongPress(_ collectionCell: UICollectionViewCell)
+    
+    func zs_mediaPreviewCellMediaLoadFail(_ error: Error)
+    func zs_mediaPreviewCellMediaDidChangePlay(status: ZSPlayerStatus)
+    func zs_mediaPreviewCellMediaDidiChangePlayTime(second: TimeInterval)
+    func zs_mediaPreviewCellMediaLoadingView() -> UIView?
 }
 
 @objcMembers open class ZSMediaPreviewCell: UICollectionViewCell, UIScrollViewDelegate {
@@ -21,13 +26,7 @@ import UIKit
         }
     }
     
-    /// tabview 是否可以滚动
-    fileprivate var isShouldBaseScroll: Bool = true
-    
-    /// tab content 是否可以滚动
-    fileprivate var isShouldContentScroll: Bool = false
-    
-    var delegate: ZSMediaPreviewCellDelegate?
+    weak var delegate: ZSMediaPreviewCellDelegate?
     
     public lazy var zoomScrollView: ZSMediaPreviewScrollView = {
         
@@ -56,6 +55,7 @@ import UIKit
     
     open override func prepareForReuse() {
         super.prepareForReuse()
+        delegate = nil
     }
 }
 
@@ -70,21 +70,20 @@ import UIKit
         let touchPoint = touch?.location(in: self)
         
         if touch?.tapCount == 1 {
-            perform(#selector(singleTap(_:)), with: touchPoint, afterDelay: 0.3)
+            perform(#selector(singleTap), with: touchPoint, afterDelay: 0.3)
         }
         
         if touch?.tapCount == 2 {
             enlargeImage(from: touchPoint ?? .zero)
         }
-        
     }
     
-    @objc open func singleTap(_ : Any) {
-        
+    @objc open func singleTap() {
+        delegate?.zs_mediaPreviewCellScrollViewDidSingleTap()
     }
     
     @objc open func longPress(_ longPressGesture: UILongPressGestureRecognizer) {
-        
+        delegate?.zs_mediaPreviewCellScrollViewDidLongPress(self)
     }
 }
 
@@ -100,6 +99,8 @@ import UIKit
     
     open func enlargeImage(from point: CGPoint) {
         
+        guard viewForZooming(in: zoomScrollView)?.frame.contains(point) ?? false else { return }
+        
         if zoomScrollView.zoomScale > zoomScrollView.minimumZoomScale {
             zoomScrollView.setZoomScale(zoomScrollView.minimumZoomScale, animated: true)
             return
@@ -112,7 +113,7 @@ import UIKit
     }
     
     open func refreshMediaViewCenter(from point: CGPoint) {
-        
+        viewForZooming(in: zoomScrollView)?.center = point
     }
 }
 
@@ -120,15 +121,6 @@ import UIKit
 
 
 @objc extension ZSMediaPreviewCell {
-    
-    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
-        guard scrollView.contentSize != .zero else { return }
-        
-        guard scrollView.zoomScale == 1 else { return }
-        
-        delegate?.zs_mediaPreviewCellScrollViewDidScroll(scrollView)
-    }
     
     open func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return nil
@@ -138,13 +130,9 @@ import UIKit
         
         let offsetX = (scrollView.frame.width > scrollView.contentSize.width) ? (scrollView.frame.width - scrollView.contentSize.width) * 0.5 : 0
         let offsetY = (scrollView.frame.height > scrollView.contentSize.height) ? (scrollView.frame.height - scrollView.contentSize.height) * 0.5 : 0
-        
         refreshMediaViewCenter(from: CGPoint(x: scrollView.contentSize.width * 0.5 + offsetX, y: scrollView.contentSize.height * 0.5 + offsetY))
     }
 }
-
-
-
 
 
 
@@ -154,11 +142,5 @@ import UIKit
     override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         next?.next?.touchesEnded(touches, with: event)
         super.touchesEnded(touches, with: event)
-    }
-    
-    // TODO: UIGestureRecognizerDelegate
-    open func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-
-        return !(otherGestureRecognizer.view is UICollectionView)
     }
 }

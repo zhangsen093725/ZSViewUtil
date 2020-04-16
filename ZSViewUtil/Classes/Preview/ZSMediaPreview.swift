@@ -9,17 +9,14 @@ import UIKit
 
 @objcMembers open class ZSMediaPreview: UIView, ZSMediaPreviewCellDelegate {
     
-    /// item 中的scroll是否可以滚动
-    fileprivate var isShouldContentScroll: Bool = true
-    
-    /// 是否可以拖拽
-    fileprivate var isShouldPanGesture: Bool = true
-    
     /// 缩放倍数
     fileprivate var panScale: CGFloat = 1
     
     /// 背景透明度
     fileprivate var panColorAlpha: CGFloat = 1
+    
+    /// 资源是否开启拖动
+    fileprivate var isPanGestureEnalbe: Bool = false
     
     /// 是否关闭预览
     fileprivate var isEndPreview: Bool = false
@@ -39,7 +36,7 @@ import UIKit
     }
     
     /// 自定义的View
-    fileprivate var customView: UIView?
+    fileprivate weak var customView: UIView?
     
     var previewLineSpacing: CGFloat = 0 {
         didSet {
@@ -48,7 +45,7 @@ import UIKit
     }
     
     /// 动画最后需要返回到的frame
-    public var lastFrame: CGRect = .zero
+    var lastFrame: CGRect = .zero
     
     fileprivate lazy var contentView: UIView = {
         
@@ -77,7 +74,7 @@ import UIKit
         return collectionView
     }()
     
-    public func setterCustomView(_ customViewHandle: (() -> UIView?)) {
+    public func zs_setterCustomView(_ customViewHandle: (() -> UIView?)) {
         
         let _customView_ = customViewHandle()
         
@@ -91,11 +88,26 @@ import UIKit
         customView = _customView_
     }
     
+    public var zs_didEndPreview: (() -> Void)?
+    
     open override func layoutSubviews() {
         super.layoutSubviews()
         contentView.frame = bounds
         collectionView.frame = CGRect(x: 0, y: 0, width: contentView.bounds.width + previewLineSpacing, height: contentView.bounds.height)
         customView?.frame = contentView.bounds
+    }
+    
+    open func reset() {
+        panScale = 1
+        panColorAlpha = 1
+        isPanGestureEnalbe = false
+    }
+    
+    func refreshLastFrame(from view: UIView?) {
+        
+        guard view != nil else { return }
+        
+        lastFrame = self.convert(view!.frame, to: self)
     }
 }
 
@@ -130,7 +142,7 @@ import UIKit
         backgroundColor = UIColor.black.withAlphaComponent(0)
         collectionView.isHidden = true
         
-        lastFrame = self.convert(view!.frame, to: self)
+        refreshLastFrame(from: view)
         fromViewSnapshotView?.frame = lastFrame
         insertSubview(fromViewSnapshotView!, at: 0)
         layoutIfNeeded()
@@ -155,6 +167,8 @@ import UIKit
     
     open func endPreview() {
         
+        mediaPreviewSnapshotView?.removeFromSuperview()
+        
         if lastFrame == .zero {
             
             let keyAnimation = CAKeyframeAnimation(keyPath: "transform.scale")
@@ -169,7 +183,7 @@ import UIKit
             }) { [weak self] (finished) in
                 self?.removeFromSuperview()
                 self?.layer.removeAllAnimations()
-                self?.clean()
+                self?.zs_didEndPreview?()
             }
             return
         }
@@ -187,25 +201,21 @@ import UIKit
             self?.fromViewSnapshotView?.removeFromSuperview()
             self?.fromViewSnapshotView = nil
             self?.removeFromSuperview()
-            self?.clean()
+            self?.zs_didEndPreview?()
         }
     }
     
-    open func clean() {
-        panReset()
+    open func getMediaPreviewSnapshotView() -> UIView {
         
-        lastFrame = .zero
-        alpha = 1
-        collectionView.isHidden = false
-        customView?.isHidden = false
-    }
-    
-    open func panReset() {
-        panScale = 1
-        panColorAlpha = 1
-        contentView.transform = CGAffineTransform.identity
-        mediaPreviewSnapshotView?.transform = CGAffineTransform.identity
-        backgroundColor = backgroundColor?.withAlphaComponent(panColorAlpha)
+        guard mediaPreviewSnapshotView == nil else { return mediaPreviewSnapshotView! }
+        
+        mediaPreviewSnapshotView = contentView.snapshotView(afterScreenUpdates: false)
+        mediaPreviewSnapshotView?.frame = contentView.bounds
+        contentView.addSubview(mediaPreviewSnapshotView!)
+        collectionView.isHidden = true
+        customView?.isHidden = true
+        
+        return mediaPreviewSnapshotView!
     }
 }
 
@@ -215,73 +225,55 @@ import UIKit
  */
 @objc extension ZSMediaPreview {
     
-    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        super.touchesEnded(touches, with: event)
-        endPreview()
+    open func endPanGestureRecognizer() {
+
+        UIView.animate(withDuration: 0.25, animations: { [weak self] in
+            self?.contentView.transform = CGAffineTransform.identity
+            self?.mediaPreviewSnapshotView?.transform = CGAffineTransform.identity
+            self?.backgroundColor = self?.backgroundColor?.withAlphaComponent(1)
+        }) { [weak self] (finished) in
+            self?.reset()
+            self?.collectionView.isHidden = false
+            self?.customView?.isHidden = false
+            self?.mediaPreviewSnapshotView = nil
+        }
     }
     
     @objc open func panGestureRecognizer(_ panGestureRecognizer : UIPanGestureRecognizer) {
         
-        if isShouldPanGesture == false {
-            UIView.animate(withDuration: 0.25, animations: { [weak self] in
-                self?.panReset()
-            }) { [weak self] (finished) in
-                self?.collectionView.isHidden = false
-                self?.customView?.isHidden = false
-                self?.mediaPreviewSnapshotView = nil
-            }
-            panGestureRecognizer.setTranslation(.zero, in: panGestureRecognizer.view)
-            return
-        }
-        
-        if abs(mediaPreviewSnapshotView?.transform.tx ?? 0) <= frame.width * 0.5 &&
-            (mediaPreviewSnapshotView?.transform.ty ?? 0) <= 0 {
-            
-            isShouldContentScroll = true
-            isShouldPanGesture = false
-        }
-        
         let currentPoint = panGestureRecognizer.translation(in: panGestureRecognizer.view)
-
-        if mediaPreviewSnapshotView == nil {
-            mediaPreviewSnapshotView = contentView.snapshotView(afterScreenUpdates: false)
-            mediaPreviewSnapshotView?.frame = contentView.bounds
-            contentView.addSubview(mediaPreviewSnapshotView!)
-            collectionView.isHidden = true
-            customView?.isHidden = true
-        }
         
-        mediaPreviewSnapshotView!.transform = mediaPreviewSnapshotView!.transform.translatedBy(x: currentPoint.x, y: currentPoint.y)
+        let _mediaPreviewSnaphotView_ = getMediaPreviewSnapshotView()
         
         if abs(currentPoint.y) > abs(currentPoint.x) {
             
             let offset: CGFloat = sqrt(pow(currentPoint.x, 2) + pow(currentPoint.y, 2)) / sqrt(pow(frame.width, 2) + pow(frame.height, 2))
             panColorAlpha = (currentPoint.y < 0 ? (1 + offset) : (1 - offset)) * panColorAlpha
+            panColorAlpha = panColorAlpha > 1 ? 1 : panColorAlpha
             panScale = currentPoint.y < 0 ? (1 + offset) : (1 - offset)
             
-            isEndPreview = currentPoint.y >= 0
-    
-            mediaPreviewSnapshotView!.transform = mediaPreviewSnapshotView!.transform.scaledBy(x: panScale, y: panScale)
-            backgroundColor = backgroundColor?.withAlphaComponent(panColorAlpha)
-        }
-
-        if panGestureRecognizer.state == .ended {
+            isEndPreview = currentPoint.y > 0
             
-            if isEndPreview {
-                mediaPreviewSnapshotView = nil
-                endPreview()
-            } else {
-                
-                UIView.animate(withDuration: 0.25, animations: { [weak self] in
-                    self?.panReset()
-                }) { [weak self] (finished) in
-                    self?.collectionView.isHidden = false
-                    self?.customView?.isHidden = false
-                    self?.mediaPreviewSnapshotView = nil
-                }
+            let isShouldScale = currentPoint.y >= 0 || (currentPoint.y < 0 && (_mediaPreviewSnaphotView_.transform.d < 1 || _mediaPreviewSnaphotView_.transform.a < 1))
+            
+            if isShouldScale {
+                _mediaPreviewSnaphotView_.transform = _mediaPreviewSnaphotView_.transform.scaledBy(x: panScale, y: panScale)
             }
             
+            if currentPoint.y >= 0 {
+                isPanGestureEnalbe = true
+            }
+            
+            backgroundColor = backgroundColor?.withAlphaComponent(panColorAlpha)
+        }
+        
+        if isPanGestureEnalbe {
+            _mediaPreviewSnaphotView_.transform = _mediaPreviewSnaphotView_.transform.translatedBy(x: currentPoint.x, y: currentPoint.y)
+        }
+        
+        if panGestureRecognizer.state == .ended {
+            
+            isEndPreview ? endPreview() : endPanGestureRecognizer()
         }
         
         panGestureRecognizer.setTranslation(.zero, in: panGestureRecognizer.view)
@@ -291,22 +283,30 @@ import UIKit
 
 
 @objc extension ZSMediaPreview {
-    
-    public func zs_mediaPreviewCellScrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        if scrollView.contentOffset.y <= 0 {
-            scrollView.contentOffset = CGPoint(x: 0, y: 0)
-            if isShouldContentScroll {
-                isShouldContentScroll = false
-                isShouldPanGesture = true
-            }
-            return
-        }
-        
-        if isShouldContentScroll == false {
-            scrollView.contentOffset = CGPoint(x: 0, y: 0)
-            return
-        }
+    open func zs_mediaPreviewCellScrollViewDidSingleTap() {
+        endPreview()
     }
     
+    open func zs_mediaPreviewCellMediaLoadFail(_ error: Error) {
+        
+    }
+    
+    open func zs_mediaPreviewCellMediaDidChangePlay(status: ZSPlayerStatus) {
+        
+        
+    }
+    
+    open func zs_mediaPreviewCellMediaDidiChangePlayTime(second: TimeInterval) {
+        
+    }
+    
+    open func zs_mediaPreviewCellScrollViewDidLongPress(_ collectionCell: UICollectionViewCell) {
+        
+    }
+    
+    public func zs_mediaPreviewCellMediaLoadingView() -> UIView? {
+        
+        return nil
+    }
 }
