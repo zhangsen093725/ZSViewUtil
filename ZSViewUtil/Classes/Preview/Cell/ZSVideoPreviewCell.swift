@@ -14,8 +14,7 @@ import UIKit
     public lazy var imageView: UIImageView = {
         
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFit
         playerView.insertSubview(imageView, at: 0)
         return imageView
     }()

@@ -43,8 +43,8 @@ class MediaPreviewDemoController: UIViewController, ZSMediaPreviewLoadServeDeleg
         
         var models: [ZSMediaPreviewModel] = []
         
-        let imageFiles = ["http://ww1.sinaimg.cn/large/b02ee545gy1gdnhcee791j2048097dfs.jpg",
-                          "http://ww1.sinaimg.cn/large/b02ee545gy1gdmhz2191mj205603rt8j.jpg"]
+        let imageFiles = ["http://ww1.sinaimg.cn/large/b02ee545gy1gdmhz2191mj205603rt8j.jpg",
+                          "http://ww1.sinaimg.cn/large/b02ee545gy1gdnhcee791j2048097dfs.jpg"]
         
         let audioFile = ["http://up_mp4.t57.cn/2018/1/03m/13/396131202109.m4a",
                          "http://up_mp4.t57.cn/2016/1/12m/08/205081602470.m4a",
@@ -92,7 +92,7 @@ class MediaPreviewDemoController: UIViewController, ZSMediaPreviewLoadServeDeleg
         for file in videoFile {
             let model = ZSMediaPreviewModel()
             model.mediaFile = file
-            model.thumbImage = "http://ww1.sinaimg.cn/large/b02ee545gy1gdnhcee791j2048097dfs.jpg"
+            model.thumbImage = "http://ww1.sinaimg.cn/large/b02ee545gy1gdmhz2191mj205603rt8j.jpg"
             model.mediaType = .Video
             models.append(model)
         }
