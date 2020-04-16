@@ -28,13 +28,14 @@ class SphereViewController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        sphereView.frame = CGRect(x: 0, y: 200, width: view.frame.width, height: 200)
+        sphereView.frame = CGRect(x: 0, y: (view.frame.height - view.frame.width) * 0.5, width: view.frame.width, height: view.frame.width)
+        sphereView.zs_beginAnimation()
     }
     
     func itemsFromLabel() -> [UILabel] {
         
         var labels: [UILabel] = []
-        for index in 0..<60 {
+        for index in 0..<200 {
             let label = UILabel()
             label.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
             label.text = "\(index)"

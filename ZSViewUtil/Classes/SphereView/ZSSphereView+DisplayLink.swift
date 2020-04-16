@@ -9,7 +9,7 @@ import Foundation
 
 extension ZSSphereView {
     
-    // TODO: DisplayLink
+    // TODO: 自动滚动
     func startDisplay() {
         
         guard isAutoRotate else { return }

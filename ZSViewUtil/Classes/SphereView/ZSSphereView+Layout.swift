@@ -9,6 +9,11 @@ import Foundation
 
 extension ZSSphereView {
     
+    /// 球体转动的布局
+    /// - Parameters:
+    ///   - angle: 转动的角度
+    ///   - fromPoint: 从什么位置转动
+    ///   - toPoint: 转动到什么位置
     func rotateSphere(by angle: CGFloat, fromPoint: CGPoint, toPoint: CGPoint) {
         
         for (index, subView) in property.items.enumerated() {
@@ -37,6 +42,10 @@ extension ZSSphereView {
         }
     }
     
+    /// 对球体内部的item进行布局
+    /// - Parameters:
+    ///   - subView: item
+    ///   - point: 更新的位置
     func layout(_ subView: UIView, with point: PFPoint) {
         
         let width = frame.width - subView.frame.width * 2
@@ -51,6 +60,10 @@ extension ZSSphereView {
         subView.layer.zPosition = z
     }
     
+    /// 坐标转换
+    /// - Parameters:
+    ///   - normalizedValue: PFPointz的值
+    ///   - offset: 范围的偏移量
     func coordinate(for normalizedValue: CGFloat, withinRange offset: CGFloat) -> CGFloat {
         
         let half = offset * 0.5
