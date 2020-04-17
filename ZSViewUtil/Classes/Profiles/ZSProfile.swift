@@ -62,28 +62,38 @@ public func iPadFullScreenWidthToHeight(_ viewHeight: CGFloat) -> CGFloat {
 
 // MARK: - 字体和颜色
 public func KFont(_ font: CGFloat) -> UIFont {
-    return UIFont.systemFont(ofSize: font * KHeightUnit)
+    return .systemFont(ofSize: font * KHeightUnit)
+}
+
+public func KBoldFont(_ font: CGFloat) -> UIFont {
+    return .boldSystemFont(ofSize: font * KHeightUnit)
+}
+
+public func KItalicFont(_ font: CGFloat) -> UIFont {
+    return .italicSystemFont(ofSize: font * KHeightUnit)
 }
 
 public func KColor(_ red: CGFloat, _ green: CGFloat, _ blue: CGFloat, _ alpha: CGFloat) -> UIColor {
-    return UIColor.init(red: red/255.0, green: green/255.0, blue: blue/255.0, alpha: alpha)
+    return .init(red: red/255.0, green: green/255.0, blue: blue/255.0, alpha: alpha)
 }
 
+@available(iOS 8.2, *)
+public func KFont(_ font: CGFloat, weight: UIFont.Weight = .regular) -> UIFont {
+    return .systemFont(ofSize: font * KHeightUnit, weight: weight)
+}
+
+@available(iOS 13.0, *)
 public func KColor(light: UIColor, dark: UIColor) -> UIColor {
     
-    if #available(iOS 13.0, *) {
-        return UIColor { (traitCollection) -> UIColor in
-            switch traitCollection.userInterfaceStyle {
-            case .light:
-                return light
-            case .dark:
-                return dark
-            default:
-                fatalError()
-            }
+    return UIColor { (traitCollection) -> UIColor in
+        switch traitCollection.userInterfaceStyle {
+        case .light:
+            return light
+        case .dark:
+            return dark
+        default:
+            fatalError()
         }
-    } else {
-        return light
     }
 }
 

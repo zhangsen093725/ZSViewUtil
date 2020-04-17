@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'ZSViewUtil'
-    s.version          = '0.4.2'
+    s.version          = '0.4.3'
     s.summary          = '自定义 View'
     
     # This description is used to generate tags and improve search results.
@@ -35,9 +35,9 @@ Pod::Spec.new do |s|
     
     s.subspec 'All' do |a|
         a.source_files = 'ZSViewUtil/Classes/**/*'
-         s.resource_bundles = {
-           'ZSViewUtil' => ['ZSViewUtil/Assets/**/*']
-         }
+        s.resource_bundles = {
+            'ZSViewUtil' => ['ZSViewUtil/Assets/**/*']
+        }
     end
     
     s.subspec 'Button' do |b|
@@ -61,6 +61,10 @@ Pod::Spec.new do |s|
         fl.subspec 'Plain' do |l|
             l.source_files = 'ZSViewUtil/Classes/FlowLayout/Plain/**/*'
         end
+    end
+    
+    s.subspec 'Image' do |i|
+        i.source_files = 'ZSViewUtil/Classes/Image/**/*'
     end
     
     s.subspec 'LoopScroll' do |l|
