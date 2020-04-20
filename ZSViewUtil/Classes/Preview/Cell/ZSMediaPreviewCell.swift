@@ -11,6 +11,7 @@ import UIKit
     
     func zs_mediaPreviewCellScrollViewDidSingleTap()
     func zs_mediaPreviewCellScrollViewDidLongPress(_ collectionCell: UICollectionViewCell)
+    func zs_mediaPreviewCellScrollViewShouldPanGestureRecognizer(_ enable: Bool)
     
     func zs_mediaPreviewCellMediaLoadFail(_ error: Error)
     func zs_mediaPreviewCellMediaDidChangePlay(status: ZSPlayerStatus)
@@ -25,6 +26,10 @@ import UIKit
             zoomScrollView.frame.size.width = contentView.frame.width - previewLineSpacing
         }
     }
+    
+    var isBeginDecelerating: Bool = false
+    
+    var scrollLimit: CGFloat = 0
     
     weak var delegate: ZSMediaPreviewCellDelegate?
     
@@ -51,6 +56,7 @@ import UIKit
     open override func layoutSubviews() {
         super.layoutSubviews()
         zoomScrollView.frame = CGRect(x: 0, y: 0, width: contentView.frame.width - previewLineSpacing, height: contentView.frame.height)
+        scrollLimit = zoomScrollView.frame.height * 0.15
     }
     
     open override func prepareForReuse() {
@@ -122,6 +128,26 @@ import UIKit
 
 @objc extension ZSMediaPreviewCell {
     
+    open func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        guard scrollView.contentSize != .zero else { return }
+        
+        if scrollView.contentOffset.y > 0 {
+            delegate?.zs_mediaPreviewCellScrollViewShouldPanGestureRecognizer(false)
+        }
+        
+        guard isBeginDecelerating == false else { return }
+        
+        let shouldPanGesture = scrollView.contentOffset.y < -scrollLimit
+        
+        guard shouldPanGesture && scrollView.zoomScale == 1 else { return }
+        
+        delegate?.zs_mediaPreviewCellScrollViewShouldPanGestureRecognizer(shouldPanGesture)
+        
+        scrollView.contentOffset = CGPoint(x: 0, y: 0)
+        return
+    }
+    
     open func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return nil
     }
@@ -131,6 +157,14 @@ import UIKit
         let offsetX = (scrollView.frame.width > scrollView.contentSize.width) ? (scrollView.frame.width - scrollView.contentSize.width) * 0.5 : 0
         let offsetY = (scrollView.frame.height > scrollView.contentSize.height) ? (scrollView.frame.height - scrollView.contentSize.height) * 0.5 : 0
         refreshMediaViewCenter(from: CGPoint(x: scrollView.contentSize.width * 0.5 + offsetX, y: scrollView.contentSize.height * 0.5 + offsetY))
+    }
+    
+    open func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        isBeginDecelerating = true
+    }
+    
+    open func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        isBeginDecelerating = false
     }
 }
 
@@ -142,5 +176,15 @@ import UIKit
     override public func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         next?.next?.touchesEnded(touches, with: event)
         super.touchesEnded(touches, with: event)
+    }
+    
+    // TODO: UIGestureRecognizerDelegate
+    open func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+                
+        if otherGestureRecognizer.view is UICollectionView {
+            return false
+        }
+        
+        return zoomScale == 1
     }
 }

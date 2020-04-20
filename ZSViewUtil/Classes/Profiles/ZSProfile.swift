@@ -61,7 +61,7 @@ public func iPadFullScreenWidthToHeight(_ viewHeight: CGFloat) -> CGFloat {
 
 
 // MARK: - 字体和颜色
-public func KFont(_ font: CGFloat) -> UIFont {
+public func KNormalFont(_ font: CGFloat) -> UIFont {
     return .systemFont(ofSize: font * KHeightUnit)
 }
 

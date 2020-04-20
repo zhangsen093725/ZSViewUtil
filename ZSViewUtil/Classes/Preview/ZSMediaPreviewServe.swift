@@ -219,6 +219,8 @@ import UIKit
         
         guard currentIndex != page else { return }
         
+        mediaPreview?.shouldPanGesture = true
+        
         let cell = mediaPreview?.collectionView.cellForItem(at: IndexPath(item: currentIndex, section: 0)) as? ZSMediaPreviewCell
         
         cell?.zoomToOrigin()
@@ -231,7 +233,7 @@ import UIKit
         }
         
         currentIndex = page
-        mediaPreview?.refreshLastFrame(from: delegate?.zs_previewDidScroll?(to: page))
+        mediaPreview?.updateFrame(from: delegate?.zs_previewDidScroll?(to: page))
     }
     
     // TODO: UICollectionViewDataSource

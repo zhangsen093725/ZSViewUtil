@@ -9,24 +9,20 @@ import UIKit
 
 @objcMembers open class ZSMediaPreview: UIView, ZSMediaPreviewCellDelegate {
     
+    /// 是否允许拖动
+    public var shouldPanGesture: Bool = true
+    
     /// 缩放倍数
     fileprivate var panScale: CGFloat = 1
     
     /// 背景透明度
     fileprivate var panColorAlpha: CGFloat = 1
     
-    /// 资源是否开启拖动
+    /// 是否开始拖动
     fileprivate var isPanGestureEnalbe: Bool = false
     
     /// 是否关闭预览
     fileprivate var isEndPreview: Bool = false
-    
-    /// 屏幕截图视图
-    fileprivate var fromViewSnapshotView: UIView? {
-        didSet {
-            oldValue?.removeFromSuperview()
-        }
-    }
     
     /// 屏幕截图视图
     fileprivate var mediaPreviewSnapshotView: UIView? {
@@ -44,8 +40,11 @@ import UIKit
         }
     }
     
+    /// 动画最后需要返回到的View
+    weak var lastView: UIView?
+    
     /// 动画最后需要返回到的frame
-    var lastFrame: CGRect = .zero
+    fileprivate var lastFrame: CGRect = .zero
     
     fileprivate lazy var contentView: UIView = {
         
@@ -101,13 +100,13 @@ import UIKit
         panScale = 1
         panColorAlpha = 1
         isPanGestureEnalbe = false
+        shouldPanGesture = false
     }
     
-    func refreshLastFrame(from view: UIView?) {
-        
-        guard view != nil else { return }
-        
-        lastFrame = self.convert(view!.frame, to: self)
+    func updateFrame(from view: UIView?) {
+        lastView?.isHidden = false
+        lastView = view
+        lastFrame = (view == nil ? .zero : convert(view!.frame, to: self))
     }
 }
 
@@ -119,6 +118,8 @@ import UIKit
 @objc extension ZSMediaPreview {
     
     open func beginPreview(from view: UIView? = nil, to index: Int = 0) {
+        
+        view?.isHidden = true
         
         frame = UIScreen.main.bounds
         
@@ -132,7 +133,7 @@ import UIKit
         
         collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .centeredHorizontally, animated: false)
         
-        fromViewSnapshotView = view?.snapshotView(afterScreenUpdates: false)
+        let fromViewSnapshotView = view?.snapshotView(afterScreenUpdates: false)
         
         if fromViewSnapshotView == nil {
             backgroundColor = UIColor.black.withAlphaComponent(1)
@@ -142,7 +143,7 @@ import UIKit
         backgroundColor = UIColor.black.withAlphaComponent(0)
         collectionView.isHidden = true
         
-        refreshLastFrame(from: view)
+        updateFrame(from: view)
         fromViewSnapshotView?.frame = lastFrame
         insertSubview(fromViewSnapshotView!, at: 0)
         layoutIfNeeded()
@@ -156,20 +157,21 @@ import UIKit
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             
             self?.backgroundColor = UIColor.black.withAlphaComponent(1)
-            self?.fromViewSnapshotView?.frame = _imageFrame_
+            fromViewSnapshotView?.frame = _imageFrame_
             
         }) { [weak self] (finished) in
             
             self?.collectionView.isHidden = false
-            self?.fromViewSnapshotView?.isHidden = true
+            fromViewSnapshotView?.isHidden = true
+            fromViewSnapshotView?.removeFromSuperview()
         }
     }
     
     open func endPreview() {
         
-        mediaPreviewSnapshotView?.removeFromSuperview()
-        
-        if lastFrame == .zero {
+        if lastView == nil {
+            
+            backgroundColor = .clear
             
             let keyAnimation = CAKeyframeAnimation(keyPath: "transform.scale")
             keyAnimation.duration = 0.3
@@ -181,25 +183,26 @@ import UIKit
             UIView.animate(withDuration: 0.25, animations: { [weak self] in
                 self?.alpha = 0
             }) { [weak self] (finished) in
+                self?.mediaPreviewSnapshotView?.removeFromSuperview()
                 self?.removeFromSuperview()
                 self?.layer.removeAllAnimations()
+                self?.lastView?.isHidden = false
                 self?.zs_didEndPreview?()
             }
             return
         }
         
-        fromViewSnapshotView?.isHidden = false
         collectionView.isHidden = true
         
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             
             self?.backgroundColor = UIColor.black.withAlphaComponent(0)
-            self?.fromViewSnapshotView?.frame = self?.lastFrame ?? .zero
+            self?.mediaPreviewSnapshotView?.frame = self?.lastFrame ?? .zero
             
         }) { [weak self] (finished) in
             
-            self?.fromViewSnapshotView?.removeFromSuperview()
-            self?.fromViewSnapshotView = nil
+            self?.mediaPreviewSnapshotView?.removeFromSuperview()
+            self?.lastView?.isHidden = false
             self?.removeFromSuperview()
             self?.zs_didEndPreview?()
         }
@@ -226,7 +229,7 @@ import UIKit
 @objc extension ZSMediaPreview {
     
     open func endPanGestureRecognizer() {
-
+        
         UIView.animate(withDuration: 0.25, animations: { [weak self] in
             self?.contentView.transform = CGAffineTransform.identity
             self?.mediaPreviewSnapshotView?.transform = CGAffineTransform.identity
@@ -240,6 +243,11 @@ import UIKit
     }
     
     @objc open func panGestureRecognizer(_ panGestureRecognizer : UIPanGestureRecognizer) {
+        
+        guard shouldPanGesture else {
+            panGestureRecognizer.setTranslation(.zero, in: panGestureRecognizer.view)
+            return
+        }
         
         let currentPoint = panGestureRecognizer.translation(in: panGestureRecognizer.view)
         
@@ -283,9 +291,16 @@ import UIKit
 
 
 @objc extension ZSMediaPreview {
-        
+    
     open func zs_mediaPreviewCellScrollViewDidSingleTap() {
         endPreview()
+    }
+    
+    open func zs_mediaPreviewCellScrollViewShouldPanGestureRecognizer(_ enable: Bool) {
+        shouldPanGesture = enable
+        if shouldPanGesture == false {
+            endPanGestureRecognizer()
+        }
     }
     
     open func zs_mediaPreviewCellMediaLoadFail(_ error: Error) {
