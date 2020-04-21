@@ -49,7 +49,7 @@ import UIKit
     
     var _mediaPreview_: ZSMediaPreview?
     
-    /// medias 为 ZSMediaPreviewModel，只在 isSingleMedia = false 时，ZSMediaPreviewModel 中 mediaType 生效
+    /// medias 为 ZSMediaPreviewModel
     public var medias: [ZSMediaPreviewModel] = []
     
     /// 是否开启长按事件，默认为 false
