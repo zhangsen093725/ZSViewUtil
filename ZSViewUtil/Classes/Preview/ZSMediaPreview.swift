@@ -7,7 +7,7 @@
 
 import UIKit
 
-@objcMembers open class ZSMediaPreview: UIView, ZSMediaPreviewCellDelegate {
+@objcMembers open class ZSMediaPreview: UIView {
     
     /// 是否允许拖动
     public var shouldPanGesture: Bool = true
@@ -197,7 +197,7 @@ import UIKit
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             
             self?.backgroundColor = UIColor.black.withAlphaComponent(0)
-            self?.mediaPreviewSnapshotView?.frame = self?.lastFrame ?? .zero
+            self?.getMediaPreviewSnapshotView().frame = self?.lastFrame ?? .zero
             
         }) { [weak self] (finished) in
             
@@ -285,43 +285,5 @@ import UIKit
         }
         
         panGestureRecognizer.setTranslation(.zero, in: panGestureRecognizer.view)
-    }
-}
-
-
-
-@objc extension ZSMediaPreview {
-    
-    open func zs_mediaPreviewCellScrollViewDidSingleTap() {
-        endPreview()
-    }
-    
-    open func zs_mediaPreviewCellScrollViewShouldPanGestureRecognizer(_ enable: Bool) {
-        shouldPanGesture = enable
-        if shouldPanGesture == false {
-            endPanGestureRecognizer()
-        }
-    }
-    
-    open func zs_mediaPreviewCellMediaLoadFail(_ error: Error) {
-        
-    }
-    
-    open func zs_mediaPreviewCellMediaDidChangePlay(status: ZSPlayerStatus) {
-        
-        
-    }
-    
-    open func zs_mediaPreviewCellMediaDidiChangePlayTime(second: TimeInterval) {
-        
-    }
-    
-    open func zs_mediaPreviewCellScrollViewDidLongPress(_ collectionCell: UICollectionViewCell) {
-        
-    }
-    
-    public func zs_mediaPreviewCellMediaLoadingView() -> UIView? {
-        
-        return nil
     }
 }

@@ -14,7 +14,7 @@ import UIKit
     /// - Parameters:
     ///   - mediaFile: 媒体文件
     ///   - type: 文件类型
-    @objc optional func zs_previewLongPress(from mediaFile: Any, type: ZSMediaType)
+    @objc optional func zs_previewLongPress(from mediaFile: Any?, type: ZSMediaType)
     
     /// 视图滚动的回调
     /// - Parameter index: 滚动视图的索引
@@ -32,19 +32,13 @@ import UIKit
     ///   - imageURL: image URL
     func zs_imageView(_ imageView: UIImageView, load imageURL: URL)
     
-    /// 媒体加载中
-    @objc optional func zs_previewMediaLoading()
-    
-    /// 媒体加载完成
-    @objc optional func zs_previewMediaLoadComplete()
-    
     /// 媒体加载失败
     /// - Parameter error: 错误信息
     @objc optional func zs_previewMediaLoadFail(_ error: Error)
 }
 
 
-@objcMembers open class ZSMediaPreviewServe: NSObject, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ZSPlayerViewDelegate {
+@objcMembers open class ZSMediaPreviewServe: NSObject, UIScrollViewDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ZSPlayerViewDelegate, ZSMediaPreviewCellDelegate {
     
     public weak var delegate: ZSMediaPreviewServeDelegate?
     public weak var loadDelegate: ZSMediaPreviewLoadServeDelegate?
@@ -91,7 +85,7 @@ import UIKit
         }
     }
     
-    func getMediaPreview() -> ZSMediaPreview {
+    open func getMediaPreview() -> ZSMediaPreview {
         
         guard _mediaPreview_ == nil else { return _mediaPreview_! }
         
@@ -134,7 +128,7 @@ import UIKit
             mediaCell.zoomScrollView.minimumZoomScale = minimumZoomScale
             mediaCell.zoomScrollView.maximumZoomScale = maximumZoomScale
             mediaCell.previewLineSpacing = previewLineSpacing
-            mediaCell.delegate = mediaPreview
+            mediaCell.delegate = self
         }
         return cell!
     }
@@ -261,5 +255,49 @@ import UIKit
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         
         return minimumLineSpacing
+    }
+}
+
+
+
+
+@objc extension ZSMediaPreviewServe {
+    
+    open func zs_mediaPreviewCellScrollViewDidSingleTap() {
+        mediaPreview?.endPreview()
+    }
+    
+    open func zs_mediaPreviewCellScrollViewShouldPanGestureRecognizer(_ enable: Bool) {
+        mediaPreview?.shouldPanGesture = enable
+        if mediaPreview?.shouldPanGesture == false {
+            mediaPreview?.endPanGestureRecognizer()
+        }
+    }
+    
+    open func zs_mediaPreviewCellMediaLoadFail(_ error: Error) {
+        loadDelegate?.zs_previewMediaLoadFail?(error)
+    }
+    
+    open func zs_mediaPreviewCellScrollViewDidLongPress(_ collectionCell: UICollectionViewCell) {
+        
+        guard let indexPath = mediaPreview?.collectionView.indexPath(for: collectionCell) else { return }
+        
+        let model = medias[indexPath.item]
+        
+        delegate?.zs_previewLongPress?(from: model.mediaFile, type: model.mediaType)
+    }
+    
+    open func zs_mediaPreviewCellMediaDidChangePlay(status: ZSPlayerStatus) {
+        
+        
+    }
+    
+    open func zs_mediaPreviewCellMediaDidiChangePlayTime(second: TimeInterval) {
+        
+    }
+    
+    open func zs_mediaPreviewCellMediaLoadingView() -> UIView? {
+        
+        return nil
     }
 }
