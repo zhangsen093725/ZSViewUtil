@@ -44,6 +44,7 @@ import UIKit
     public weak var loadDelegate: ZSMediaPreviewLoadServeDelegate?
     
     public var mediaPreview: ZSMediaPreview? {
+        guard _mediaPreview_ == nil else { return _mediaPreview_! }
         return getMediaPreview()
     }
     
@@ -85,20 +86,9 @@ import UIKit
         }
     }
     
-    open func getMediaPreview() -> ZSMediaPreview {
-        
-        guard _mediaPreview_ == nil else { return _mediaPreview_! }
-        
-        _mediaPreview_ = ZSMediaPreview()
-        zs_configPreviewItem()
-        _mediaPreview_?.collectionView.delegate = self
-        _mediaPreview_?.collectionView.dataSource = self
-        _mediaPreview_?.previewLineSpacing = previewLineSpacing
-        _mediaPreview_?.zs_didEndPreview = { [weak self] in
-            self?._mediaPreview_?.removeFromSuperview()
-            self?._mediaPreview_ = nil
-        }
-        return _mediaPreview_!
+    public func zs_didEndPreview() {
+        _mediaPreview_?.removeFromSuperview()
+        _mediaPreview_ = nil
     }
     
     func zs_configTabPageCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -142,10 +132,28 @@ import UIKit
  */
 @objc extension ZSMediaPreviewServe {
     
-    open func zs_configPreviewItem() {
-        mediaPreview?.collectionView.register(ZSImagePreviewCell.self, forCellWithReuseIdentifier: NSStringFromClass(ZSImagePreviewCell.self))
-        mediaPreview?.collectionView.register(ZSVideoPreviewCell.self, forCellWithReuseIdentifier: NSStringFromClass(ZSVideoPreviewCell.self))
-        mediaPreview?.collectionView.register(ZSAudioPreviewCell.self, forCellWithReuseIdentifier: NSStringFromClass(ZSAudioPreviewCell.self))
+    open func getMediaPreview() -> ZSMediaPreview {
+        
+        let preview = ZSMediaPreview()
+        zs_configPreview(preview)
+        zs_configPreviewItem(preview)
+        _mediaPreview_ = preview
+        return preview
+    }
+    
+    open func zs_configPreviewItem(_ mediaPreview: ZSMediaPreview) {
+        mediaPreview.collectionView.register(ZSImagePreviewCell.self, forCellWithReuseIdentifier: NSStringFromClass(ZSImagePreviewCell.self))
+        mediaPreview.collectionView.register(ZSVideoPreviewCell.self, forCellWithReuseIdentifier: NSStringFromClass(ZSVideoPreviewCell.self))
+        mediaPreview.collectionView.register(ZSAudioPreviewCell.self, forCellWithReuseIdentifier: NSStringFromClass(ZSAudioPreviewCell.self))
+    }
+    
+    open func zs_configPreview(_ mediaPreview: ZSMediaPreview) {
+        mediaPreview.collectionView.delegate = self
+        mediaPreview.collectionView.dataSource = self
+        mediaPreview.previewLineSpacing = previewLineSpacing
+        mediaPreview.zs_didEndPreview = { [weak self] in
+            self?.zs_didEndPreview()
+        }
     }
     
     open func zs_configTabPageImageCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, model: ZSMediaPreviewModel) -> UICollectionViewCell {
