@@ -38,6 +38,11 @@ import UIKit
         customLoadingView?.isHidden = (imageView.image != nil)
     }
     
+    override func getCustomLoadingView() {
+        super.getCustomLoadingView()
+        customLoadingView?.isHidden = (imageView.image != nil)
+    }
+    
     deinit {
         imageView.removeObserver(self, forKeyPath: "image")
     }
