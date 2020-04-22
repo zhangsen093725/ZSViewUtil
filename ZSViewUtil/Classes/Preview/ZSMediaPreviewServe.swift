@@ -298,11 +298,6 @@ import UIKit
     
     open func zs_mediaPreviewCellMediaLoadingView() -> UIView? {
         
-        let loadingView = ZSLoadingView()
-        loadingView.configLoadView()
-        loadingView.backgroundColor = .clear
-        loadingView.startAnimation()
-        
-        return loadingView
+        return nil
     }
 }
