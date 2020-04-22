@@ -31,9 +31,6 @@ import UIKit
         }
     }
     
-    /// 自定义的View
-    fileprivate weak var customView: UIView?
-    
     var previewLineSpacing: CGFloat = 0 {
         didSet {
             collectionView.frame.size.width = contentView.bounds.width + previewLineSpacing
@@ -46,7 +43,7 @@ import UIKit
     /// 动画最后需要返回到的frame
     fileprivate var lastFrame: CGRect = .zero
     
-    fileprivate lazy var contentView: UIView = {
+    public lazy var contentView: UIView = {
         
         let contentView = UIView()
         contentView.backgroundColor = .clear
@@ -72,35 +69,20 @@ import UIKit
         contentView.insertSubview(collectionView, at: 0)
         return collectionView
     }()
-    
-    public func zs_setterCustomView(_ customViewHandle: (() -> UIView?)) {
         
-        let _customView_ = customViewHandle()
-        
-        guard _customView_ != customView else { return }
-        
-        customView?.removeFromSuperview()
-        
-        if _customView_ != nil {
-            contentView.addSubview(_customView_!)
-        }
-        customView = _customView_
-    }
-    
     public var zs_didEndPreview: (() -> Void)?
     
     open override func layoutSubviews() {
         super.layoutSubviews()
         contentView.frame = bounds
         collectionView.frame = CGRect(x: 0, y: 0, width: contentView.bounds.width + previewLineSpacing, height: contentView.bounds.height)
-        customView?.frame = contentView.bounds
     }
     
     open func reset() {
         panScale = 1
         panColorAlpha = 1
         isPanGestureEnalbe = false
-        shouldPanGesture = false
+        shouldPanGesture = true
     }
     
     func updateFrame(from view: UIView?) {
@@ -141,7 +123,7 @@ import UIKit
         }
         
         backgroundColor = UIColor.black.withAlphaComponent(0)
-        collectionView.isHidden = true
+        contentView.isHidden = true
         
         updateFrame(from: view)
         fromViewSnapshotView?.frame = lastFrame
@@ -161,7 +143,7 @@ import UIKit
             
         }) { [weak self] (finished) in
             
-            self?.collectionView.isHidden = false
+            self?.contentView.isHidden = false
             fromViewSnapshotView?.isHidden = true
             fromViewSnapshotView?.removeFromSuperview()
         }
@@ -192,12 +174,12 @@ import UIKit
             return
         }
         
-        collectionView.isHidden = true
+        contentView.isHidden = true
         
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             
             self?.backgroundColor = UIColor.black.withAlphaComponent(0)
-            self?.getMediaPreviewSnapshotView().frame = self?.lastFrame ?? .zero
+            self?.mediaPreviewSnapshotView?.frame = self?.lastFrame ?? .zero
             
         }) { [weak self] (finished) in
             
@@ -213,10 +195,9 @@ import UIKit
         guard mediaPreviewSnapshotView == nil else { return mediaPreviewSnapshotView! }
         
         mediaPreviewSnapshotView = contentView.snapshotView(afterScreenUpdates: false)
-        mediaPreviewSnapshotView?.frame = contentView.bounds
-        contentView.addSubview(mediaPreviewSnapshotView!)
-        collectionView.isHidden = true
-        customView?.isHidden = true
+        mediaPreviewSnapshotView?.frame = bounds
+        addSubview(mediaPreviewSnapshotView!)
+        contentView.isHidden = true
         
         return mediaPreviewSnapshotView!
     }
@@ -236,8 +217,7 @@ import UIKit
             self?.backgroundColor = self?.backgroundColor?.withAlphaComponent(1)
         }) { [weak self] (finished) in
             self?.reset()
-            self?.collectionView.isHidden = false
-            self?.customView?.isHidden = false
+            self?.contentView.isHidden = false
             self?.mediaPreviewSnapshotView = nil
         }
     }

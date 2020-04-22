@@ -33,6 +33,11 @@ import UIKit
         zoomScrollView.contentSize = CGSize(width: width, height: height)
     }
     
+    open override func prepareForReuse() {
+        super.prepareForReuse()
+        customLoadingView?.isHidden = (imageView.image != nil)
+    }
+    
     deinit {
         imageView.removeObserver(self, forKeyPath: "image")
     }
@@ -44,6 +49,7 @@ import UIKit
     open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         
         if keyPath == "image" {
+            customLoadingView?.isHidden = true
             layoutSubviews()
         }
     }

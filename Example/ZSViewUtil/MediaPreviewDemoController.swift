@@ -32,10 +32,6 @@ class MediaPreviewDemoController: UIViewController, ZSMediaPreviewLoadServeDeleg
         
         let previewServe = ZSMediaPreviewServe()
         previewServe.loadDelegate = self
-        previewServe.mediaPreview?.zs_setterCustomView { () -> UIView? in
-            
-            return nil
-        }
         return previewServe
     }()
     

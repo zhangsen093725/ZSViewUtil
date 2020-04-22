@@ -43,16 +43,6 @@ import UIKit
         return button
     }()
     
-    lazy var customLoadingView: UIView? = {
-        
-        guard let customLoadingView = delegate?.zs_mediaPreviewCellMediaLoadingView() else { return nil }
-    
-        playerView.addSubview(customLoadingView)
-        customLoadingView.isHidden = true
-        
-        return customLoadingView
-    }()
-    
     public var zs_play: (() -> Void)? {
         return { [weak self] in
             self?.play()
@@ -78,6 +68,11 @@ import UIKit
         zoomScrollView.contentSize = .zero
         playButton.frame = CGRect(x: (playerView.frame.width - 75) * 0.5, y: (playerView.frame.height - 75) * 0.5, width: 75, height: 75)
         customLoadingView?.frame = playButton.frame
+    }
+    
+    override func getCustomLoadingView() {
+        super.getCustomLoadingView()
+        customLoadingView?.isHidden = true
     }
     
     open func stop() {

@@ -31,7 +31,11 @@ import UIKit
     
     var scrollLimit: CGFloat = 0
     
-    weak var delegate: ZSMediaPreviewCellDelegate?
+    weak var delegate: ZSMediaPreviewCellDelegate? {
+        didSet {
+            getCustomLoadingView()
+        }
+    }
     
     public lazy var zoomScrollView: ZSMediaPreviewScrollView = {
         
@@ -53,15 +57,35 @@ import UIKit
         return scrollView
     }()
     
+    var customLoadingView: UIView?
+    
     open override func layoutSubviews() {
         super.layoutSubviews()
         zoomScrollView.frame = CGRect(x: 0, y: 0, width: contentView.frame.width - previewLineSpacing, height: contentView.frame.height)
         scrollLimit = zoomScrollView.frame.height * 0.15
+        customLoadingView?.frame = CGRect(x: (contentView.frame.width - 75) * 0.5, y: (contentView.frame.height - 75) * 0.5, width: 75, height: 75)
     }
     
     open override func prepareForReuse() {
         super.prepareForReuse()
         delegate = nil
+    }
+    
+    func getCustomLoadingView() {
+        
+        guard delegate != nil else { return }
+        
+        let customLoadingView = delegate?.zs_mediaPreviewCellMediaLoadingView()
+                
+        if customLoadingView != self.customLoadingView {
+            self.customLoadingView?.removeFromSuperview()
+        }
+            
+        if customLoadingView != nil {
+            contentView.addSubview(customLoadingView!)
+        }
+        
+        self.customLoadingView = customLoadingView
     }
 }
 
