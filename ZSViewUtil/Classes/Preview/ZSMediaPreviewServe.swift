@@ -44,8 +44,17 @@ import UIKit
     public weak var loadDelegate: ZSMediaPreviewLoadServeDelegate?
     
     public var mediaPreview: ZSMediaPreview? {
-        guard _mediaPreview_ == nil else { return _mediaPreview_! }
-        return getMediaPreview()
+        
+        if _mediaPreview_ == nil {
+            
+            let mediaPreview = getMediaPreview()
+            zs_configPreview(mediaPreview)
+            zs_configPreviewItem(mediaPreview)
+            _mediaPreview_ = mediaPreview
+            return mediaPreview
+        }
+        
+        return _mediaPreview_
     }
     
     var _mediaPreview_: ZSMediaPreview?
@@ -133,12 +142,7 @@ import UIKit
 @objc extension ZSMediaPreviewServe {
     
     open func getMediaPreview() -> ZSMediaPreview {
-        
-        let preview = ZSMediaPreview()
-        zs_configPreview(preview)
-        zs_configPreviewItem(preview)
-        _mediaPreview_ = preview
-        return preview
+        return ZSMediaPreview()
     }
     
     open func zs_configPreviewItem(_ mediaPreview: ZSMediaPreview) {
