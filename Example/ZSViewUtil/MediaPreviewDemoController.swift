@@ -119,7 +119,7 @@ class MediaPreviewDemoController: UIViewController, ZSMediaPreviewLoadServeDeleg
     
     
     @objc func openMediaPreview() {
-        previewServe.mediaPreview?.beginPreview(from: imageView, to: 5)
+        previewServe.mediaPreview?.beginPreview(from: nil, to: 5)
     }
     
     func zs_imageView(_ imageView: UIImageView, load imageURL: URL) {

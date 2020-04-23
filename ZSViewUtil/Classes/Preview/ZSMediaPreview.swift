@@ -113,18 +113,25 @@ import UIKit
         
         rootVC?.view.addSubview(self)
         
-//
-        
+        backgroundColor = UIColor.black.withAlphaComponent(0)
+        contentView.isHidden = true
+
         let fromViewSnapshotView = view?.snapshotView(afterScreenUpdates: false)
         
         if fromViewSnapshotView == nil {
-            backgroundColor = UIColor.black.withAlphaComponent(1)
+            
+            UIView.animate(withDuration: 0.25, animations: { [weak self] in
+                
+                self?.backgroundColor = UIColor.black.withAlphaComponent(1)
+                
+            }) { [weak self] (finished) in
+                
+                self?.collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .centeredHorizontally, animated: false)
+                self?.contentView.isHidden = false
+            }
             return
         }
-        
-        backgroundColor = UIColor.black.withAlphaComponent(0)
-        contentView.isHidden = true
-        
+
         updateFrame(from: view)
         fromViewSnapshotView?.frame = lastFrame
         insertSubview(fromViewSnapshotView!, at: 0)
