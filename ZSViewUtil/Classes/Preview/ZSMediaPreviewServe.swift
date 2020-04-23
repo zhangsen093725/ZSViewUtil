@@ -280,9 +280,13 @@ import UIKit
     }
     
     open func zs_mediaPreviewCellScrollViewShouldPanGestureRecognizer(_ enable: Bool) {
-        mediaPreview?.shouldPanGesture = enable
-        if mediaPreview?.shouldPanGesture == false {
-            mediaPreview?.endPanGestureRecognizer()
+        
+        guard mediaPreview?.shouldPanGesture != enable else { return }
+        
+        if enable == false {
+            mediaPreview?.endPanGestureRecognizer({ [weak self] in
+                self?.mediaPreview?.shouldPanGesture = enable
+            })
         }
     }
     

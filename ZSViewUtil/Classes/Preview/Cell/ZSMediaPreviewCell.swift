@@ -156,6 +156,11 @@ import UIKit
         
         guard scrollView.contentSize != .zero else { return }
         
+        guard scrollView.zoomScale == 1 else {
+            delegate?.zs_mediaPreviewCellScrollViewShouldPanGestureRecognizer(false)
+            return
+        }
+        
         if scrollView.contentOffset.y > 0 {
             delegate?.zs_mediaPreviewCellScrollViewShouldPanGestureRecognizer(false)
         }
@@ -164,7 +169,7 @@ import UIKit
         
         let shouldPanGesture = scrollView.contentOffset.y < -scrollLimit
         
-        guard shouldPanGesture && scrollView.zoomScale == 1 else { return }
+        guard shouldPanGesture else { return }
         
         delegate?.zs_mediaPreviewCellScrollViewShouldPanGestureRecognizer(shouldPanGesture)
         

@@ -209,7 +209,7 @@ import UIKit
  */
 @objc extension ZSMediaPreview {
     
-    open func endPanGestureRecognizer() {
+    open func endPanGestureRecognizer(_ complete: (()->Void)? = nil) {
         
         UIView.animate(withDuration: 0.25, animations: { [weak self] in
             self?.contentView.transform = CGAffineTransform.identity
@@ -219,6 +219,8 @@ import UIKit
             self?.reset()
             self?.contentView.isHidden = false
             self?.mediaPreviewSnapshotView = nil
+            guard complete != nil else { return }
+            complete!()
         }
     }
     
