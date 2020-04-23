@@ -179,7 +179,7 @@ import UIKit
         UIView.animate(withDuration: 0.3, animations: { [weak self] in
             
             self?.backgroundColor = UIColor.black.withAlphaComponent(0)
-            self?.mediaPreviewSnapshotView?.frame = self?.lastFrame ?? .zero
+            self?.getMediaPreviewSnapshotView().frame = self?.lastFrame ?? .zero
             
         }) { [weak self] (finished) in
             

@@ -287,6 +287,8 @@ import UIKit
             mediaPreview?.endPanGestureRecognizer({ [weak self] in
                 self?.mediaPreview?.shouldPanGesture = enable
             })
+        } else {
+            mediaPreview?.shouldPanGesture = enable
         }
     }
     
