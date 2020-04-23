@@ -13,8 +13,9 @@ import UIKit
     /// 长按的回调，用于处理长按事件，开启长按事件时有效
     /// - Parameters:
     ///   - mediaFile: 媒体文件
+    ///   - image: thumbImage，若 type = Image且 没有 thumbImage，则为 mediaFile 加载完的图片
     ///   - type: 文件类型
-    @objc optional func zs_previewLongPress(from mediaFile: Any?, type: ZSMediaType)
+    @objc optional func zs_previewLongPress(from mediaFile: Any?, image: UIImage?, type: ZSMediaType)
     
     /// 视图滚动的回调
     /// - Parameter index: 滚动视图的索引
@@ -306,8 +307,25 @@ import UIKit
         guard let indexPath = mediaPreview?.collectionView.indexPath(for: collectionCell) else { return }
         
         let model = medias[indexPath.item]
+
+        var image: UIImage?
         
-        delegate?.zs_previewLongPress?(from: model.mediaFile, type: model.mediaType)
+        switch model.mediaType {
+        case .Image:
+            
+            guard let imageCell = collectionCell as? ZSImagePreviewCell else { break }
+            image = imageCell.imageView.image
+            break
+        case .Video:
+            
+            guard let videoCell = collectionCell as? ZSVideoPreviewCell else { break }
+            image = videoCell.imageView.image
+            break
+        case .Audio:
+            break
+        }
+        
+        delegate?.zs_previewLongPress?(from: model.mediaFile, image: image, type: model.mediaType)
     }
     
     open func zs_mediaPreviewCellMediaDidChangePlay(status: ZSPlayerStatus) {
