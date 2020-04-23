@@ -113,7 +113,7 @@ import UIKit
         
         rootVC?.view.addSubview(self)
         
-        collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .centeredHorizontally, animated: false)
+//
         
         let fromViewSnapshotView = view?.snapshotView(afterScreenUpdates: false)
         
@@ -143,6 +143,7 @@ import UIKit
             
         }) { [weak self] (finished) in
             
+            self?.collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .centeredHorizontally, animated: false)
             self?.contentView.isHidden = false
             fromViewSnapshotView?.isHidden = true
             fromViewSnapshotView?.removeFromSuperview()

@@ -66,7 +66,12 @@ import UIKit
     public var longPressEnable: Bool = false
     
     /// 当前选择的 preview 索引
-    public var currentIndex: Int = 0
+    public var currentIndex: Int {
+        return _currentIndex_
+    }
+    
+    /// 当前选择的 preview 索引
+    var _currentIndex_: Int = 0
     
     /// 媒体放大的最大倍数
     public var maximumZoomScale: CGFloat = 2
@@ -238,7 +243,7 @@ import UIKit
             playerCell?.stop()
         }
         
-        currentIndex = page
+        _currentIndex_ = page
         mediaPreview?.updateFrame(from: delegate?.zs_previewDidScroll?(to: page))
     }
     
