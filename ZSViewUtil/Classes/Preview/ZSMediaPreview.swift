@@ -113,24 +113,25 @@ import UIKit
         
         rootVC?.view.addSubview(self)
         
-        backgroundColor = UIColor.black.withAlphaComponent(0)
-        contentView.isHidden = true
+        layoutSubviews()
+        collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .centeredHorizontally, animated: false)
 
         let fromViewSnapshotView = view?.snapshotView(afterScreenUpdates: false)
         
         if fromViewSnapshotView == nil {
             
-            UIView.animate(withDuration: 0.25, animations: { [weak self] in
-                
+            backgroundColor = UIColor.black.withAlphaComponent(0)
+            contentView.alpha = 0
+
+            UIView.animate(withDuration: 0.25) { [weak self] in
                 self?.backgroundColor = UIColor.black.withAlphaComponent(1)
-                
-            }) { [weak self] (finished) in
-                
-                self?.collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .centeredHorizontally, animated: false)
-                self?.contentView.isHidden = false
+                self?.contentView.alpha = 1
             }
             return
         }
+        
+        backgroundColor = UIColor.black.withAlphaComponent(0)
+        contentView.isHidden = true
 
         updateFrame(from: view)
         fromViewSnapshotView?.frame = lastFrame
@@ -150,7 +151,6 @@ import UIKit
             
         }) { [weak self] (finished) in
             
-            self?.collectionView.scrollToItem(at: IndexPath(item: index, section: 0), at: .centeredHorizontally, animated: false)
             self?.contentView.isHidden = false
             fromViewSnapshotView?.isHidden = true
             fromViewSnapshotView?.removeFromSuperview()
