@@ -75,7 +75,7 @@ import UIKit
     var _currentIndex_: Int = 0
     
     /// 媒体放大的最大倍数
-    public var maximumZoomScale: CGFloat = 2
+    public var maximumZoomScale: CGFloat = 3
     
     /// 媒体缩小的最小倍数
     public var minimumZoomScale: CGFloat = 1
@@ -231,8 +231,6 @@ import UIKit
         
         guard currentIndex != page else { return }
         
-        mediaPreview?.shouldPanGesture = true
-        
         let cell = mediaPreview?.collectionView.cellForItem(at: IndexPath(item: currentIndex, section: 0)) as? ZSMediaPreviewCell
         
         cell?.zoomToOrigin()
@@ -243,6 +241,12 @@ import UIKit
             let playerCell = cell as? ZSPlayerPreviewCell
             playerCell?.stop()
         }
+        
+        let next = mediaPreview?.collectionView.cellForItem(at: IndexPath(item: page, section: 0)) as? ZSMediaPreviewCell
+        
+        let shouldPanGesture = !((next?.zoomScrollView.contentOffset.y ?? 0) > 0)
+        
+        mediaPreview?.shouldPanGesture = shouldPanGesture
         
         _currentIndex_ = page
         mediaPreview?.updateFrame(from: delegate?.zs_previewDidScroll?(to: page))

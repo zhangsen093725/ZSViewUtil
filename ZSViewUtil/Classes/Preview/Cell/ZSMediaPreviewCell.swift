@@ -29,7 +29,11 @@ import UIKit
     
     var isBeginDecelerating: Bool = false
     
-    var scrollLimit: CGFloat = 0
+    var scrollLimit: CGFloat {
+        return zoomScrollView.contentSize.height <= zoomScrollView.frame.height ?
+            (zoomScrollView.contentSize.height - zoomScrollView.frame.height) :
+            zoomScrollView.frame.height * 0.15
+    }
     
     weak var delegate: ZSMediaPreviewCellDelegate? {
         didSet {
@@ -62,7 +66,6 @@ import UIKit
     open override func layoutSubviews() {
         super.layoutSubviews()
         zoomScrollView.frame = CGRect(x: 0, y: 0, width: contentView.frame.width - previewLineSpacing, height: contentView.frame.height)
-        scrollLimit = zoomScrollView.frame.height * 0.15
         customLoadingView?.frame = CGRect(x: (contentView.frame.width - 75) * 0.5, y: (contentView.frame.height - 75) * 0.5, width: 75, height: 75)
     }
     
