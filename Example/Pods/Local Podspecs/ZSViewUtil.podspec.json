@@ -1,9 +1,9 @@
 {
   "name": "ZSViewUtil",
-  "version": "0.4.0",
+  "version": "0.4.84",
   "summary": "自定义 View",
   "description": "包含 Web、Toast、Animation、Player等等",
-  "homepage": "https://github.com/zhangsen093725/ZSViewUtil",
+  "homepage": "https://gitee.com/zhangsen093725/ZSViewUtil",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -12,8 +12,8 @@
     "zhangsen093725": "376019018@qq.com"
   },
   "source": {
-    "git": "https://github.com/zhangsen093725/ZSViewUtil.git",
-    "tag": "0.4.0"
+    "git": "https://gitee.com/zhangsen093725/ZSViewUtil.git",
+    "tag": "0.4.84"
   },
   "swift_versions": "5.0",
   "platforms": {
@@ -23,14 +23,6 @@
   "resource_bundles": {
     "ZSViewUtil": [
       "ZSViewUtil/Assets/**/*"
-    ]
-  },
-  "dependencies": {
-    "SDWebImage": [
-
-    ],
-    "Kingfisher": [
-
     ]
   },
   "subspecs": [
@@ -63,6 +55,10 @@
           "source_files": "ZSViewUtil/Classes/FlowLayout/Plain/**/*"
         }
       ]
+    },
+    {
+      "name": "Image",
+      "source_files": "ZSViewUtil/Classes/Image/**/*"
     },
     {
       "name": "LoopScroll",

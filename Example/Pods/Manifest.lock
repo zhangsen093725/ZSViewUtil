@@ -1,35 +1,18 @@
 PODS:
-  - Kingfisher (5.13.3):
-    - Kingfisher/Core (= 5.13.3)
-  - Kingfisher/Core (5.13.3)
-  - SDWebImage (5.7.0):
-    - SDWebImage/Core (= 5.7.0)
-  - SDWebImage/Core (5.7.0)
-  - ZSViewUtil (0.4.0):
-    - Kingfisher
-    - SDWebImage
-    - ZSViewUtil/All (= 0.4.0)
-  - ZSViewUtil/All (0.4.0):
-    - Kingfisher
-    - SDWebImage
+  - ZSViewUtil (0.4.84):
+    - ZSViewUtil/All (= 0.4.84)
+  - ZSViewUtil/All (0.4.84)
 
 DEPENDENCIES:
   - ZSViewUtil (from `../`)
-
-SPEC REPOS:
-  trunk:
-    - Kingfisher
-    - SDWebImage
 
 EXTERNAL SOURCES:
   ZSViewUtil:
     :path: "../"
 
 SPEC CHECKSUMS:
-  Kingfisher: d2b3d6a7200c93b34de9afcdf25c8dd9282ec277
-  SDWebImage: a99471f452bdfa0ca52ddf5b1adf2b61cab1d1eb
-  ZSViewUtil: c2885951d54b650cf9dfadf89ec16ae34554eaa0
+  ZSViewUtil: c6baf2ef359b748e19455a42ead0d05ec793cfd5
 
-PODFILE CHECKSUM: d886b760df95e1c9826d5a86bed20a77e8aa177f
+PODFILE CHECKSUM: 8e32fff2ec69e6c5bf26d645bb3ad2f76b35b3e1
 
 COCOAPODS: 1.9.0

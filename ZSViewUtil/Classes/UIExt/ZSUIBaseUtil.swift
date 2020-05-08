@@ -9,11 +9,48 @@ import Foundation
 
 // MARK: - UITableView扩展
 @objc extension UITableView {
+    
     open override func willMove(toSuperview newSuperview: UIView?) {
         super.willMove(toSuperview: newSuperview)
         self.estimatedRowHeight = 0
         self.estimatedSectionFooterHeight = 0
         self.estimatedSectionHeaderHeight = 0
+    }
+}
+
+// MARK: - UITableViewCell扩展
+@objc public extension UITableViewCell {
+    
+    class var identifier: String {
+        return NSStringFromClass(self)
+    }
+    
+    class var rowHeight: CGFloat {
+        return 44
+    }
+    
+    class func calculationCellHeight() -> CGFloat {
+        return rowHeight
+    }
+}
+
+// MARK: - UICollectionViewCell扩展
+@objc public extension UICollectionViewCell {
+    
+    class var identifier: String {
+        return NSStringFromClass(self)
+    }
+    
+    class var itemSize: CGSize {
+        return .zero
+    }
+    
+    class var itemEdgeInsets: UIEdgeInsets {
+        return .zero
+    }
+    
+    class func calculationCellSize() -> CGSize {
+        return itemSize
     }
 }
 
