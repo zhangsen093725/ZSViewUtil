@@ -28,11 +28,15 @@ import Foundation
     class var rowHeight: CGFloat {
         return 44
     }
+}
+
+@objc extension UITableViewCell {
     
-    class func calculationCellHeight() -> CGFloat {
+    open class func calculationCellHeight() -> CGFloat {
         return rowHeight
     }
 }
+
 
 // MARK: - UICollectionViewCell扩展
 @objc public extension UICollectionViewCell {
@@ -48,8 +52,11 @@ import Foundation
     class var itemEdgeInsets: UIEdgeInsets {
         return .zero
     }
+}
+
+@objc extension UICollectionViewCell {
     
-    class func calculationCellSize() -> CGSize {
+    open class func calculationCellSize() -> CGSize {
         return itemSize
     }
 }
