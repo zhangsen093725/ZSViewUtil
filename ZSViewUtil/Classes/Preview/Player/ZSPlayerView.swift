@@ -100,7 +100,7 @@ import AVKit
         
         let av_playerLayer = AVPlayerLayer()
         layer.insertSublayer(av_playerLayer, at: 0)
-
+        
         return av_playerLayer
     }()
     
@@ -196,7 +196,14 @@ private extension Timer {
 @objc public extension ZSPlayerView {
     
     func preparePlay() {
-
+        
+        guard urlString != nil else {
+            
+            let error: NSError = NSError.init(domain: "未设置资源的url", code: 404, userInfo: [NSLocalizedDescriptionKey : "URL资源加载错误"])
+            delegate?.zs_movieFailed?(self, error: error)
+            return
+        }
+        
         _playStatus_ = .loading
         delegate?.zs_movieChangePalyStatus?(self, status: _playStatus_)
         
@@ -209,7 +216,7 @@ private extension Timer {
         }
         
         guard playUrl != nil else { return }
-
+        
         av_playerLayer.player = AVPlayer(url: playUrl!)
         
         addPlayerTimeObserver()
