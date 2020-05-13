@@ -8,8 +8,8 @@
 
 import UIKit
 import ZSViewUtil
-import SDWebImage
-import Kingfisher
+//import SDWebImage
+//import Kingfisher
 
 class MediaPreviewDemoController: UIViewController, ZSMediaPreviewLoadServeDelegate {
     
@@ -124,7 +124,7 @@ class MediaPreviewDemoController: UIViewController, ZSMediaPreviewLoadServeDeleg
     
     func zs_imageView(_ imageView: UIImageView, load imageURL: URL) {
         
-        imageView.sd_setImage(with: imageURL, completed: nil)
+//        imageView.sd_setImage(with: imageURL, completed: nil)
         
     }
 }

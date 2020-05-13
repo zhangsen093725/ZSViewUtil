@@ -1,6 +1,6 @@
 {
   "name": "ZSViewUtil",
-  "version": "0.4.84",
+  "version": "0.4.87",
   "summary": "自定义 View",
   "description": "包含 Web、Toast、Animation、Player等等",
   "homepage": "https://gitee.com/zhangsen093725/ZSViewUtil",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://gitee.com/zhangsen093725/ZSViewUtil.git",
-    "tag": "0.4.84"
+    "tag": "0.4.87"
   },
   "swift_versions": "5.0",
   "platforms": {
