@@ -148,6 +148,12 @@ import UIKit
         perform(#selector(beginAutoLoopCube), with: nil, afterDelay: interval + 0.5)
     }
     
+    /// 刷新数据源
+    public func reloadDataSource() {
+        
+        layoutSubviews()
+    }
+    
     open func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         
     }
