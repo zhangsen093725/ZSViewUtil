@@ -37,9 +37,15 @@ import UIKit
     ///   - loopScrollView: loopScrollView
     ///   - index: 当前的index
     func zs_loopScrollView(_ loopScrollView: ZSLoopScrollView, didSelectedItemFor index: Int)
+    
+    /// 滚动视图的回调
+    /// - Parameters:
+    ///   - loopScrollView: loopScrollView
+    ///   - index: 当前的index
+    func zs_loopScrollViewDidScroll(_ loopScrollView: ZSLoopScrollView, index: Int)
 }
 
-@objcMembers public class ZSLoopScrollView: UIView, UIScrollViewDelegate {
+@objcMembers open class ZSLoopScrollView: UIView, UIScrollViewDelegate {
     
     /// scrollView
     public var scrollView: UIScrollView {
@@ -92,7 +98,7 @@ import UIKit
     /// 是否开启循环滚动，默认是true
     public var isLoopScroll: Bool = true
     
-    override public func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
         scrollView.frame = bounds
         
@@ -248,6 +254,8 @@ import UIKit
         }
         
         pageControl.currentPage = Int(scrollView.contentOffset.x / scrollView.frame.width - 1)
+        
+        delegate?.zs_loopScrollViewDidScroll(self, index: pageControl.currentPage)
     }
     
     open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {

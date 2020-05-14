@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'ZSViewUtil'
-    s.version          = '0.4.89'
+    s.version          = '0.4.91'
     s.summary          = '自定义 View'
     
     # This description is used to generate tags and improve search results.
