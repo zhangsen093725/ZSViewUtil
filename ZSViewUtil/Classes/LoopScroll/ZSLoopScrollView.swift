@@ -98,6 +98,9 @@ import UIKit
     /// 是否开启循环滚动，默认是true
     public var isLoopScroll: Bool = true
     
+    /// 是否隐藏PageControl，默认是false
+    public var isHiddenPageControl: Bool = false
+    
     override open func layoutSubviews() {
         super.layoutSubviews()
         scrollView.frame = bounds
@@ -154,7 +157,7 @@ import UIKit
         guard pageCount > 0 else { return }
         
         pageControl.numberOfPages = _pageCount_
-        pageControl.isHidden = pageCount == 1
+        pageControl.isHidden = isHiddenPageControl ? pageCount == 1 : isHiddenPageControl
         
         for page in 0..<pageCount {
             
