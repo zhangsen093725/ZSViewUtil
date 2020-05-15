@@ -239,8 +239,12 @@ import UIKit
     // TODO: UIScrollViewDelegate
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
+        let currentPage = Int(scrollView.contentOffset.x / scrollView.frame.width + 0.5)
+        
+        delegate?.zs_loopScrollViewDidScroll(self, index: pageControl.currentPage)
+        
         guard isLoopScroll else {
-            pageControl.currentPage = Int(scrollView.contentOffset.x / scrollView.frame.width + 0.5)
+            pageControl.currentPage = currentPage
             return
         }
         
@@ -254,8 +258,6 @@ import UIKit
         }
         
         pageControl.currentPage = Int(scrollView.contentOffset.x / scrollView.frame.width - 1)
-        
-        delegate?.zs_loopScrollViewDidScroll(self, index: pageControl.currentPage)
     }
     
     open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
