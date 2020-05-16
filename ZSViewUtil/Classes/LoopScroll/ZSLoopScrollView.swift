@@ -231,6 +231,10 @@ import UIKit
         scrollView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: true)
     }
     
+    deinit {
+        endAutoLoopScroll()
+    }
+    
     // TODO: Action
     @objc func didSelected(_ sender: UIButton) {
         

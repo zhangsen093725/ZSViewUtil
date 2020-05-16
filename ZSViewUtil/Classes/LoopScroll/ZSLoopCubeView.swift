@@ -16,7 +16,7 @@ import UIKit
     /// 滚动到的视图
     /// - Parameters:
     ///   - loopCubeView: loopCubeView
-    func zs_loopCubeView(_ loopCubeView: ZSLoopCubeView) -> UIView
+    func zs_loopCubeView(_ loopCubeView: ZSLoopCubeView, index: Int) -> UIView
 }
 
 @objc public protocol ZSLoopCubeViewDelegate {
@@ -40,7 +40,7 @@ import UIKit
 }
 
 
-@objcMembers open class ZSLoopCubeView: UIView, CAAnimationDelegate {
+@objcMembers open class ZSLoopCubeView: UIView {
     
     var timer: Timer?
     var cubeCount: Int = 0
@@ -57,6 +57,9 @@ import UIKit
     
     /// 自动滚动的间隔时长，默认是 3 秒
     public var interval: TimeInterval = 3
+    
+    /// cube动画时长，默认是 0.5 秒
+    public var duration: TimeInterval = 0.5
     
     /// 是否开启循环滚动，默认是true
     public var isLoopCube: Bool = true
@@ -83,49 +86,49 @@ import UIKit
         
         isLoopCube = isLoopCube ? cubeCount > 1 : isLoopCube
         
-        refreshItemUI(cubeCount)
+        viewWithIndex(101)?.frame = bounds
+        
+        beginAutoLoopCube()
     }
     
     @objc func didSelectedCube() {
         delegate?.zs_loopCubeView(self, didSelectedItemFor: index)
     }
     
-    func viewWithIndex(_ index: Int) -> UIView? {
+    func viewWithIndex(_ tag: Int) -> UIView? {
         
-        if let view = viewWithTag(101) {
+        if let view = viewWithTag(tag) {
             return view
         }
         
-        guard let view = dataSource?.zs_loopCubeView(self) else { return nil }
-        view.tag = 101
-        view.frame = bounds
+        guard let view = dataSource?.zs_loopCubeView(self, index: index) else { return nil }
+        view.tag = tag
         contentView.addSubview(view)
+        
         return view
     }
     
-    func refreshItemUI(_ pageCount: Int) {
-        
-        guard pageCount > 0 else { return }
-        
-        beginAutoLoopCube()
-    }
-    
-    @objc func beginAutoLoopCube() {
+    @objc func beginCubeAnimation() {
         
         guard let view = viewWithIndex(101) else { return }
-        
-        guard isAutoScroll else { return }
         
         if isLoopCube {
             index = index >= cubeCount ? 0 : index
         }
         
-        guard index < cubeCount else { return }
+        guard index < cubeCount - 1 else { return }
+        
+        view.layer.add(cubeAnimation, forKey: "animation")
+        index += 1
+        delegate?.zs_loopCubeFinishView(self, index: index)
+    }
+    
+    open var cubeAnimation: CATransition {
         
         let animation = CATransition()
-        animation.duration = 0.5
+        animation.duration = duration
         animation.type = CATransitionType(rawValue: "cube")
-        animation.delegate = self
+        animation.isRemovedOnCompletion = true
         
         switch cubFrom {
         case .top:
@@ -141,21 +144,41 @@ import UIKit
             animation.subtype = .fromRight
             break
         }
+        return animation
+    }
+    
+    func beginAutoLoopCube() {
         
-        delegate?.zs_loopCubeFinishView(self, index: index)
-        view.layer.add(animation, forKey: "animation")
-        index += 1
-        perform(#selector(beginAutoLoopCube), with: nil, afterDelay: interval + 0.5)
+        guard isAutoScroll else { return }
+        
+        guard timer == nil else { return }
+        
+        timer = Timer.loopCube_supportiOS_10EarlierTimer(interval + duration, repeats: true, block: { [weak self] (timer) in
+            
+            self?.autoLoopCube()
+        })
+        RunLoop.current.add(timer!, forMode: .common)
+    }
+    
+    func endAutoLoopCube() {
+        
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    func autoLoopCube() {
+        beginCubeAnimation()
     }
     
     /// 刷新数据源
     public func reloadDataSource() {
-        
+        index = 0
+        viewWithIndex(101)?.removeFromSuperview()
         layoutSubviews()
     }
     
-    open func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
-        
+    deinit {
+        endAutoLoopCube()
     }
 }
 
