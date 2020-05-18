@@ -113,7 +113,7 @@ import UIKit
         guard let view = viewWithIndex(101) else { return }
         
         if isLoopCube {
-            index = index >= cubeCount ? 0 : index
+            index = index >= cubeCount - 1 ? 0 : index
         }
         
         guard index < cubeCount - 1 else { return }
