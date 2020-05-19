@@ -157,7 +157,7 @@ import UIKit
         guard pageCount > 0 else { return }
         
         pageControl.numberOfPages = _pageCount_
-        pageControl.isHidden = isHiddenPageControl ? pageCount == 1 : isHiddenPageControl
+        pageControl.isHidden = isHiddenPageControl ? isHiddenPageControl : pageCount == 1
         
         for page in 0..<pageCount {
             
