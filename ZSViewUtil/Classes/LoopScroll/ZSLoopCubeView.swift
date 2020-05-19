@@ -110,16 +110,18 @@ import UIKit
     
     @objc func beginCubeAnimation() {
         
-        guard let view = viewWithIndex(101) else { return }
-        
-        if isLoopCube {
-            index = index >= cubeCount - 1 ? 0 : index
+        guard let view = viewWithIndex(101) else {
+            endAutoLoopCube()
+            return
         }
         
-        guard index < cubeCount - 1 else { return }
+        index = isLoopCube ? (index >= cubeCount - 1 ? 0 : index + 1) : index + 1
         
+        guard index < cubeCount else {
+            endAutoLoopCube()
+            return
+        }
         view.layer.add(cubeAnimation, forKey: "animation")
-        index += 1
         delegate?.zs_loopCubeFinishView(self, index: index)
     }
     

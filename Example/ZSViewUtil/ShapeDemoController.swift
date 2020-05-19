@@ -12,26 +12,7 @@ import ZSViewUtil
 class ShapeDemoController: UIViewController, ZSLoopCubeViewDelegate, ZSLoopCubeViewDataSource {
     
     let videoFile = ["https://img.jinsom.cn/user_files/13470/publish/file/file-2018-12-29-21-15-15.mp4",
-                     "/280443.mp4",
-                     "/276982.mp4",
-                     "/276984.mp4",
-                     "/276985.mp4",
-                     "/276986.mp4",
-                     "/276987.mp4",
-                     "/276988.mp4",
-                     "/276989.mp4",
-                     "/276990.mp4",
-                     "/276991.mp4",
-                     "/276992.mp4",
-                     "/276993.mp4",
-                     "/276994.mp4",
-                     "/276996.mp4",
-                     "/276998.mp4",
-                     "/277000.mp4",
-                     "/277001.mp4",
-                     "/277002.mp4",
-                     "/277003.mp4",
-                     "/277004.mp4"]
+                     "/280443.mp4"]
     
     lazy var shapeView: UIView = {
         
@@ -70,7 +51,7 @@ class ShapeDemoController: UIViewController, ZSLoopCubeViewDelegate, ZSLoopCubeV
         // Do any additional setup after loading the view, typically from a nib.
         view.backgroundColor = .white
         
-        loop()
+//        loop()
     }
     
     func loop() {
