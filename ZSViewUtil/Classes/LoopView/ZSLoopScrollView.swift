@@ -17,16 +17,12 @@ import UIKit
     /// - Parameters:
     ///   - loopScrollView: loopScrollView
     ///   - index: 当前的index
-    ///   - isFirst: 当前视图是否是第一个，只在 isLoopScroll = true 时有效
-    ///   - isLast: 当前视图是否是最后一个，只在 isLoopScroll = true 时有效
     func zs_loopScrollView(_ loopScrollView: ZSLoopScrollView, itemAt index: Int) -> UIView
     
     /// 滚动到的视图的Size
     /// - Parameters:
     ///   - loopScrollView: loopScrollView
     ///   - index: 当前的index
-    ///   - isFirst: 当前视图是否是第一个，只在 isLoopScroll = true 时有效
-    ///   - isLast: 当前视图是否是最后一个，只在 isLoopScroll = true 时有效
     func zs_loopScrollView(_ loopScrollView: ZSLoopScrollView, sizeAt index: Int) -> CGSize
 }
 
@@ -109,6 +105,8 @@ import UIKit
         
         isLoopScroll = isLoopScroll ? _pageCount_ > 1 : isLoopScroll
         
+        isAutoScroll = isAutoScroll ? _pageCount_ > 1 : isAutoScroll
+        
         _loopPageCount_ = (isLoopScroll ? _pageCount_ + 2 : _pageCount_)
         
         scrollView.contentSize = CGSize(width: CGFloat(_loopPageCount_) * frame.width, height: 0)
@@ -127,7 +125,9 @@ import UIKit
     
     public func view(with index: Int) -> UIView? {
         
-        return scrollView.viewWithTag(index + 101)
+        let tag = index + 101
+        
+        return scrollView.viewWithTag(tag)
     }
     
     /// 刷新数据源
@@ -138,7 +138,7 @@ import UIKit
     
     func getContentView(for index: Int) -> UIButton {
         
-        var contentView: UIButton? = viewWithIndex(index)
+        var contentView: UIButton? = scrollView.viewWithTag(1001 + index) as? UIButton
         
         if contentView == nil {
             
@@ -161,7 +161,7 @@ import UIKit
         
         for page in 0..<pageCount {
             
-            var index = page
+            var index = page + 1
             
             if isLoopScroll {
                 
@@ -174,13 +174,12 @@ import UIKit
             guard size.width > 0 && size.height > 0 else { continue }
             
             guard let view = dataSource?.zs_loopScrollView(self, itemAt: index - 1) else { continue }
+            view.tag = 101 + page
             view.isUserInteractionEnabled = false
             
             let contentView = getContentView(for: page)
             
             let subFrame: CGRect = CGRect(x: (scrollView.frame.width - size.width) * 0.5 + scrollView.frame.width * CGFloat(page), y: (scrollView.frame.height - size.height) * 0.5, width: size.width, height: size.height)
-            
-            let subTag = 101 + page
             
             contentView.frame = subFrame
             view.frame = contentView.bounds
@@ -189,7 +188,7 @@ import UIKit
                 contentView.addSubview(view)
             }
             
-            contentView.tag = subTag
+            contentView.tag = 1001 + page
         }
         
         beginAutoLoopScroll()
@@ -227,33 +226,42 @@ import UIKit
     // TODO: Action
     @objc func didSelected(_ sender: UIButton) {
         
-        let index = sender.tag - 101
-        delegate?.zs_loopScrollView(self, didSelectedItemFor: index)
+        let page = sender.tag - 1001
+        var index = page + 1
+        
+        if isLoopScroll {
+            
+            index = page == _loopPageCount_ - 1 ? 1 : page
+            index = page == 0 ? _pageCount_ : index
+        }
+
+        delegate?.zs_loopScrollView(self, didSelectedItemFor: index - 1)
     }
     
     
     // TODO: UIScrollViewDelegate
     open func scrollViewDidScroll(_ scrollView: UIScrollView) {
+
+        if isLoopScroll {
+            
+            if scrollView.contentOffset.x <= 0 {
+                
+                scrollView.setContentOffset(CGPoint(x: scrollView.frame.width * CGFloat(_pageCount_), y: 0), animated: false)
+                
+            } else if Int(scrollView.contentOffset.x) >= Int(scrollView.frame.width) * (_loopPageCount_ - 1) {
+
+                scrollView.setContentOffset(CGPoint(x: scrollView.frame.width, y: 0), animated: false)
+            }
+        }
         
         let currentPage = Int(scrollView.contentOffset.x / scrollView.frame.width + 0.5)
+        let prePage = pageControl.currentPage + (isLoopScroll ? 1 : 0)
         
-       delegate?.zs_loopScrollViewDidScroll(self, index: pageControl.currentPage)
+        guard currentPage != prePage else { return }
         
-        guard isLoopScroll else {
-            pageControl.currentPage = currentPage
-            return
-        }
+        pageControl.currentPage = isLoopScroll ? currentPage - 1 : currentPage
         
-        if scrollView.contentOffset.x <= 0 {
-            
-            scrollView.setContentOffset(CGPoint(x: scrollView.frame.width * CGFloat(_pageCount_), y: 0), animated: false)
-            
-        } else if Int(scrollView.contentOffset.x) >= Int(scrollView.frame.width) * (_loopPageCount_ - 1) {
-
-            scrollView.setContentOffset(CGPoint(x: scrollView.frame.width, y: 0), animated: false)
-        }
-        
-        pageControl.currentPage = Int(scrollView.contentOffset.x / scrollView.frame.width - 1)
+        delegate?.zs_loopScrollViewDidScroll(self, index: pageControl.currentPage)
     }
     
     open func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {

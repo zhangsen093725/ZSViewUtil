@@ -38,10 +38,12 @@ class LoopScrollViewController: UIViewController, ZSLoopScrollViewDelegate, ZSLo
     
     func zs_loopScrollViewDidScroll(_ loopScrollView: ZSLoopScrollView, index: Int) {
         
+        print(index)
+        
     }
     
     func zs_loopScrollView(_ loopScrollView: ZSLoopScrollView, itemAt index: Int) -> UIView {
-        
+
         let view = UIView()
         view.backgroundColor = KColor(CGFloat(index * 125), CGFloat(index * 125), CGFloat(index * 125), 1)
         return view
@@ -53,6 +55,8 @@ class LoopScrollViewController: UIViewController, ZSLoopScrollViewDelegate, ZSLo
     }
     
     func zs_loopScrollView(_ loopScrollView: ZSLoopScrollView, didSelectedItemFor index: Int) {
+        
+        print(index)
         
     }
 }
