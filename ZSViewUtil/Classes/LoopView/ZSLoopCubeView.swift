@@ -9,28 +9,27 @@ import UIKit
 
 @objc public protocol ZSLoopCubeViewDataSource {
     
-    /// 滚动视图的总数
+    /// CubeView Content的总数
     /// - Parameter loopCubeView: loopCubeView
     func zs_numberOfItemLoopCubeView(_ loopCubeView: ZSLoopCubeView) -> Int
     
-    /// 滚动到的视图
+    /// CubeView ContentView
     /// - Parameters:
     ///   - loopCubeView: loopCubeView
-    func zs_loopCubeView(_ loopCubeView: ZSLoopCubeView, index: Int) -> UIView
+    func zs_loopCubeContentView(_ loopCubeView: ZSLoopCubeView) -> UIView
 }
 
 @objc public protocol ZSLoopCubeViewDelegate {
     
-    /// 滚动视图Item的点击
+    ///CubeView ContentView的点击
     /// - Parameters:
     ///   - loopScrollView: loopScrollView
     ///   - index: 当前view展示的index
     func zs_loopCubeView(_ loopCubeView: ZSLoopCubeView, didSelectedItemFor index: Int)
     
-    /// 滚动到的视图
+    /// CubeView动画完成
     /// - Parameters:
     ///   - loopCubeView: loopCubeView
-    ///   - index: 当前view展示的index
     func zs_loopCubeFinishView(_ loopCubeView: ZSLoopCubeView, index: Int)
 }
 
@@ -86,7 +85,7 @@ import UIKit
         
         isLoopCube = isLoopCube ? cubeCount > 1 : isLoopCube
         
-        viewWithIndex(101)?.frame = bounds
+        cubeContentView?.frame = bounds
         
         beginAutoLoopCube()
     }
@@ -95,22 +94,17 @@ import UIKit
         delegate?.zs_loopCubeView(self, didSelectedItemFor: index)
     }
     
-    func viewWithIndex(_ tag: Int) -> UIView? {
+    var cubeContentView: UIView? {
         
-        if let view = viewWithTag(tag) {
-            return view
-        }
-        
-        guard let view = dataSource?.zs_loopCubeView(self, index: index) else { return nil }
-        view.tag = tag
+        guard let view = dataSource?.zs_loopCubeContentView(self) else { return nil }
+        view.isUserInteractionEnabled = false
         contentView.addSubview(view)
-        
         return view
     }
     
     @objc func beginCubeAnimation() {
         
-        guard let view = viewWithIndex(101) else {
+        guard let view = cubeContentView else {
             endAutoLoopCube()
             return
         }
@@ -175,7 +169,6 @@ import UIKit
     /// 刷新数据源
     public func reloadDataSource() {
         index = 0
-        viewWithIndex(101)?.removeFromSuperview()
         layoutSubviews()
     }
     
