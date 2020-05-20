@@ -67,8 +67,8 @@ Pod::Spec.new do |s|
         i.source_files = 'ZSViewUtil/Classes/Image/**/*'
     end
     
-    s.subspec 'LoopScroll' do |l|
-        l.source_files = 'ZSViewUtil/Classes/LoopScroll/**/*'
+    s.subspec 'LoopView' do |l|
+        l.source_files = 'ZSViewUtil/Classes/LoopView/**/*'
     end
     
     s.subspec 'Layer' do |ly|
