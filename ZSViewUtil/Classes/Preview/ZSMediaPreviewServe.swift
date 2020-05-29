@@ -106,7 +106,7 @@ import UIKit
         _mediaPreview_ = nil
     }
     
-    func zs_configTabPageCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func zs_configCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let model = medias[indexPath.item]
         
@@ -114,13 +114,13 @@ import UIKit
         
         switch model.mediaType {
         case .Image:
-            cell = zs_configTabPageImageCell(collectionView, cellForItemAt: indexPath, model: model)
+            cell = zs_configImageCell(collectionView, cellForItemAt: indexPath, model: model)
             break
         case .Video:
-            cell = zs_configTabPageVideoCell(collectionView, cellForItemAt: indexPath, model: model)
+            cell = zs_configVideoCell(collectionView, cellForItemAt: indexPath, model: model)
             break
         case .Audio:
-            cell = zs_configTabPageAudioCell(collectionView, cellForItemAt: indexPath, model: model)
+            cell = zs_configAudioCell(collectionView, cellForItemAt: indexPath, model: model)
             break
         default:
             break
@@ -166,7 +166,7 @@ import UIKit
         }
     }
     
-    open func zs_configTabPageImageCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, model: ZSMediaPreviewModel) -> UICollectionViewCell {
+    open func zs_configImageCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, model: ZSMediaPreviewModel) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(ZSImagePreviewCell.self), for: indexPath) as? ZSImagePreviewCell
         
@@ -187,14 +187,14 @@ import UIKit
         return cell!
     }
     
-    open func zs_configTabPageAudioCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, model: ZSMediaPreviewModel) -> UICollectionViewCell {
+    open func zs_configAudioCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, model: ZSMediaPreviewModel) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(ZSAudioPreviewCell.self), for: indexPath) as? ZSAudioPreviewCell
         cell?.playerView.urlString = model.mediaFile as? String
         return cell!
     }
     
-    open func zs_configTabPageVideoCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, model: ZSMediaPreviewModel) -> UICollectionViewCell {
+    open func zs_configVideoCell(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath, model: ZSMediaPreviewModel) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(ZSVideoPreviewCell.self), for: indexPath) as? ZSVideoPreviewCell
         
@@ -260,7 +260,7 @@ import UIKit
     
     open func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        return zs_configTabPageCell(collectionView, cellForItemAt: indexPath)
+        return zs_configCell(collectionView, cellForItemAt: indexPath)
     }
     
     // TODO: UICollectionViewDelegateFlowLayout
