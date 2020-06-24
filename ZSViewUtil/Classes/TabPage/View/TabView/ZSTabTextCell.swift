@@ -8,12 +8,18 @@
 
 import UIKit
 
-@objcMembers open class ZSTabTextCell: UICollectionViewCell {
+@objcMembers open class ZSTabTextCell: ZSTabCell {
     
     public lazy var titleLabel: UILabel = {
         
         let titleLabel = UILabel()
         titleLabel.textAlignment = .center
+
+        titleLabel.textColor = .black
+        titleLabel.font = .systemFont(ofSize: 16)
+        
+        titleLabel.text = "标题"
+        
         contentView.addSubview(titleLabel)
         return titleLabel
     }()

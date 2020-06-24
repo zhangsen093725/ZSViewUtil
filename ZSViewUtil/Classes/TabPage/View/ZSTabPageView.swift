@@ -12,14 +12,38 @@ import UIKit
     
     open lazy var tabView: ZSTabView = {
         
-        let tabView = ZSTabView()
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        
+       let tabView = ZSTabView(frame: .zero, collectionViewFlowLayout: layout)
+        
+        if #available(iOS 11.0, *) {
+            tabView.contentInsetAdjustmentBehavior = .never
+        }
+        
+        tabView.isPagingEnabled = true
+        tabView.backgroundColor = .clear
+        tabView.showsHorizontalScrollIndicator = false
+        
         addSubview(tabView)
         return tabView
     }()
     
     public lazy var pageView: ZSPageView = {
         
-        let pageView = ZSPageView()
+        let layout = UICollectionViewFlowLayout()
+         layout.scrollDirection = .horizontal
+         
+        let pageView = ZSPageView(frame: .zero, collectionViewLayout: layout)
+         
+         if #available(iOS 11.0, *) {
+             pageView.contentInsetAdjustmentBehavior = .never
+         }
+         
+         pageView.isPagingEnabled = true
+         pageView.backgroundColor = .clear
+         pageView.showsHorizontalScrollIndicator = false
+        
         addSubview(pageView)
         return pageView
     }()

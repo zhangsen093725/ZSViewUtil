@@ -9,24 +9,80 @@
 import UIKit
 import ZSViewUtil
 
+class TableBaseView: UITableView, UIGestureRecognizerDelegate {
+    
+    // TODO: UIGestureRecognizerDelegate
+    open func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        
+        return true
+    }
+}
+
 class TabPageDemoController: UIViewController, ZSPageViewServeDelegate, ZSTabViewServeDataSource {
     
-    lazy var contentView: ZSTabContentView = {
+    public lazy var tableView: TableBaseView = {
         
-        let contentView = ZSTabContentView()
-        view.addSubview(contentView)
-        return contentView
+        let tableView = TableBaseView(frame: .zero, style: .plain)
+        if #available(iOS 11.0, *) {
+            tableView.contentInsetAdjustmentBehavior = .never
+        } else {
+            // Fallback on earlier versions
+        }
+        
+        let header = UIView()
+        header.frame.size.height = 200
+        
+        tableView.tableHeaderView = header
+        
+        view.addSubview(tableView)
+        return tableView
     }()
     
-    lazy var contentServe: ZSTabContentViewServe = {
+    lazy var contentServe: ZSTabPageTablePlainViewServe = {
        
-        let contentServe = ZSTabContentViewServe()
+        let contentServe = ZSTabPageTablePlainViewServe(selectIndex: 2)
         contentServe.pageViewServe.delegate = self
         contentServe.tabViewServe.dataSource = self
         return contentServe
     }()
     
-    var tabTexts: [String] = ["ad", "ap", "lol"]
+    open lazy var tabView: ZSTabView = {
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        
+       let tabView = ZSTabView(frame: .zero, collectionViewFlowLayout: layout)
+        
+        if #available(iOS 11.0, *) {
+            tabView.contentInsetAdjustmentBehavior = .never
+        }
+        
+        tabView.sliderLength = 20
+        tabView.backgroundColor = .clear
+        tabView.showsHorizontalScrollIndicator = false
+    
+        return tabView
+    }()
+    
+    public lazy var pageView: ZSPageView = {
+        
+        let layout = UICollectionViewFlowLayout()
+         layout.scrollDirection = .horizontal
+         
+        let pageView = ZSPageView(frame: .zero, collectionViewLayout: layout)
+         
+         if #available(iOS 11.0, *) {
+             pageView.contentInsetAdjustmentBehavior = .never
+         }
+         
+         pageView.isPagingEnabled = true
+         pageView.backgroundColor = .clear
+         pageView.showsHorizontalScrollIndicator = false
+        
+        return pageView
+    }()
+    
+    var tabTexts: [String] = ["ad", "ap", "lol", "sdja", "jak", "ajja", "iilak"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,15 +91,18 @@ class TabPageDemoController: UIViewController, ZSPageViewServeDelegate, ZSTabVie
         //        ZSIndicatorTextView.startAnimation("哈说丹深爱的")
 //        collectionViewServe.setterDragCollectionView(collectionView)
         
-        contentServe.zs_buildView(contentView)
+        contentServe.zs_bindTableView(tableView, tabView: tabView, pageView: pageView)
         contentServe.tabCount = tabTexts.count
-        contentServe.selectIndex = 2
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.contentServe.zs_setSelectedIndex(6)
+        }
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
 
-        contentView.frame = view.bounds
+        tableView.frame = view.bounds
     }
     
     override func didReceiveMemoryWarning() {
@@ -51,33 +110,51 @@ class TabPageDemoController: UIViewController, ZSPageViewServeDelegate, ZSTabVie
         // Dispose of any resources that can be recreated.
     }
 
-    var tabPageControllers: [TableViewController] = [TableViewController(), TableViewController(), TableViewController()]
+    var tabPageControllers: [TableViewController] = [TableViewController(), TableViewController(), TableViewController(), TableViewController(), TableViewController(), TableViewController(), TableViewController(), TableViewController(), TableViewController()]
     
     // TODO: ZSPageViewServeDelegate
-    func vserve_tabPageView(at index: Int) -> UIView {
+    func zs_pageView(at index: Int) -> UIView {
         
         var controller: TableViewController!
         if (index < tabPageControllers.count) {
             controller = tabPageControllers[index]
         }
-        controller.scrollToTop = contentServe.zs_pageContentViewDidScroll()
-        controller.didMove(toParentViewController: self)
+        controller.scrollToTop = contentServe.zs_tabPageTablePlainViewContentViewDidScroll()
+        controller.didMove(toParent: self)
         return controller.view
     }
     
-    func vserve_tabPageViewWillDisappear(at index: Int) {
+    func zs_pageViewWillDisappear(at index: Int) {
         
         print(index)
     }
     
-    func vserve_tabPageViewWillAppear(at index: Int) {
+    func zs_pageViewWillAppear(at index: Int) {
         
         
     }
     
     // TODO: ZSTabViewServeDataSource
-    func vserve_tabViewText(at index: Int) -> String? {
-        return tabTexts[index]
+    func zs_configTabCellSize(forItemAt index: Int) -> CGSize {
+        
+        return CGSize(width: 100, height: 44)
+    }
+    
+    func zs_configTabCell(_ cell: ZSTabCell, forItemAt index: Int) {
+        
+        let textCell = cell as? ZSTabTextCell
+        
+        let isSelected: Bool = (index == contentServe.selectIndex)
+        
+        let normalTextColor: UIColor = .systemGray
+        let selectedTextColor: UIColor = .black
+        
+        let normalTextFont: UIFont = .systemFont(ofSize: 16)
+        let selectedTextFont: UIFont = .boldSystemFont(ofSize: 16)
+        
+        textCell?.titleLabel.textColor = isSelected ? selectedTextColor : normalTextColor
+        textCell?.titleLabel.font = isSelected ? selectedTextFont : normalTextFont
+        textCell?.titleLabel.text = tabTexts[index]
     }
     
 }

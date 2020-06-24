@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		45C2A2CA7AD7F89C2F188D05 /* Pods_ZSViewUtil_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 644F297BFB71B86FE5DFE1F6 /* Pods_ZSViewUtil_Example.framework */; };
+		4E41B29A24A208CB0045169A /* ZSPlainFlowLayoutServe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E41B29924A208CB0045169A /* ZSPlainFlowLayoutServe.swift */; };
 		521015FA243DD36700854840 /* MediaPreviewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521015F9243DD36700854840 /* MediaPreviewDemoController.swift */; };
 		523828D52474BBEB00BEC45F /* LoopScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523828D42474BBEB00BEC45F /* LoopScrollViewController.swift */; };
 		523828D72474C0E000BEC45F /* LoopCubeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 523828D62474C0E000BEC45F /* LoopCubeViewController.swift */; };
@@ -27,6 +28,7 @@
 /* Begin PBXFileReference section */
 		279176C5C3837861AFB32416 /* Pods-ZSViewUtil_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZSViewUtil_Tests.release.xcconfig"; path = "Target Support Files/Pods-ZSViewUtil_Tests/Pods-ZSViewUtil_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		42C39839D7ECDE3DDBC92564 /* Pods-ZSViewUtil_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZSViewUtil_Tests.debug.xcconfig"; path = "Target Support Files/Pods-ZSViewUtil_Tests/Pods-ZSViewUtil_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		4E41B29924A208CB0045169A /* ZSPlainFlowLayoutServe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSPlainFlowLayoutServe.swift; sourceTree = "<group>"; };
 		521015F9243DD36700854840 /* MediaPreviewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPreviewDemoController.swift; sourceTree = "<group>"; };
 		523828D42474BBEB00BEC45F /* LoopScrollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopScrollViewController.swift; sourceTree = "<group>"; };
 		523828D62474C0E000BEC45F /* LoopCubeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopCubeViewController.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 			children = (
 				521015F9243DD36700854840 /* MediaPreviewDemoController.swift */,
 				52A953162446EC5300CB3BE1 /* CollectionViewDemoController.swift */,
+				4E41B29924A208CB0045169A /* ZSPlainFlowLayoutServe.swift */,
 				52A9531B2446EC5400CB3BE1 /* DragViewDemoController.swift */,
 				52A953182446EC5300CB3BE1 /* ShapeDemoController.swift */,
 				52A953172446EC5300CB3BE1 /* SphereViewController.swift */,
@@ -291,6 +294,7 @@
 				52A9531D2446EC5400CB3BE1 /* CollectionViewDemoController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				52A953232446EC5400CB3BE1 /* TextFieldDemoController.swift in Sources */,
+				4E41B29A24A208CB0045169A /* ZSPlainFlowLayoutServe.swift in Sources */,
 				52A953212446EC5400CB3BE1 /* TabPageDemoController.swift in Sources */,
 				52A9531E2446EC5400CB3BE1 /* SphereViewController.swift in Sources */,
 				52A9531F2446EC5400CB3BE1 /* ShapeDemoController.swift in Sources */,
@@ -435,7 +439,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -455,7 +459,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
