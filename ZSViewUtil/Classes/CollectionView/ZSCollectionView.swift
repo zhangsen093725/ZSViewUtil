@@ -16,8 +16,15 @@ import UIKit
         didSet {
             guard oldValue != collectionViewTopView else { return }
             oldValue?.removeFromSuperview()
-            guard collectionViewTopView != nil else { return }
-            addSubview(collectionViewTopView!)
+            
+            if collectionViewTopView == nil
+            {
+                contentInset.top = 0
+            }
+            else
+            {
+                addSubview(collectionViewTopView!)
+            }
         }
     }
     
@@ -26,8 +33,15 @@ import UIKit
         didSet {
             guard oldValue != collectionViewBottomView else { return }
             oldValue?.removeFromSuperview()
-            guard collectionViewBottomView != nil else { return }
-            addSubview(collectionViewBottomView!)
+
+            if collectionViewBottomView == nil
+            {
+                contentInset.bottom = 0
+            }
+            else
+            {
+                addSubview(collectionViewBottomView!)
+            }
         }
     }
     
@@ -36,8 +50,15 @@ import UIKit
         didSet {
             guard oldValue != collectionViewLeftView else { return }
             oldValue?.removeFromSuperview()
-            guard collectionViewLeftView != nil else { return }
-            addSubview(collectionViewLeftView!)
+
+            if collectionViewLeftView == nil
+            {
+                contentInset.left = 0
+            }
+            else
+            {
+                addSubview(collectionViewLeftView!)
+            }
         }
     }
     
@@ -46,8 +67,15 @@ import UIKit
         didSet {
             guard oldValue != collectionViewRightView else { return }
             oldValue?.removeFromSuperview()
-            guard collectionViewRightView != nil else { return }
-            addSubview(collectionViewRightView!)
+
+            if collectionViewRightView == nil
+            {
+                contentInset.right = 0
+            }
+            else
+            {
+                addSubview(collectionViewRightView!)
+            }
         }
     }
     
@@ -70,40 +98,32 @@ import UIKit
     }
     
     open func reloadTop() {
-        if collectionViewTopView == nil {
-            contentInset = UIEdgeInsets(top: 0, left: contentInset.left, bottom: contentInset.bottom, right: contentInset.right)
-            return
-        }
+        
+        guard collectionViewTopView != nil else { return }
         
         collectionViewTopView?.frame = CGRect(x: 0, y: -collectionViewTopView!.frame.height, width: frame.width, height: collectionViewTopView!.frame.height)
         contentInset = UIEdgeInsets(top: collectionViewTopView!.frame.height, left: contentInset.left, bottom: contentInset.bottom, right: contentInset.right)
     }
     
     open func reloadBottom() {
-        if collectionViewBottomView == nil {
-            contentInset = UIEdgeInsets(top: contentInset.top, left: contentInset.left, bottom: 0, right: contentInset.right)
-            return
-        }
+
+        guard collectionViewBottomView != nil else { return }
         
         collectionViewBottomView?.frame = CGRect(x: 0, y: contentSize.height, width: frame.width, height: collectionViewBottomView!.frame.height)
         contentInset = UIEdgeInsets(top: contentInset.top, left: contentInset.left, bottom: collectionViewBottomView!.frame.height, right: contentInset.right)
     }
     
     open func reloadLeft() {
-        if collectionViewLeftView == nil {
-            contentInset = UIEdgeInsets(top: contentInset.top, left: 0, bottom: contentInset.bottom, right: contentInset.right)
-            return
-        }
+        
+        guard collectionViewLeftView != nil else { return }
         
         collectionViewLeftView?.frame = CGRect(x: -collectionViewLeftView!.frame.width, y: 0, width: collectionViewLeftView!.frame.width, height: frame.height)
         contentInset = UIEdgeInsets(top: contentInset.top, left: collectionViewLeftView!.frame.width, bottom: contentInset.bottom, right: contentInset.right)
     }
     
     open func reloadRight() {
-        if collectionViewRightView == nil {
-            contentInset = UIEdgeInsets(top: contentInset.top, left: contentInset.left, bottom: contentInset.bottom, right: 0)
-            return
-        }
+
+        guard collectionViewRightView != nil else { return }
         
         collectionViewRightView?.frame = CGRect(x: contentSize.width, y: 0, width: collectionViewRightView!.frame.width, height: frame.height)
         collectionViewRightView?.frame.origin.x = contentSize.width

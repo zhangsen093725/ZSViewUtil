@@ -26,17 +26,6 @@ import UIKit
     
     public var sliderInset: UIEdgeInsets = .zero
     
-    struct WaitLayout {
-        
-        var index: Int = 0
-        var isAnimation: Bool = false
-    }
-    
-    private lazy var waitLayout: WaitLayout = {
-        
-        return WaitLayout()
-    }()
-    
     public lazy var sliderView: UIView = {
         
         let sliderView = UIView()
@@ -69,12 +58,59 @@ import UIKit
 // TODO: 动画处理
 @objc extension ZSTabView {
     
-    open func beginScrollToIndex(_ index: Int,
-                                 isAnimation: Bool) {
+    open func sliderViewAnimation(to cell: UICollectionViewCell,
+                                  isHorizontal: Bool,
+                                  isAnimation: Bool) {
         
-        guard frame != .zero else { return }
+        // SliderView 位置初始化
+        if isHorizontal
+        {
+            sliderView.frame.origin.y = cell.frame.maxY - self.sliderWidth - sliderInset.bottom + sliderInset.top
+            sliderView.frame.size.width = sliderLength > 0 ? sliderLength : cell.frame.width
+            sliderView.frame.size.height = self.sliderWidth
+        }
+        else
+        {
+            sliderView.frame.origin.x = cell.frame.origin.x + self.sliderWidth + sliderInset.left - sliderInset.right
+            sliderView.frame.size.width = self.sliderWidth
+            sliderView.frame.size.height = sliderLength > 0 ? sliderLength : cell.frame.height
+        }
         
-        layoutIfNeeded()
+        // SliderView 动画
+        if !isAnimation
+        {
+            if isHorizontal
+            {
+                sliderView.frame.origin.x = cell.frame.origin.x + (cell.frame.size.width - sliderView.frame.size.width) * 0.5
+            }
+            else
+            {
+                sliderView.frame.origin.y = cell.frame.origin.y + (cell.frame.size.height - sliderView.frame.size.height) * 0.5
+            }
+            isUserInteractionEnabled = true
+        }
+        else
+        {
+            sliderView.layoutIfNeeded()
+            UIView.animate(withDuration: 0.25, animations: { [weak self] in
+                
+                if isHorizontal
+                {
+                    self?.sliderView.frame.origin.x = cell.frame.origin.x + (cell.frame.size.width - (self?.sliderView.frame.size.width ?? 0)) * 0.5
+                }
+                else
+                {
+                    self?.sliderView.frame.origin.y = cell.frame.origin.y + (cell.frame.size.height - (self?.sliderView.frame.size.height ?? 0)) * 0.5
+                }
+                
+            }) { [weak self] (finished) in
+                
+                self?.isUserInteractionEnabled = true
+            }
+        }
+    }
+    
+    open func cellForIndex(_ index: Int, isHorizontal: Bool) -> UICollectionViewCell? {
         
         let indexPath = IndexPath(item: index, section: 0)
         
@@ -82,38 +118,34 @@ import UIKit
 
         if cell == nil
         {
-            scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
-            beginScrollToIndex(index, isAnimation: isAnimation)
-            return
+            scrollToItem(at: indexPath, at: isHorizontal ? .centeredHorizontally : .centeredVertically, animated: false)
+            layoutIfNeeded()
+            return cellForItem(at: indexPath)
         }
+        
+        return cell
+    }
+    
+    open func beginScrollToIndex(_ index: Int,
+                                 isAnimation: Bool) {
+
+        guard frame != .zero else { return }
         
         guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return }
         
-        isUserInteractionEnabled = false
-        
         let isHorizontal = flowLayout.scrollDirection == .horizontal
+
+        guard let cell = cellForIndex(index, isHorizontal: isHorizontal) else { return }
         
-        if isHorizontal
-        {
-            sliderView.frame.origin.y = cell!.frame.maxY - self.sliderWidth - sliderInset.bottom + sliderInset.top
-            sliderView.frame.size.width = sliderLength > 0 ? sliderLength : cell!.frame.width
-            sliderView.frame.size.height = self.sliderWidth
-        }
-        else
-        {
-            sliderView.frame.origin.x = cell!.frame.origin.x + self.sliderWidth + sliderInset.left - sliderInset.right
-            sliderView.frame.size.width = self.sliderWidth
-            sliderView.frame.size.height = sliderLength > 0 ? sliderLength : cell!.frame.height
-        }
-        
-        sliderView.layoutIfNeeded()
+        isUserInteractionEnabled = false
         
         let min: CGFloat = 0
         let max = contentSize.width - (isHorizontal ? frame.width : frame.height)
         
-        let cellCenter = isHorizontal ? cell!.center.x : cell!.center.y
+        let cellCenter = isHorizontal ? cell.center.x : cell.center.y
         let centerContentOffset = cellCenter - (isHorizontal ? center.x : center.y)
         
+        // CollectionView 滚动动画
         if contentOffset.x >= min
         {
             if centerContentOffset > max
@@ -132,22 +164,7 @@ import UIKit
             }
         }
         
-        UIView.animate(withDuration: 0.25, animations: { [weak self] in
-            
-            if isHorizontal
-            {
-                self?.sliderView.frame.origin.x = cell!.frame.origin.x + (cell!.frame.size.width - (self?.sliderView.frame.size.width ?? 0)) * 0.5
-            }
-            else
-            {
-                self?.sliderView.frame.origin.y = cell!.frame.origin.y + (cell!.frame.size.height - (self?.sliderView.frame.size.height ?? 0)) * 0.5
-            }
-            
-            
-        }) { [weak self] (finished) in
-            
-            self?.isUserInteractionEnabled = true
-        }
+        sliderViewAnimation(to: cell, isHorizontal: isHorizontal, isAnimation: isAnimation)
         
         reloadData()
     }

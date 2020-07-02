@@ -29,7 +29,7 @@ import UIKit
         
         didSet {
             oldValue?.removeObserver(self, forKeyPath: "frame")
-            collectionView?.addObserver(self, forKeyPath: "frame", options: .new, context: nil)
+            collectionView?.addObserver(self, forKeyPath: "frame", options: [.new, .old], context: nil)
         }
     }
     
@@ -70,6 +70,11 @@ import UIKit
         
         if _object == collectionView
         {
+            let new = change?[.newKey] as? CGRect
+            let old = change?[.oldKey] as? CGRect
+            
+            guard new != old else { return }
+            
             zs_setSelectedIndex(selectIndex)
         }
     }

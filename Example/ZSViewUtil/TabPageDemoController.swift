@@ -57,7 +57,7 @@ class TabPageDemoController: UIViewController, ZSPageViewServeDelegate, ZSTabVie
             tabView.contentInsetAdjustmentBehavior = .never
         }
         
-        tabView.sliderLength = 20
+//        tabView.sliderLength = 20
         tabView.backgroundColor = .clear
         tabView.showsHorizontalScrollIndicator = false
     
@@ -82,21 +82,15 @@ class TabPageDemoController: UIViewController, ZSPageViewServeDelegate, ZSTabVie
         return pageView
     }()
     
-    var tabTexts: [String] = ["ad", "ap", "lol", "sdja", "jak", "ajja", "iilak"]
+    var tabTexts: [String] = ["0", "1", "2", "3", "4", "5", "6"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         view.backgroundColor = .white
-        //        ZSIndicatorTextView.startAnimation("哈说丹深爱的")
-//        collectionViewServe.setterDragCollectionView(collectionView)
         
         contentServe.zs_bindTableView(tableView, tabView: tabView, pageView: pageView)
-        contentServe.tabCount = tabTexts.count
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            self.contentServe.zs_setSelectedIndex(6)
-        }
+        requestData()
     }
     
     override func viewWillLayoutSubviews() {
@@ -108,6 +102,13 @@ class TabPageDemoController: UIViewController, ZSPageViewServeDelegate, ZSTabVie
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func requestData() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.contentServe.tabCount = self.tabTexts.count
+            self.contentServe.zs_setSelectedIndex(6)
+        }
     }
 
     var tabPageControllers: [TableViewController] = [TableViewController(), TableViewController(), TableViewController(), TableViewController(), TableViewController(), TableViewController(), TableViewController(), TableViewController(), TableViewController()]
@@ -137,7 +138,7 @@ class TabPageDemoController: UIViewController, ZSPageViewServeDelegate, ZSTabVie
     // TODO: ZSTabViewServeDataSource
     func zs_configTabCellSize(forItemAt index: Int) -> CGSize {
         
-        return CGSize(width: 100, height: 44)
+        return CGSize(width: 30 + index * 10, height: 44)
     }
     
     func zs_configTabCell(_ cell: ZSTabCell, forItemAt index: Int) {
