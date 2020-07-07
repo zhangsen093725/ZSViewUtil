@@ -80,12 +80,6 @@ import UIKit
     /// 媒体缩小的最小倍数
     public var minimumZoomScale: CGFloat = 1
     
-    /// item 之间的间隙
-    public var minimumLineSpacing: CGFloat = 0 {
-        didSet {
-            mediaPreview?.collectionView.reloadData()
-        }
-    }
     /// preview 之间的间隙
     public var previewLineSpacing: CGFloat = 20 {
         didSet {
@@ -272,11 +266,6 @@ import UIKit
     open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
         return tabViewInsert
-    }
-    
-    open func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        
-        return minimumLineSpacing
     }
 }
 

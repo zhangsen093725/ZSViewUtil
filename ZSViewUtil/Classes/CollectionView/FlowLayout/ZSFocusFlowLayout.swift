@@ -24,8 +24,6 @@ import UIKit
         elementRect.origin = proposedContentOffset
         elementRect.size = collectionView?.frame.size ?? .zero
         
-        print(proposedContentOffset)
-        
         // 获得super已经计算好的布局的属性
         let attributes: [UICollectionViewLayoutAttributes] = Array(super.layoutAttributesForElements(in: elementRect) ?? [])
         
@@ -69,7 +67,8 @@ import UIKit
     open override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         
         // 获得super已经计算好的布局的属性
-        let attributes: [UICollectionViewLayoutAttributes] = Array(super.layoutAttributesForElements(in: rect) ?? [])
+        let origins = super.layoutAttributesForElements(in: rect) ?? []
+        let attributes: [UICollectionViewLayoutAttributes] = origins.map({$0.copy() as! UICollectionViewLayoutAttributes})
         
         // 计算collectionView最中心点的值
         if scrollDirection == .horizontal

@@ -1,18 +1,27 @@
 PODS:
-  - ZSViewUtil (0.5.0):
-    - ZSViewUtil/All (= 0.5.0)
-  - ZSViewUtil/All (0.5.0)
+  - Kingfisher (5.14.0):
+    - Kingfisher/Core (= 5.14.0)
+  - Kingfisher/Core (5.14.0)
+  - ZSViewUtil (0.5.1):
+    - ZSViewUtil/All (= 0.5.1)
+  - ZSViewUtil/All (0.5.1)
 
 DEPENDENCIES:
+  - Kingfisher
   - ZSViewUtil (from `../`)
+
+SPEC REPOS:
+  trunk:
+    - Kingfisher
 
 EXTERNAL SOURCES:
   ZSViewUtil:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ZSViewUtil: 689a9637b867999ad9070e4d5b2bfc29aadc9bc7
+  Kingfisher: 7b64389a43139c903ec434788344c288217c792d
+  ZSViewUtil: b16cd041b7a87686cfb29d2ca3f2c8932480be8f
 
-PODFILE CHECKSUM: cac36b2396a8fd7b0c62c7cac5bc4025785f70b4
+PODFILE CHECKSUM: a273de73e8bb3e5c951d0161dfa460b0942e1557
 
 COCOAPODS: 1.9.3

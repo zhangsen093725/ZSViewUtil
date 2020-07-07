@@ -1,7 +1,8 @@
-source 'https://gitee.com/zhangsen093725/sssu-repo-spec.git'
+#source 'https://gitee.com/zhangsen093725/sssu-repo-spec.git'
 
 use_frameworks!
 
 target 'ZSViewUtil_Example' do
   pod 'ZSViewUtil', :path => '../'
+  pod 'Kingfisher'
 end

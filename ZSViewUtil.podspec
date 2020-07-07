@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'ZSViewUtil'
-    s.version          = '0.5.1'
+    s.version          = '0.5.2'
     s.summary          = '自定义 View'
     
     # This description is used to generate tags and improve search results.
@@ -60,10 +60,6 @@ Pod::Spec.new do |s|
         i.source_files = 'ZSViewUtil/Classes/Image/**/*'
     end
     
-    s.subspec 'LoopView' do |l|
-        l.source_files = 'ZSViewUtil/Classes/LoopView/**/*'
-    end
-    
     s.subspec 'Layer' do |ly|
         ly.source_files = 'ZSViewUtil/Classes/Layer/**/*'
     end
@@ -99,10 +95,6 @@ Pod::Spec.new do |s|
         t.subspec 'Toast' do |tt|
             tt.source_files = 'ZSViewUtil/Classes/Toast/Toast/**/*'
         end
-    end
-    
-    s.subspec 'TabPage' do |tp|
-        tp.source_files = 'ZSViewUtil/Classes/TabPage/**/*'
     end
     
     s.subspec 'UIExt' do |u|
