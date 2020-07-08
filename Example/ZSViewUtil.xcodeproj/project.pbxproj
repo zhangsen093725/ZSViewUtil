@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		45C2A2CA7AD7F89C2F188D05 /* Pods_ZSViewUtil_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 644F297BFB71B86FE5DFE1F6 /* Pods_ZSViewUtil_Example.framework */; };
 		4E41B29A24A208CB0045169A /* ZSPlainFlowLayoutServe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E41B29924A208CB0045169A /* ZSPlainFlowLayoutServe.swift */; };
-		521015FA243DD36700854840 /* MediaPreviewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521015F9243DD36700854840 /* MediaPreviewDemoController.swift */; };
 		52A9531D2446EC5400CB3BE1 /* CollectionViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A953162446EC5300CB3BE1 /* CollectionViewDemoController.swift */; };
 		52A9531E2446EC5400CB3BE1 /* SphereViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A953172446EC5300CB3BE1 /* SphereViewController.swift */; };
 		52A9531F2446EC5400CB3BE1 /* ShapeDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A953182446EC5300CB3BE1 /* ShapeDemoController.swift */; };
@@ -25,7 +24,6 @@
 		279176C5C3837861AFB32416 /* Pods-ZSViewUtil_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZSViewUtil_Tests.release.xcconfig"; path = "Target Support Files/Pods-ZSViewUtil_Tests/Pods-ZSViewUtil_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		42C39839D7ECDE3DDBC92564 /* Pods-ZSViewUtil_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZSViewUtil_Tests.debug.xcconfig"; path = "Target Support Files/Pods-ZSViewUtil_Tests/Pods-ZSViewUtil_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		4E41B29924A208CB0045169A /* ZSPlainFlowLayoutServe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSPlainFlowLayoutServe.swift; sourceTree = "<group>"; };
-		521015F9243DD36700854840 /* MediaPreviewDemoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaPreviewDemoController.swift; sourceTree = "<group>"; };
 		52A953162446EC5300CB3BE1 /* CollectionViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDemoController.swift; sourceTree = "<group>"; };
 		52A953172446EC5300CB3BE1 /* SphereViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SphereViewController.swift; sourceTree = "<group>"; };
 		52A953182446EC5300CB3BE1 /* ShapeDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapeDemoController.swift; sourceTree = "<group>"; };
@@ -83,7 +81,6 @@
 		607FACD21AFB9204008FA782 /* Example for ZSViewUtil */ = {
 			isa = PBXGroup;
 			children = (
-				521015F9243DD36700854840 /* MediaPreviewDemoController.swift */,
 				52A953162446EC5300CB3BE1 /* CollectionViewDemoController.swift */,
 				4E41B29924A208CB0045169A /* ZSPlainFlowLayoutServe.swift */,
 				52A9531B2446EC5400CB3BE1 /* DragViewDemoController.swift */,
@@ -277,7 +274,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				521015FA243DD36700854840 /* MediaPreviewDemoController.swift in Sources */,
 				52A953222446EC5400CB3BE1 /* DragViewDemoController.swift in Sources */,
 				52A9531D2446EC5400CB3BE1 /* CollectionViewDemoController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,

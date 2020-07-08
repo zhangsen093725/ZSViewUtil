@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'ZSViewUtil'
-    s.version          = '0.5.2'
+    s.version          = '0.5.3'
     s.summary          = '自定义 View'
     
     # This description is used to generate tags and improve search results.
@@ -64,16 +64,10 @@ Pod::Spec.new do |s|
         ly.source_files = 'ZSViewUtil/Classes/Layer/**/*'
     end
     
-    s.subspec 'Preview' do |p|
+    s.subspec 'Player' do |p|
         
-        p.source_files = 'ZSViewUtil/Classes/Preview/**/*'
-        p.resource_bundles = {
-            'ZSViewUtil' => ['ZSViewUtil/Assets/ZSPreview.xcassets']
-        }
-        
-        s.subspec 'Player' do |pl|
-            pl.source_files = 'ZSViewUtil/Classes/Preview/Player/**/*'
-        end
+        p.source_files = 'ZSViewUtil/Classes/Preview/Player/**/*'
+
     end
     
     s.subspec 'Profiles' do |pr|
