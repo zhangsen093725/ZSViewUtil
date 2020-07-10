@@ -210,6 +210,7 @@ import AVKit
         guard playUrl != nil else { return }
         
         _playStatus_ = .loading
+        av_playerLayer.player = AVPlayer(url: playUrl!)
         
         addPlayerTimeObserver()
         addPlayerItemObserver()
