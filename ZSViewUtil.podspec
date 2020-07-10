@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'ZSViewUtil'
-    s.version          = '0.5.7'
+    s.version          = '0.5.8'
     s.summary          = '自定义 View'
     
     # This description is used to generate tags and improve search results.
@@ -70,10 +70,6 @@ Pod::Spec.new do |s|
     
     s.subspec 'Profiles' do |pr|
         pr.source_files = 'ZSViewUtil/Classes/Profiles/**/*'
-    end
-    
-    s.subspec 'SphereView' do |sp|
-        sp.source_files = 'ZSViewUtil/Classes/SphereView/**/*'
     end
     
     s.subspec 'Toast' do |t|
