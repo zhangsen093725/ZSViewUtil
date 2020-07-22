@@ -8,24 +8,26 @@
 
 import UIKit
 
-@objcMembers public class ZSButton: UIButton {
+@objc public extension ZSButton {
     
-    public struct Content {
-        public enum Inset {
-            case imgL
-            case imgR
-            case imgT
-            case imgB
-        }
+    @objc enum ImageInset: Int {
+        case imgL
+        case imgR
+        case imgT
+        case imgB
     }
+}
+
+
+@objcMembers open class ZSButton: UIButton {
     
-    public var contentInset: Content.Inset = .imgL
+    public var contentInset: ZSButton.ImageInset = .imgL
     
     public var imageBackView: UIView {
-        return _imageBackView_
+        return _imageBackView
     }
     
-    lazy var _imageBackView_: UIView = {
+    private lazy var _imageBackView: UIView = {
         
         let imageBackView = UIView()
         imageBackView.backgroundColor = .clear
@@ -34,6 +36,47 @@ import UIKit
         addSubview(imageBackView)
         return imageBackView
     }()
+    
+    private var _gradientLayer: CAGradientLayer?
+    private var _gradientColors: [UIColor] = []
+    
+    /// 设置Button的背景渐变色
+    /// - Parameters:
+    ///   - locations: [颜色改变的位置，范围[0, 1]，0表示头部，1表示尾部，0.5表示中心，一个位置对应一个颜色]
+    ///   - colors: [渐变的颜色，至少2个，和需要改变颜色的位置一一对应]
+    ///   - startPoint: 渐变颜色的起始点，范围[0, 1], (0, 0）表示左上角，(0, 1)表示左下角，(1, 0)表示右上角，(1, 1)表示右下角
+    ///   - endPoint: 渐变颜色的终止点，范围[0, 1], (0, 0）表示左上角，(0, 1)表示左下角，(1, 0)表示右上角，(1, 1)表示右下角
+    open func zs_addBackgroundGradient(in locations: [NSNumber], colors: [UIColor], startPoint: CGPoint, endPoint: CGPoint) {
+        
+        let _startPoint_ = CGPoint(x: CGFloat(fabsf(Float(startPoint.x)) < 1 ? fabsf(Float(startPoint.x)) : 1),
+                                   y: CGFloat(fabsf(Float(startPoint.y)) < 1 ? fabsf(Float(startPoint.y)) : 1))
+        
+        let _endPoint_ = CGPoint(x: CGFloat(fabsf(Float(endPoint.x)) < 1 ? fabsf(Float(endPoint.x)) : 1),
+                                 y: CGFloat(fabsf(Float(endPoint.y)) < 1 ? fabsf(Float(endPoint.y)) : 1))
+        
+        _gradientColors = colors
+        
+        let _colors_: [CGColor] = colors.map{ $0.cgColor }
+        
+        let _locations_: [NSNumber] = locations.map{ NSNumber(value: fabsf($0.floatValue) < 1 ? fabsf($0.floatValue) : 1)  }
+        
+        _gradientLayer = CAGradientLayer()
+        _gradientLayer?.locations = _locations_
+        _gradientLayer?.colors = _colors_
+        _gradientLayer?.startPoint = _startPoint_
+        _gradientLayer?.endPoint = _endPoint_
+        
+        layer.addSublayer(_gradientLayer!)
+    }
+    
+    /// 移除Button的背景渐变色
+    open func zs_removeBackgroundGradient() {
+        
+        guard _gradientLayer != nil else { return }
+        
+        _gradientLayer?.removeFromSuperlayer()
+        _gradientLayer = nil
+    }
     
     override public func layoutSubviews() {
         super.layoutSubviews()

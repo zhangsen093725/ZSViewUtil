@@ -21,7 +21,6 @@ import UIKit
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        NotificationCenter.default.addObserver(self, selector: #selector(textFieldDidChange(_:)), name: UITextField.textDidChangeNotification, object: nil)
     }
     
     required public init?(coder: NSCoder) {
@@ -162,6 +161,7 @@ import UIKit
         let textField = UITextField()
         textField.delegate = self
         textField.backgroundColor = .clear
+        textField.addTarget(self, action: #selector(textFieldEditingChanged(_:)), for: .editingChanged)
         addSubview(textField)
         return textField
     }
@@ -177,6 +177,10 @@ import UIKit
     
     public func zs_resignFirstResponder() {
         textField.resignFirstResponder()
+    }
+    
+    public func zs_addTarget(_ target: Any?, action: Selector, for controlEvents: UIControl.Event) {
+        textField.addTarget(target, action: action, for: controlEvents)
     }
 
     open func zs_textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -219,13 +223,9 @@ import UIKit
         zs_textFieldDidEndEditing(textField)
     }
     
-    @objc public func textFieldDidChange(_ notification: NSNotification) {
+    @objc public func textFieldEditingChanged(_ textField: UITextField) {
         
         guard isVisibleText else { return }
         originText = textField.text ?? ""
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
     }
 }
