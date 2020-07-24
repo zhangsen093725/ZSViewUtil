@@ -9,7 +9,9 @@ import UIKit
 
 @objc public protocol ZSTextFieldDelegate {
     
-    func zs_textFieldDidEndEditing(_ textField: ZSTextField)
+    @objc optional func zs_textFieldDidEndEditing(_ textField: ZSTextField)
+    
+    @objc optional func zs_textFieldEditingChanged(_ textField: ZSTextField)
     
     @objc optional func zs_textField(_ textField: ZSTextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool
 }
@@ -30,6 +32,7 @@ import UIKit
     public var text: String? {
         set {
             textField.text = zs_filedText(from: newValue ?? "")
+            delegate?.zs_textFieldEditingChanged?(self)
         }
         get {
             return originText
@@ -42,6 +45,15 @@ import UIKit
         }
         get {
             return textField.placeholder
+        }
+    }
+    
+    public var attributedPlaceholder: NSAttributedString? {
+        set {
+            textField.attributedPlaceholder = newValue
+        }
+        get {
+            return textField.attributedPlaceholder
         }
     }
     
@@ -189,7 +201,8 @@ import UIKit
     }
     
     open func zs_textFieldDidEndEditing(_ textField: UITextField) {
-        delegate?.zs_textFieldDidEndEditing(self)
+        
+        delegate?.zs_textFieldDidEndEditing?(self)
     }
     
     // TODO: UITextFieldDelegate
@@ -227,5 +240,6 @@ import UIKit
         
         guard isVisibleText else { return }
         originText = textField.text ?? ""
+        delegate?.zs_textFieldEditingChanged?(self)
     }
 }

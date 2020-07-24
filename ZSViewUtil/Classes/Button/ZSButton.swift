@@ -11,19 +11,19 @@ import UIKit
 @objc public extension ZSButton {
     
     @objc enum ImageInset: Int {
-        case imgL
-        case imgR
-        case imgT
-        case imgB
+        case left
+        case right
+        case top
+        case bottom
     }
 }
 
 
 @objcMembers open class ZSButton: UIButton {
     
-    public var contentInset: ZSButton.ImageInset = .imgL
+    @objc public var imageInset: ZSButton.ImageInset = .left
     
-    public var imageBackView: UIView {
+    @objc public var imageBackView: UIView {
         return _imageBackView
     }
     
@@ -60,7 +60,10 @@ import UIKit
         
         let _locations_: [NSNumber] = locations.map{ NSNumber(value: fabsf($0.floatValue) < 1 ? fabsf($0.floatValue) : 1)  }
         
-        _gradientLayer = CAGradientLayer()
+        if _gradientLayer == nil
+        {
+            _gradientLayer = CAGradientLayer()
+        }
         _gradientLayer?.locations = _locations_
         _gradientLayer?.colors = _colors_
         _gradientLayer?.startPoint = _startPoint_
@@ -81,20 +84,20 @@ import UIKit
     override public func layoutSubviews() {
         super.layoutSubviews()
         
-        switch contentInset {
-        case .imgL:
+        switch imageInset {
+        case .left:
             
             layoutImageLeft()
             break
-        case .imgR:
+        case .right:
             
             layoutImageRight()
             break
-        case .imgT:
+        case .top:
             
             layoutImageTop()
             break
-        case .imgB:
+        case .bottom:
             
             layoutImageBottom()
             break
@@ -103,7 +106,7 @@ import UIKit
     
     func layoutImageLeft() {
         
-        let imageBackSize = min(frame.height, frame.width)
+        let imageBackSize = min(frame.height, frame.width - titleEdgeInsets.left - titleEdgeInsets.right)
         
         imageBackView.frame = CGRect(x: 0, y: (frame.height - imageBackSize) * 0.5, width: imageBackSize, height: imageBackSize)
         
@@ -122,7 +125,7 @@ import UIKit
     
     func layoutImageRight() {
         
-        let imageBackSize = min(frame.height, frame.width)
+        let imageBackSize = min(frame.height, frame.width - titleEdgeInsets.left - titleEdgeInsets.right)
         
         imageBackView.frame = CGRect(x: frame.width - imageBackSize, y: (frame.height - imageBackSize) * 0.5, width: imageBackSize, height: imageBackSize)
         
@@ -141,7 +144,7 @@ import UIKit
     
     func layoutImageTop() {
         
-        let imageBackSize = min(frame.height - (titleLabel?.font.lineHeight ?? 0), frame.width)
+        let imageBackSize = min(frame.height - (titleLabel?.font.lineHeight ?? 0) - titleEdgeInsets.top - titleEdgeInsets.bottom, frame.width)
         
         imageBackView.frame = CGRect(x: (frame.width - imageBackSize) * 0.5, y: 0, width: imageBackSize, height: imageBackSize)
         
@@ -160,7 +163,7 @@ import UIKit
     
     func layoutImageBottom() {
         
-        let imageBackSize = min(frame.height - (titleLabel?.font.lineHeight ?? 0), frame.width)
+        let imageBackSize = min(frame.height - (titleLabel?.font.lineHeight ?? 0) - titleEdgeInsets.top - titleEdgeInsets.bottom, frame.width)
         
         let titleWidth = frame.width - titleEdgeInsets.left - titleEdgeInsets.right
         let titleHeight = frame.height - imageBackSize - titleEdgeInsets.top - titleEdgeInsets.bottom
@@ -169,7 +172,7 @@ import UIKit
         titleLabel?.textAlignment = .center
         
         
-        imageBackView.frame = CGRect(x: (frame.width - imageBackSize) * 0.5, y: titleLabel?.frame.maxY ?? 0, width: imageBackSize, height: imageBackSize)
+        imageBackView.frame = CGRect(x: (frame.width - imageBackSize) * 0.5, y: (titleLabel?.frame.maxY ?? 0) + titleEdgeInsets.bottom, width: imageBackSize, height: imageBackSize)
         
         let imageWidth = imageBackSize - imageEdgeInsets.left - imageEdgeInsets.right
         let imageHeight = imageBackSize - imageEdgeInsets.top - imageEdgeInsets.bottom
