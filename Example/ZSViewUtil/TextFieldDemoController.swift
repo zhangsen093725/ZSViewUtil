@@ -25,6 +25,7 @@ class TextFieldDemoController: UIViewController {
         
         let button = UIButton(type: .system)
         button.setTitle("切换", for: .normal)
+        button.setTitle("切换", for: .selected)
         button.addTarget(self, action: #selector(change), for: .touchUpInside)
         view.addSubview(button)
         return button
@@ -38,8 +39,12 @@ class TextFieldDemoController: UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        textFiled.frame = CGRect(x: 30 * KWidthUnit, y: 100 * KHeightUnit, width: 200 * KWidthUnit, height: 45 * KHeightUnit)
-        button.frame = CGRect(x: 30 * KWidthUnit, y: 150 * KHeightUnit, width: 200 * KWidthUnit, height: 45 * KHeightUnit)
+        
+        textFiled.zs_margin(top: 100.zs_px, left: 30.zs_px, right: 30.zs_px)
+        textFiled.zs_height = 45.zs_px
+        
+        button.zs_margin(top: textFiled.zs_bottom + 20.zs_px, left: 30.zs_px, right: 30.zs_px)
+        button.zs_height = 45.zs_px
     }
     
     override func didReceiveMemoryWarning() {
@@ -48,7 +53,6 @@ class TextFieldDemoController: UIViewController {
     }
     
     @objc func change() {
-        button.setTitle(textFiled.text, for: .normal)
         textFiled.isVisibleText = !textFiled.isVisibleText
         textFiled.replaceVisibleText = "&"
     }

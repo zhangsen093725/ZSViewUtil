@@ -58,7 +58,7 @@ class CollectionViewDemoController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         collectionView.frame = view.bounds
-        headerView.frame = CGRect(x: 0, y: 0, width: collectionView.zs_w, height: 180)
+        headerView.frame = CGRect(x: 0, y: 0, width: collectionView.zs_width, height: 180.zs_px)
     }
     
     override func didReceiveMemoryWarning() {

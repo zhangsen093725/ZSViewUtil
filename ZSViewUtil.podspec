@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'ZSViewUtil'
-    s.version          = '0.6.0'
+    s.version          = '0.6.1'
     s.summary          = '自定义 View'
     
     # This description is used to generate tags and improve search results.
@@ -52,12 +52,20 @@ Pod::Spec.new do |s|
         d.source_files = 'ZSViewUtil/Classes/DragView/**/*'
     end
     
+    s.subspec 'Extension' do |e|
+        e.source_files = 'ZSViewUtil/Classes/Extension/**/*'
+    end
+    
     s.subspec 'Field' do |f|
         f.source_files = 'ZSViewUtil/Classes/Field/**/*'
     end
     
     s.subspec 'Image' do |i|
         i.source_files = 'ZSViewUtil/Classes/Image/**/*'
+    end
+    
+    s.subspec 'Layout' do |l|
+        l.source_files = 'ZSViewUtil/Classes/Layout/**/*'
     end
     
     s.subspec 'Layer' do |ly|
@@ -68,25 +76,8 @@ Pod::Spec.new do |s|
         p.source_files = 'ZSViewUtil/Classes/Player/**/*'
     end
     
-    s.subspec 'Profiles' do |pr|
-        pr.source_files = 'ZSViewUtil/Classes/Profiles/**/*'
-    end
-    
     s.subspec 'Toast' do |t|
-        
         t.source_files = 'ZSViewUtil/Classes/Toast/**/*'
-        
-        t.subspec 'Load' do |l|
-            l.source_files = 'ZSViewUtil/Classes/Toast/Load/**/*'
-        end
-        
-        t.subspec 'Toast' do |tt|
-            tt.source_files = 'ZSViewUtil/Classes/Toast/Toast/**/*'
-        end
-    end
-    
-    s.subspec 'UIExt' do |u|
-        u.source_files = 'ZSViewUtil/Classes/UIExt/**/*'
     end
     
     s.subspec 'ViewAnimation' do |v|

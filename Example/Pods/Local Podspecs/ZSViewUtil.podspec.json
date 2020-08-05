@@ -1,6 +1,6 @@
 {
   "name": "ZSViewUtil",
-  "version": "0.5.9",
+  "version": "0.6.0",
   "summary": "自定义 View",
   "description": "包含 Web、Toast、Animation、Player等等",
   "homepage": "https://github.com/zhangsen093725/ZSViewUtil",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/zhangsen093725/ZSViewUtil.git",
-    "tag": "0.5.9"
+    "tag": "0.6.0"
   },
   "swift_versions": "5.0",
   "platforms": {
@@ -43,6 +43,10 @@
       "source_files": "ZSViewUtil/Classes/DragView/**/*"
     },
     {
+      "name": "Extension",
+      "source_files": "ZSViewUtil/Classes/Extension/**/*"
+    },
+    {
       "name": "Field",
       "source_files": "ZSViewUtil/Classes/Field/**/*"
     },
@@ -51,16 +55,16 @@
       "source_files": "ZSViewUtil/Classes/Image/**/*"
     },
     {
+      "name": "Layout",
+      "source_files": "ZSViewUtil/Classes/Layout/**/*"
+    },
+    {
       "name": "Layer",
       "source_files": "ZSViewUtil/Classes/Layer/**/*"
     },
     {
       "name": "Player",
       "source_files": "ZSViewUtil/Classes/Player/**/*"
-    },
-    {
-      "name": "Profiles",
-      "source_files": "ZSViewUtil/Classes/Profiles/**/*"
     },
     {
       "name": "Toast",
@@ -75,10 +79,6 @@
           "source_files": "ZSViewUtil/Classes/Toast/Toast/**/*"
         }
       ]
-    },
-    {
-      "name": "UIExt",
-      "source_files": "ZSViewUtil/Classes/UIExt/**/*"
     },
     {
       "name": "ViewAnimation",
