@@ -2,9 +2,9 @@ PODS:
   - Kingfisher (5.14.0):
     - Kingfisher/Core (= 5.14.0)
   - Kingfisher/Core (5.14.0)
-  - ZSViewUtil (0.6.0):
-    - ZSViewUtil/All (= 0.6.0)
-  - ZSViewUtil/All (0.6.0)
+  - ZSViewUtil (0.6.2):
+    - ZSViewUtil/All (= 0.6.2)
+  - ZSViewUtil/All (0.6.2)
 
 DEPENDENCIES:
   - Kingfisher
@@ -20,7 +20,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Kingfisher: 7b64389a43139c903ec434788344c288217c792d
-  ZSViewUtil: e3619945f24fbaeac60c5b367a9412a7cbd9998f
+  ZSViewUtil: 273237e1bc6249c224490ef9ea0141c90279e82c
 
 PODFILE CHECKSUM: a273de73e8bb3e5c951d0161dfa460b0942e1557
 
