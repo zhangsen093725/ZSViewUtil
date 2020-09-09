@@ -1,6 +1,6 @@
 {
   "name": "ZSViewUtil",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "summary": "自定义 View",
   "description": "包含 Web、Toast、Animation、Player等等",
   "homepage": "https://github.com/zhangsen093725/ZSViewUtil",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/zhangsen093725/ZSViewUtil.git",
-    "tag": "0.6.3"
+    "tag": "0.6.4"
   },
   "swift_versions": "5.0",
   "platforms": {
@@ -65,6 +65,10 @@
     {
       "name": "Player",
       "source_files": "ZSViewUtil/Classes/Player/**/*"
+    },
+    {
+      "name": "Shadow",
+      "source_files": "ZSViewUtil/Classes/Shadow/**/*"
     },
     {
       "name": "Toast",

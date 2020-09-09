@@ -11,6 +11,7 @@
 		4E41B29A24A208CB0045169A /* ZSPlainFlowLayoutServe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E41B29924A208CB0045169A /* ZSPlainFlowLayoutServe.swift */; };
 		4E522DB224FC94CD00C4DCBA /* ZSFixedSoecingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E522DB124FC94CD00C4DCBA /* ZSFixedSoecingViewController.swift */; };
 		4E522DBA24FCA89300C4DCBA /* ZSShadowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E522DB924FCA89300C4DCBA /* ZSShadowViewController.swift */; };
+		4EB9BDD924FE2ABC0088EC04 /* ZSEditTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB9BDD824FE2ABC0088EC04 /* ZSEditTableViewController.swift */; };
 		4EE1413224DBD53A007C893D /* ZSWaterCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE1413124DBD53A007C893D /* ZSWaterCollectionViewController.swift */; };
 		52A9531D2446EC5400CB3BE1 /* CollectionViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A953162446EC5300CB3BE1 /* CollectionViewDemoController.swift */; };
 		52A9531F2446EC5400CB3BE1 /* ShapeDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A953182446EC5300CB3BE1 /* ShapeDemoController.swift */; };
@@ -28,6 +29,7 @@
 		4E41B29924A208CB0045169A /* ZSPlainFlowLayoutServe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSPlainFlowLayoutServe.swift; sourceTree = "<group>"; };
 		4E522DB124FC94CD00C4DCBA /* ZSFixedSoecingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSFixedSoecingViewController.swift; sourceTree = "<group>"; };
 		4E522DB924FCA89300C4DCBA /* ZSShadowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSShadowViewController.swift; sourceTree = "<group>"; };
+		4EB9BDD824FE2ABC0088EC04 /* ZSEditTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSEditTableViewController.swift; sourceTree = "<group>"; };
 		4EE1413124DBD53A007C893D /* ZSWaterCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSWaterCollectionViewController.swift; sourceTree = "<group>"; };
 		52A953162446EC5300CB3BE1 /* CollectionViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDemoController.swift; sourceTree = "<group>"; };
 		52A953182446EC5300CB3BE1 /* ShapeDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapeDemoController.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				4E522DB924FCA89300C4DCBA /* ZSShadowViewController.swift */,
+				4EB9BDD824FE2ABC0088EC04 /* ZSEditTableViewController.swift */,
 				4EE1413124DBD53A007C893D /* ZSWaterCollectionViewController.swift */,
 				4E522DB124FC94CD00C4DCBA /* ZSFixedSoecingViewController.swift */,
 				52A953162446EC5300CB3BE1 /* CollectionViewDemoController.swift */,
@@ -286,6 +289,7 @@
 				4EE1413224DBD53A007C893D /* ZSWaterCollectionViewController.swift in Sources */,
 				52A953232446EC5400CB3BE1 /* TextFieldDemoController.swift in Sources */,
 				4E522DBA24FCA89300C4DCBA /* ZSShadowViewController.swift in Sources */,
+				4EB9BDD924FE2ABC0088EC04 /* ZSEditTableViewController.swift in Sources */,
 				4E522DB224FC94CD00C4DCBA /* ZSFixedSoecingViewController.swift in Sources */,
 				4E41B29A24A208CB0045169A /* ZSPlainFlowLayoutServe.swift in Sources */,
 				52A9531F2446EC5400CB3BE1 /* ShapeDemoController.swift in Sources */,

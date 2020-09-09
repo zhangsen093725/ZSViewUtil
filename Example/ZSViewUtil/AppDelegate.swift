@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-        window?.rootViewController = ZSShadowViewController()
+        window?.rootViewController = ZSWaterCollectionViewController()
         
         return true
     }

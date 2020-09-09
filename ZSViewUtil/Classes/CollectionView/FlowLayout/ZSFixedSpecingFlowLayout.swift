@@ -1,6 +1,6 @@
 //
 //  ZSFixedSpecingFlowLayout.swift
-//  Kingfisher
+//  ZSViewUtil
 //
 //  Created by Josh on 2020/8/28.
 //
@@ -33,7 +33,9 @@ import UIKit
     
     open override var scrollDirection: UICollectionView.ScrollDirection {
         
-        set { }
+        set {
+            super.scrollDirection = .vertical
+        }
         
         get {
            return .vertical
@@ -60,6 +62,7 @@ import UIKit
             switch _alignment_
             {
             case .Left:
+                
                 if pre?.frame.minY == attribute.frame.minY
                 {
                     attribute.frame.origin.x = pre!.frame.maxX + minimumLineSpacing

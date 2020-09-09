@@ -24,7 +24,7 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDataSo
         collectionView.alwaysBounceHorizontal = false
         collectionView.shouldMultipleGestureRecognize = true
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.identifier)
-        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(UICollectionReusableView.self) + "Footer")
+//        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(UICollectionReusableView.self) + "Footer")
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(UICollectionReusableView.self) + "Header")
         collectionView.dataSource = self
         if #available(iOS 11.0, *) {
@@ -118,12 +118,12 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDataSo
     
     func zs_referenceSizeForHeader(collectionView collection: UICollectionView, layout: ZSWaterFlowLayout, section: Int) -> CGSize {
         
-        return CGSize(width: collectionView.zs_width, height: 64.zs_px)
+        return .zero //CGSize(width: collectionView.zs_width, height: 64.zs_px)
     }
     
     func zs_referenceSizeForFooter(collectionView collection: UICollectionView, layout: ZSWaterFlowLayout, section: Int) -> CGSize {
         
-        return CGSize(width: collectionView.zs_width, height: 44.zs_px)
+        return .zero // CGSize(width: collectionView.zs_width, height: 44.zs_px)
     }
 
 }

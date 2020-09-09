@@ -1,6 +1,6 @@
 //
 //  ZSWaterFlowLayout.swift
-//  Kingfisher
+//  ZSViewUtil
 //
 //  Created by Josh on 2020/7/14.
 //
@@ -109,10 +109,13 @@ import UIKit
             }
             
             // 生成header
-            if let header = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: sectionIndexPath)
+            if _headerReferenceSize_ != .zero
             {
-                attributes.append(header)
-                columnHeights.removeAll()
+                if let header = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: sectionIndexPath)
+                {
+                    attributes.append(header)
+                    columnHeights.removeAll()
+                }
             }
             
             lastContentHeight = contentHeight
@@ -134,9 +137,12 @@ import UIKit
             }
             
             // 初始化footer
-            if let footer = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, at: sectionIndexPath)
+            if _footerReferenceSize_ != .zero
             {
-                attributes.append(footer)
+                if let footer = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, at: sectionIndexPath)
+                {
+                    attributes.append(footer)
+                }
             }
         }
     }
