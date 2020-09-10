@@ -109,13 +109,14 @@ import UIKit
             }
             
             // 生成header
-            if _headerReferenceSize_ != .zero
+            if _headerReferenceSize_ == .zero
             {
-                if let header = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: sectionIndexPath)
-                {
-                    attributes.append(header)
-                    columnHeights.removeAll()
-                }
+                contentHeight += _sectionInset_.top
+            }
+            else if let header = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: sectionIndexPath)
+            {
+                attributes.append(header)
+                columnHeights.removeAll()
             }
             
             lastContentHeight = contentHeight
@@ -137,12 +138,13 @@ import UIKit
             }
             
             // 初始化footer
-            if _footerReferenceSize_ != .zero
+            if _footerReferenceSize_ == .zero
             {
-                if let footer = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, at: sectionIndexPath)
-                {
-                    attributes.append(footer)
-                }
+                contentHeight += _sectionInset_.bottom
+            }
+            else if let footer = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, at: sectionIndexPath)
+            {
+                attributes.append(footer)
             }
         }
     }
