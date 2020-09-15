@@ -42,7 +42,7 @@ import UIKit
     private var attributes: [UICollectionViewLayoutAttributes] = []
     
     /// 存放每个section中各个列的最后一个高度
-    private var columnHeights: [Int : CGFloat] = [:]
+    private var columnHeights: [CGFloat] = []
     
     /// collectionView的contentSize的高度
     private var contentHeight: CGFloat = 0
@@ -55,12 +55,12 @@ import UIKit
         var min = CGFloat(MAXFLOAT)
         var column = 0
         
-        for (key, vaule) in columnHeights
+        for (index, vaule) in columnHeights.enumerated()
         {
             if min > vaule
             {
                 min = vaule
-                column = key
+                column = index
             }
         }
         return column
@@ -122,9 +122,9 @@ import UIKit
             lastContentHeight = contentHeight
             
             // 初始化区 y值
-            for column in 0..<_columnCount_
+            for _ in 0..<_columnCount_
             {
-                columnHeights[column] = contentHeight
+                columnHeights.append(contentHeight)
             }
             
             let itemCount = collectionView?.numberOfItems(inSection: section) ?? 0
@@ -184,7 +184,7 @@ import UIKit
         columnHeights[minHeightColumn] = cell.frame.maxY
         
         //取最大的
-        for (_, vaule) in columnHeights
+        for vaule in columnHeights
         {
             if contentHeight < vaule
             {
