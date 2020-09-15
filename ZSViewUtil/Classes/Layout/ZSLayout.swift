@@ -163,28 +163,90 @@ public extension Double {
 // MARK: - UIColor扩展
 @objc extension UIColor {
     
-    public convenience init(hexCode: String, alpha: CGFloat = 1) {
+    class func hexString(hexCode: String) -> String {
         
-        var cString: String = hexCode.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        var hexString: String = hexCode.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
         
-        if (cString.hasPrefix("#"))
+        if (hexString.hasPrefix("#"))
         {
-            cString.remove(at: cString.startIndex)
+            hexString.remove(at: hexString.startIndex)
         }
         
-        if ((cString.count) != 6)
+        if (hexString.hasPrefix("0X"))
         {
-            self.init()
-            return
+            hexString = String(hexString[hexString.index(hexString.startIndex, offsetBy: 2)..<hexString.endIndex])
         }
+        
+        return hexString
+    }
+    
+    public convenience init(rgb hexCode: String, alpha: CGFloat = 1) {
+        
+        let cString = Self.hexString(hexCode: hexCode)
         
         var rgbValue:UInt32 = 0
         Scanner(string: cString).scanHexInt32(&rgbValue)
         
-        self.init(r: CGFloat((rgbValue & 0xFF0000) >> 16),
-                  g: CGFloat((rgbValue & 0x00FF00) >> 8),
-                  b: CGFloat(rgbValue & 0x0000FF),
-                  a: alpha)
+        if cString.count == 6
+        {
+            
+            self.init(r: CGFloat((rgbValue & 0x00FF0000) >> 16),
+                      g: CGFloat((rgbValue & 0x0000FF00) >> 8),
+                      b: CGFloat(rgbValue & 0x000000FF),
+                      a: alpha)
+            return
+        }
+        
+        self.init(r: 255,
+                  g: 255,
+                  b: 255,
+                  a: 1)
+    }
+    
+    public convenience init(argb hexCode: String, alpha: CGFloat = 1) {
+        
+        let cString = Self.hexString(hexCode: hexCode)
+        
+        var rgbValue:UInt32 = 0
+        Scanner(string: cString).scanHexInt32(&rgbValue)
+        
+        if cString.count == 8
+        {
+            
+            self.init(r: CGFloat((rgbValue & 0x00FF0000) >> 16),
+                      g: CGFloat((rgbValue & 0x0000FF00) >> 8),
+                      b: CGFloat(rgbValue & 0x000000FF),
+                      a: CGFloat((rgbValue & 0xFF000000) >> 24) / 255.0)
+            return
+        }
+        
+        self.init(r: 255,
+                  g: 255,
+                  b: 255,
+                  a: 1)
+    }
+    
+    public convenience init(rgba hexCode: String, alpha: CGFloat = 1) {
+        
+        let cString = Self.hexString(hexCode: hexCode)
+        
+        var rgbValue:UInt32 = 0
+        Scanner(string: cString).scanHexInt32(&rgbValue)
+        
+        if cString.count == 8
+        {
+            
+            self.init(r: CGFloat((rgbValue & 0xFF000000) >> 24),
+                      g: CGFloat((rgbValue & 0x00FF0000) >> 16),
+                      b: CGFloat((rgbValue & 0x0000FF00) >> 8),
+                      a: CGFloat(rgbValue & 0x000000FF) / 255.0)
+            return
+        }
+        
+        self.init(r: 255,
+                  g: 255,
+                  b: 255,
+                  a: 1)
     }
     
     public convenience init(r red: CGFloat,
@@ -224,9 +286,21 @@ public extension Double {
     }
     
     @available(iOS 13.0, *)
-    public func dark(hexCode: String) -> UIColor {
+    public func dark(rgb hexCode: String) -> UIColor {
         
-        return dark(UIColor(hexCode: hexCode))
+        return dark(UIColor(rgb: hexCode))
+    }
+    
+    @available(iOS 13.0, *)
+    public func dark(argb hexCode: String) -> UIColor {
+        
+        return dark(UIColor(argb: hexCode))
+    }
+    
+    @available(iOS 13.0, *)
+    public func dark(rgba hexCode: String) -> UIColor {
+        
+        return dark(UIColor(rgba: hexCode))
     }
     
     @available(iOS 13.0, *)

@@ -18,9 +18,10 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDataSo
         layout.scrollDirection = .horizontal
         
         let collectionView = ZSCollectionView.init(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = UIColor.white
+        collectionView.backgroundColor = UIColor(argb: "#6627C1F2")
         collectionView.allowsSelection = true
         collectionView.alwaysBounceVertical = true
+        
         collectionView.alwaysBounceHorizontal = false
         collectionView.shouldMultipleGestureRecognize = true
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.identifier)
@@ -38,7 +39,7 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDataSo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        view.backgroundColor = .white
         // Do any additional setup after loading the view.
     }
     
