@@ -165,7 +165,7 @@ import UIKit
         
         let cellX = _sectionInset_.left + CGFloat(minHeightColumn) * (cellWeight + _minimumInteritemSpacing_)
         
-        let minColumnHeight = columnHeights[minHeightColumn] ?? 0
+        let minColumnHeight = columnHeights[minHeightColumn]
         
         var cellY: CGFloat = minColumnHeight
         

@@ -52,6 +52,11 @@ import UIKit
         let origins = super.layoutAttributesForElements(in: rect) ?? []
         let attributes: [UICollectionViewLayoutAttributes] = origins.map({$0.copy() as! UICollectionViewLayoutAttributes})
         
+        if (attributes.first?.frame.maxX ?? 0) > (collectionView!.frame.width - sectionInset.left - sectionInset.right)
+        {
+            return []
+        }
+        
         // 计算collectionView最中心点的值
         for (index, attribute) in attributes.enumerated()
         {

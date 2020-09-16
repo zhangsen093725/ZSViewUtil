@@ -13,9 +13,10 @@ class ZSFixedSoecingViewController: UIViewController, UICollectionViewDelegateFl
 
     public lazy var collectionView: ZSCollectionView = {
         
-        let layout = ZSFixedSpecingFlowLayout(with: .Right)
+        let layout = ZSFixedSpecingFlowLayout(with: .Left)
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 10
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         
         let collectionView = ZSCollectionView.init(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.white
@@ -45,18 +46,18 @@ class ZSFixedSoecingViewController: UIViewController, UICollectionViewDelegateFl
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        collectionView.frame = CGRect(x: 0, y: 64, width: 300, height: 31)
+        collectionView.frame = CGRect(x: 0, y: 64, width: 300, height: 120)
     }
     
     // TODO: UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         
-        return 1
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 30
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -92,7 +93,7 @@ class ZSFixedSoecingViewController: UIViewController, UICollectionViewDelegateFl
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
-        return CGSize(width: collectionView.zs_width, height: 0)
+        return CGSize(width: collectionView.zs_width, height: 30)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
