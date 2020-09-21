@@ -112,6 +112,7 @@ import UIKit
             if _headerReferenceSize_ == .zero
             {
                 contentHeight += _sectionInset_.top
+                columnHeights.removeAll()
             }
             else if let header = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: sectionIndexPath)
             {
@@ -128,6 +129,7 @@ import UIKit
             }
             
             let itemCount = collectionView?.numberOfItems(inSection: section) ?? 0
+            
             for item in 0..<itemCount
             {
                 let cellIndexPath = IndexPath(item: item, section: section)

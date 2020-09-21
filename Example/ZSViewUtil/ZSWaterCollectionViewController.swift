@@ -20,11 +20,12 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDataSo
         let collectionView = ZSCollectionView.init(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor(argb: "#6627C1F2")
         collectionView.allowsSelection = true
-        collectionView.alwaysBounceVertical = true
+//        collectionView.alwaysBounceVertical = true
+        collectionView.bounces = false
         
-        collectionView.alwaysBounceHorizontal = false
+//        collectionView.alwaysBounceHorizontal = false
         collectionView.shouldMultipleGestureRecognize = true
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.identifier)
+        collectionView.register(ZSTextCollectionViewCell.self, forCellWithReuseIdentifier: ZSTextCollectionViewCell.identifier)
 //        collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(UICollectionReusableView.self) + "Footer")
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(UICollectionReusableView.self) + "Header")
         collectionView.dataSource = self
@@ -61,9 +62,9 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDataSo
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell: UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(UICollectionViewCell.self), for: indexPath)
+        let cell: ZSTextCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(ZSTextCollectionViewCell.self), for: indexPath) as! ZSTextCollectionViewCell
         
-        cell.contentView.backgroundColor = UIColor.brown
+        cell.label.text = "\(indexPath)"
         
         return cell
     }
@@ -88,7 +89,7 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDataSo
     // TODO: ZSWaterFlowLayoutDataSource
     func zs_columnNumber(collectionView collection: UICollectionView, layout: ZSWaterFlowLayout, section: Int) -> Int {
         
-        return 3
+        return 2
     }
     
     func zs_lineSpacing(collectionView collection: UICollectionView, layout: ZSWaterFlowLayout, section: Int) -> CGFloat {

@@ -13,6 +13,7 @@
 		4E522DBA24FCA89300C4DCBA /* ZSShadowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E522DB924FCA89300C4DCBA /* ZSShadowViewController.swift */; };
 		4EB9BDD924FE2ABC0088EC04 /* ZSEditTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB9BDD824FE2ABC0088EC04 /* ZSEditTableViewController.swift */; };
 		4EE1413224DBD53A007C893D /* ZSWaterCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE1413124DBD53A007C893D /* ZSWaterCollectionViewController.swift */; };
+		52800ECC2518D554009070CF /* ZSTextCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52800ECB2518D554009070CF /* ZSTextCollectionViewCell.swift */; };
 		52A9531D2446EC5400CB3BE1 /* CollectionViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A953162446EC5300CB3BE1 /* CollectionViewDemoController.swift */; };
 		52A9531F2446EC5400CB3BE1 /* ShapeDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A953182446EC5300CB3BE1 /* ShapeDemoController.swift */; };
 		52A953222446EC5400CB3BE1 /* DragViewDemoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A9531B2446EC5400CB3BE1 /* DragViewDemoController.swift */; };
@@ -31,6 +32,7 @@
 		4E522DB924FCA89300C4DCBA /* ZSShadowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSShadowViewController.swift; sourceTree = "<group>"; };
 		4EB9BDD824FE2ABC0088EC04 /* ZSEditTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSEditTableViewController.swift; sourceTree = "<group>"; };
 		4EE1413124DBD53A007C893D /* ZSWaterCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSWaterCollectionViewController.swift; sourceTree = "<group>"; };
+		52800ECB2518D554009070CF /* ZSTextCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZSTextCollectionViewCell.swift; sourceTree = "<group>"; };
 		52A953162446EC5300CB3BE1 /* CollectionViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewDemoController.swift; sourceTree = "<group>"; };
 		52A953182446EC5300CB3BE1 /* ShapeDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapeDemoController.swift; sourceTree = "<group>"; };
 		52A9531B2446EC5400CB3BE1 /* DragViewDemoController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DragViewDemoController.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 			children = (
 				4E522DB924FCA89300C4DCBA /* ZSShadowViewController.swift */,
 				4EB9BDD824FE2ABC0088EC04 /* ZSEditTableViewController.swift */,
+				52800ECB2518D554009070CF /* ZSTextCollectionViewCell.swift */,
 				4EE1413124DBD53A007C893D /* ZSWaterCollectionViewController.swift */,
 				4E522DB124FC94CD00C4DCBA /* ZSFixedSoecingViewController.swift */,
 				52A953162446EC5300CB3BE1 /* CollectionViewDemoController.swift */,
@@ -285,6 +288,7 @@
 			files = (
 				52A953222446EC5400CB3BE1 /* DragViewDemoController.swift in Sources */,
 				52A9531D2446EC5400CB3BE1 /* CollectionViewDemoController.swift in Sources */,
+				52800ECC2518D554009070CF /* ZSTextCollectionViewCell.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 				4EE1413224DBD53A007C893D /* ZSWaterCollectionViewController.swift in Sources */,
 				52A953232446EC5400CB3BE1 /* TextFieldDemoController.swift in Sources */,
