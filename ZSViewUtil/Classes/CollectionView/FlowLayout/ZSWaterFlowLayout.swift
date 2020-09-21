@@ -112,13 +112,13 @@ import UIKit
             if _headerReferenceSize_ == .zero
             {
                 contentHeight += _sectionInset_.top
-                columnHeights.removeAll()
             }
             else if let header = layoutAttributesForSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, at: sectionIndexPath)
             {
                 attributes.append(header)
-                columnHeights.removeAll()
             }
+            
+            columnHeights.removeAll()
             
             lastContentHeight = contentHeight
             
