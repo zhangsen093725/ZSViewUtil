@@ -98,6 +98,6 @@ class ZSFixedSoecingViewController: UIViewController, UICollectionViewDelegateFl
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
         
-        return CGSize(width: collectionView.zs_width, height: 44.zs_px)
+        return CGSize(width: collectionView.zs_width, height: 44.zs_pt)
     }
 }

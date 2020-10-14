@@ -29,49 +29,48 @@ public enum KDevice {
 // MARK: - iPhone以375 * 667为基础机型的比例系数，iPad以768 * 1024为基础机型的比例系数
 public extension CGFloat {
     
-    var zs_px: CGFloat { return self * KDevice.width / 375.0 }
+    var zs_pt: CGFloat { return CGFloat(Double(String(format: "%.3f", self * KDevice.width / 375.0)) ?? 0) }
     
-    var ratio_width: CGFloat { return self * ( KDevice.isPad ?  768.0 / 1024.0 : 375.0 / 667.0 ) }
+    var zs_width_ratio: CGFloat { return self * ( KDevice.isPad ?  768.0 / 1024.0 : 375.0 / 667.0 ) }
     
-    var ratio_height: CGFloat { return self * ( KDevice.isPad ?  1024.0 / 768.0 : 667.0 / 375.0 ) }
+    var zs_height_ratio: CGFloat { return self * ( KDevice.isPad ?  1024.0 / 768.0 : 667.0 / 375.0 ) }
 }
 
 public extension Int {
     
-    var zs_px: CGFloat { return CGFloat(self).zs_px }
+    var zs_pt: CGFloat { return CGFloat(self).zs_pt }
     
-    var ratio_width: CGFloat { return CGFloat(self).ratio_width }
+    var zs_width_ratio: CGFloat { return CGFloat(self).zs_width_ratio }
     
-    var ratio_height: CGFloat { return CGFloat(self).ratio_height }
+    var zs_height_ratio: CGFloat { return CGFloat(self).zs_height_ratio }
 }
 
 public extension Float {
     
-    var zs_px: CGFloat { return CGFloat(self).zs_px }
+    var zs_pt: CGFloat { return CGFloat(self).zs_pt }
     
-    var ratio_width: CGFloat { return CGFloat(self).ratio_width }
+    var zs_width_ratio: CGFloat { return CGFloat(self).zs_width_ratio }
     
-    var ratio_height: CGFloat { return CGFloat(self).ratio_height }
+    var zs_height_ratio: CGFloat { return CGFloat(self).zs_height_ratio }
 }
 
 public extension Double {
     
-    var zs_px: CGFloat { return CGFloat(self).zs_px }
+    var zs_pt: CGFloat { return CGFloat(self).zs_pt }
     
-    var ratio_width: CGFloat { return CGFloat(self).ratio_width }
+    var zs_width_ratio: CGFloat { return CGFloat(self).zs_width_ratio }
     
-    var ratio_height: CGFloat { return CGFloat(self).ratio_height }
+    var zs_height_ratio: CGFloat { return CGFloat(self).zs_height_ratio }
 }
 
 
 // MARK: - UIView 扩展
 @objc public extension UIView {
     
-    var zs_right: CGFloat { return self.frame.maxX }
-    
-    var zs_bottom: CGFloat { return self.frame.maxY }
-    
-    func zs_margin(top: CGFloat = 0, left: CGFloat = 0, bottom: CGFloat = 0, right: CGFloat = 0) {
+    func zs_margin(top: CGFloat = CGFloat(MAXFLOAT),
+                   left: CGFloat = CGFloat(MAXFLOAT),
+                   bottom: CGFloat = CGFloat(MAXFLOAT),
+                   right: CGFloat = CGFloat(MAXFLOAT)) {
         
         zs_margin = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
     }
@@ -79,17 +78,33 @@ public extension Double {
     var zs_margin: UIEdgeInsets {
         set
         {
-            zs_left = newValue.left
-            zs_top = newValue.top
-            zs_width = (superview?.frame.width ?? 0) - newValue.left - newValue.right
-            zs_height = (superview?.frame.height ?? 0) - newValue.top - newValue.bottom
+            let top = newValue.top == CGFloat(MAXFLOAT) ? zs_top : newValue.top
+            let left = newValue.left == CGFloat(MAXFLOAT) ? zs_left : newValue.left
+            let bottom = newValue.bottom == CGFloat(MAXFLOAT) ? zs_bottom : newValue.bottom
+            let right = newValue.right == CGFloat(MAXFLOAT) ? zs_right : newValue.right
+            
+            zs_left = left
+            zs_top = top
+            zs_right = right
+            zs_bottom = bottom
         }
         get
         {
             return UIEdgeInsets(top: zs_top,
                                 left: zs_left,
-                                bottom: (superview?.frame.height ?? 0) - zs_right,
-                                right: (superview?.frame.height ?? 0) - zs_bottom)
+                                bottom: zs_bottom,
+                                right: zs_right)
+        }
+    }
+    
+    var zs_top: CGFloat {
+        set
+        {
+            frame.origin.y = newValue
+        }
+        get
+        {
+            return frame.minY
         }
     }
     
@@ -104,14 +119,39 @@ public extension Double {
         }
     }
     
-    var zs_top: CGFloat {
+    var zs_bottom: CGFloat {
+        
         set
         {
-            frame.origin.y = newValue
+            let bottom = newValue == CGFloat(MAXFLOAT) ? zs_bottom : newValue
+
+            let superheight = (superview?.frame.height ?? 0)
+            
+            zs_height = superheight > 0 ? superheight - zs_top - bottom : 0
         }
         get
         {
-            return frame.minY
+            let superheight = (superview?.frame.height ?? 0)
+            
+            return zs_maxY > 0 ? superheight - zs_maxY : zs_maxY
+        }
+    }
+    
+    var zs_right: CGFloat {
+        
+        set
+        {
+            let right = newValue == CGFloat(MAXFLOAT) ? zs_right : newValue
+
+            let superwidth = (superview?.frame.width ?? 0)
+            
+            zs_width = superwidth > 0 ? superwidth - zs_left - right : 0
+        }
+        get
+        {
+            let superwidth = (superview?.frame.width ?? 0)
+            
+            return zs_maxX > 0 ? superwidth - zs_maxX : zs_maxX
         }
     }
     
@@ -158,6 +198,10 @@ public extension Double {
             return frame.height
         }
     }
+    
+    var zs_maxX: CGFloat { return frame.maxX }
+    
+    var zs_maxY: CGFloat { return frame.maxY }
 }
 
 // MARK: - UIColor扩展

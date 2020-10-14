@@ -40,11 +40,11 @@ class TextFieldDemoController: UIViewController {
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        textFiled.zs_margin(top: 100.zs_px, left: 30.zs_px, right: 30.zs_px)
-        textFiled.zs_height = 45.zs_px
+        textFiled.zs_margin(top: 100.zs_pt, left: 30.zs_pt, right: 30.zs_pt)
+        textFiled.zs_height = 45.zs_pt
         
-        button.zs_margin(top: textFiled.zs_bottom + 20.zs_px, left: 30.zs_px, right: 30.zs_px)
-        button.zs_height = 45.zs_px
+        button.zs_margin(top: textFiled.zs_bottom + 20.zs_pt, left: 30.zs_pt, right: 30.zs_pt)
+        button.zs_height = 45.zs_pt
     }
     
     override func didReceiveMemoryWarning() {

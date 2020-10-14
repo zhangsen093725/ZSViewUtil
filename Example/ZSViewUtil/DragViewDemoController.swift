@@ -39,8 +39,10 @@ class DragViewDemoController: UIViewController, ZSDragStaticCollectionServeDataS
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        dragView.zs_margin = UIEdgeInsets(top: 100.zs_px, left: 10.zs_px, bottom: 30.zs_px, right: 10.zs_px)
-//        dragView.frame = CGRect(x: 30.px, y: 100.px, width: 300.px, height: 300.px)
+        dragView.zs_margin(top: 10.zs_pt, left: 5.zs_pt, bottom: 100.zs_pt, right: 10.zs_pt)
+        dragView.zs_margin(top: 54.zs_pt)
+        dragView.zs_margin(left: 10.zs_pt)
+        dragView.zs_margin(bottom: 30.zs_pt)
     }
     
     override func didReceiveMemoryWarning() {
@@ -51,7 +53,7 @@ class DragViewDemoController: UIViewController, ZSDragStaticCollectionServeDataS
     // TODO: ZSDragStaticCollectionServeDataSource
     func zs_dragStaticCollectionView(layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: 80.zs_px, height: 80.zs_px)
+        return CGSize(width: 80.zs_pt, height: 80.zs_pt)
     }
     
     func zs_dragStaticCollectionView(_ cell: ZSDragStaticItemView, forItemAt indexPath: IndexPath) {

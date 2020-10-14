@@ -94,38 +94,38 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDataSo
     
     func zs_lineSpacing(collectionView collection: UICollectionView, layout: ZSWaterFlowLayout, section: Int) -> CGFloat {
         
-        return 10.zs_px
+        return 10.zs_pt
     }
     
     func zs_interitemSpacing(collectionView collection: UICollectionView, layout: ZSWaterFlowLayout, section: Int) -> CGFloat {
         
-        return 10.zs_px
+        return 10.zs_pt
     }
     
     func zs_sectionSpacing(collectionView collection: UICollectionView, layout: ZSWaterFlowLayout, section: Int) -> CGFloat {
         
-        return 10.zs_px
+        return 10.zs_pt
     }
     
     func zs_insetForSection(collectionView collection: UICollectionView, layout: ZSWaterFlowLayout, section: Int) -> UIEdgeInsets {
         
-        return UIEdgeInsets(top: 10.zs_px, left: 10.zs_px, bottom: 10.zs_px, right: 10.zs_px)
+        return UIEdgeInsets(top: 10.zs_pt, left: 10.zs_pt, bottom: 10.zs_pt, right: 10.zs_pt)
     }
 
     func zs_heightForRowAtIndexPath(collectionView collection: UICollectionView, layout: ZSWaterFlowLayout, indexPath: IndexPath, itemWidth: CGFloat) -> CGFloat {
         
         
-        return CGFloat(indexPath.item % 5 * 10 + 100).zs_px
+        return CGFloat(indexPath.item % 5 * 10 + 100).zs_pt
     }
     
     func zs_referenceSizeForHeader(collectionView collection: UICollectionView, layout: ZSWaterFlowLayout, section: Int) -> CGSize {
         
-        return .zero //CGSize(width: collectionView.zs_width, height: 64.zs_px)
+        return .zero //CGSize(width: collectionView.zs_width, height: 64.zs_pt)
     }
     
     func zs_referenceSizeForFooter(collectionView collection: UICollectionView, layout: ZSWaterFlowLayout, section: Int) -> CGSize {
         
-        return .zero // CGSize(width: collectionView.zs_width, height: 44.zs_px)
+        return .zero // CGSize(width: collectionView.zs_width, height: 44.zs_pt)
     }
 
 }
