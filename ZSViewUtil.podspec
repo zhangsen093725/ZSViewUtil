@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'ZSViewUtil'
-    s.version          = '0.7.1'
+    s.version          = '0.7.2'
     s.summary          = '自定义 View'
     
     # This description is used to generate tags and improve search results.
@@ -58,10 +58,6 @@ Pod::Spec.new do |s|
     
     s.subspec 'Field' do |f|
         f.source_files = 'ZSViewUtil/Classes/Field/**/*'
-    end
-    
-    s.subspec 'Image' do |i|
-        i.source_files = 'ZSViewUtil/Classes/Image/**/*'
     end
     
     s.subspec 'Layout' do |l|
