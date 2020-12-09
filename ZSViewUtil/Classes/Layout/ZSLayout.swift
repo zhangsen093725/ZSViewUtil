@@ -5,7 +5,7 @@
 //  Created by Josh on 2020/8/5.
 //
 
-import Foundation
+import UIKit
 
 public enum KDevice {
     

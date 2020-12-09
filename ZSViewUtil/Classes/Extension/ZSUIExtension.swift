@@ -5,7 +5,7 @@
 //  Created by 张森 on 2019/8/13.
 //
 
-import Foundation
+import UIKit
 
 // MARK: - UITableViewCell扩展
 @objc public extension UITableViewCell {

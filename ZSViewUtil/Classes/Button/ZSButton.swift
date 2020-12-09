@@ -23,20 +23,6 @@ import UIKit
     
     @objc public var imageInset: ZSButton.ImageInset = .left
     
-    @objc public var imageBackView: UIView {
-        return _imageBackView
-    }
-    
-    private lazy var _imageBackView: UIView = {
-        
-        let imageBackView = UIView()
-        imageBackView.backgroundColor = .clear
-        imageBackView.isUserInteractionEnabled = false
-        imageBackView.addSubview(imageView ?? UIImageView())
-        addSubview(imageBackView)
-        return imageBackView
-    }()
-    
     private var _gradientLayer: CAGradientLayer?
     private var _gradientColors: [UIColor] = []
     
@@ -84,6 +70,8 @@ import UIKit
     override public func layoutSubviews() {
         super.layoutSubviews()
         
+        _gradientLayer?.frame = bounds
+        
         switch imageInset {
         case .left:
             
@@ -104,79 +92,108 @@ import UIKit
         }
     }
     
+    var imageViewSize: CGSize {
+        
+        let imageSize = CGSize(width: (imageView?.image?.size.width ?? 0), height: (imageView?.image?.size.height ?? 0))
+        
+        var height = min(imageSize.height, frame.height - imageEdgeInsets.top - imageEdgeInsets.bottom)
+        height = height > 0 ? height : 0
+        
+        let scale = imageSize.height > 0 ? imageSize.width / imageSize.height : 1
+        
+        var width = min(height * scale, frame.width - imageEdgeInsets.left - imageEdgeInsets.right)
+        width = width > 0 ? width : 0;
+        
+        return CGSize(width: width, height: height)
+    }
+    
     func layoutImageLeft() {
         
-        let imageBackSize = min(frame.height, frame.width - titleEdgeInsets.left - titleEdgeInsets.right)
+        let _imageViewSize = imageViewSize
         
-        imageBackView.frame = CGRect(x: 0, y: (frame.height - imageBackSize) * 0.5, width: imageBackSize, height: imageBackSize)
+        let imageViewX = imageEdgeInsets.left
+        let imageViewY = (frame.height - _imageViewSize.height) * 0.5 + imageEdgeInsets.top - imageEdgeInsets.bottom
         
-        let imageWidth = imageBackSize - imageEdgeInsets.left - imageEdgeInsets.right
-        let imageHeight = imageBackSize - imageEdgeInsets.top - imageEdgeInsets.bottom
+        imageView?.frame.origin.x = imageViewX
+        imageView?.frame.origin.y = imageViewY
+        imageView?.frame.size = _imageViewSize
         
-        imageView?.frame = CGRect(x: (imageBackView.frame.width - imageWidth) * 0.5, y: (imageBackView.frame.height - imageHeight) * 0.5, width: imageWidth, height: imageHeight)
+        var titleHeight = frame.height - titleEdgeInsets.top - titleEdgeInsets.bottom
+        titleHeight = titleHeight > 0 ? titleHeight : 0
         
-        let titleWidth = frame.width - imageBackView.frame.maxX - titleEdgeInsets.left - titleEdgeInsets.right
-        let titleHeight = frame.height - titleEdgeInsets.top - titleEdgeInsets.bottom
+        var titleWidth = frame.width - _imageViewSize.width - titleEdgeInsets.left - titleEdgeInsets.right
+        titleWidth = titleWidth > 0 ? titleWidth : 0
         
-        titleLabel?.frame = CGRect(x: imageBackView.frame.maxX + titleEdgeInsets.left, y: titleEdgeInsets.top, width: titleWidth, height: titleHeight)
-        titleLabel?.textAlignment = .left
+        titleLabel?.frame.origin.x = (imageView?.frame.maxX ?? 0) + titleEdgeInsets.left
+        titleLabel?.frame.origin.y = titleEdgeInsets.top
+        titleLabel?.frame.size = CGSize(width: titleWidth, height: titleHeight)
     }
     
     
     func layoutImageRight() {
         
-        let imageBackSize = min(frame.height, frame.width - titleEdgeInsets.left - titleEdgeInsets.right)
+        let _imageViewSize = imageViewSize
         
-        imageBackView.frame = CGRect(x: frame.width - imageBackSize, y: (frame.height - imageBackSize) * 0.5, width: imageBackSize, height: imageBackSize)
+        var titleHeight = frame.height - titleEdgeInsets.top - titleEdgeInsets.bottom
+        titleHeight = titleHeight > 0 ? titleHeight : 0
         
-        let imageWidth = imageBackView.frame.width - imageEdgeInsets.left - imageEdgeInsets.right
-        let imageHeight = imageBackView.frame.height - imageEdgeInsets.top - imageEdgeInsets.bottom
+        var titleWidth = frame.width - _imageViewSize.width - titleEdgeInsets.left - titleEdgeInsets.right
+        titleWidth = titleWidth > 0 ? titleWidth : 0
         
-        imageView?.frame = CGRect(x: (imageBackView.frame.width - imageWidth) * 0.5, y: (imageBackView.frame.height - imageHeight) * 0.5, width: imageWidth, height: imageHeight)
+        titleLabel?.frame.origin.x = titleEdgeInsets.left
+        titleLabel?.frame.origin.y = titleEdgeInsets.top
+        titleLabel?.frame.size = CGSize(width: titleWidth, height: titleHeight)
         
-        let titleWidth = imageBackView.frame.origin.x - titleEdgeInsets.left - titleEdgeInsets.right
-        let titleHeight = frame.height - titleEdgeInsets.top - titleEdgeInsets.bottom
+        let imageViewX = imageEdgeInsets.left + (titleLabel?.frame.maxX ?? 0)
+        let imageViewY = (frame.height - _imageViewSize.height) * 0.5 + imageEdgeInsets.top - imageEdgeInsets.bottom
         
-        titleLabel?.frame = CGRect(x: titleEdgeInsets.left, y: titleEdgeInsets.top, width: titleWidth, height: titleHeight)
-        titleLabel?.textAlignment = .right
+        imageView?.frame.origin.x = imageViewX
+        imageView?.frame.origin.y = imageViewY
+        imageView?.frame.size = _imageViewSize
     }
     
     
     func layoutImageTop() {
         
-        let imageBackSize = min(frame.height - (titleLabel?.font.lineHeight ?? 0) - titleEdgeInsets.top - titleEdgeInsets.bottom, frame.width)
+        let _imageViewSize = imageViewSize
         
-        imageBackView.frame = CGRect(x: (frame.width - imageBackSize) * 0.5, y: 0, width: imageBackSize, height: imageBackSize)
+        let imageViewX = (frame.width - _imageViewSize.width) * 0.5 + imageEdgeInsets.left - imageEdgeInsets.right
+        let imageViewY = imageEdgeInsets.top
         
-        let imageWidth = imageBackSize - imageEdgeInsets.left - imageEdgeInsets.right
-        let imageHeight = imageBackSize - imageEdgeInsets.top - imageEdgeInsets.bottom
+        imageView?.frame.origin.x = imageViewX
+        imageView?.frame.origin.y = imageViewY
+        imageView?.frame.size = _imageViewSize
         
-        imageView?.frame = CGRect(x: (imageBackView.frame.width - imageWidth) * 0.5, y: (imageBackView.frame.height - imageHeight) * 0.5, width: imageWidth, height: imageHeight)
+        var titleHeight = frame.height - (imageView?.frame.maxY ?? 0) - titleEdgeInsets.top - titleEdgeInsets.bottom
+        titleHeight = titleHeight > 0 ? titleHeight : 0
         
+        var titleWidth = frame.width - titleEdgeInsets.left - titleEdgeInsets.right
+        titleWidth = titleWidth > 0 ? titleWidth : 0
         
-        let titleWidth = frame.width - titleEdgeInsets.left - titleEdgeInsets.right
-        let titleHeight = frame.height - imageBackView.frame.maxY - titleEdgeInsets.top - titleEdgeInsets.bottom
-        
-        titleLabel?.frame = CGRect(x: titleEdgeInsets.left, y: imageBackView.frame.maxY + titleEdgeInsets.top, width: titleWidth, height: titleHeight)
-        titleLabel?.textAlignment = .center
+        titleLabel?.frame.origin.x = titleEdgeInsets.left
+        titleLabel?.frame.origin.y = (imageView?.frame.maxY ?? 0) + titleEdgeInsets.top
+        titleLabel?.frame.size = CGSize(width: titleWidth, height: titleHeight)
     }
     
     func layoutImageBottom() {
         
-        let imageBackSize = min(frame.height - (titleLabel?.font.lineHeight ?? 0) - titleEdgeInsets.top - titleEdgeInsets.bottom, frame.width)
+        let _imageViewSize = imageViewSize
         
-        let titleWidth = frame.width - titleEdgeInsets.left - titleEdgeInsets.right
-        let titleHeight = frame.height - imageBackSize - titleEdgeInsets.top - titleEdgeInsets.bottom
+        var titleHeight = frame.height - _imageViewSize.height - titleEdgeInsets.top - titleEdgeInsets.bottom
+        titleHeight = titleHeight > 0 ? titleHeight : 0
         
-        titleLabel?.frame = CGRect(x: titleEdgeInsets.left, y: titleEdgeInsets.top, width: titleWidth, height: titleHeight)
-        titleLabel?.textAlignment = .center
+        var titleWidth = frame.width - titleEdgeInsets.left - titleEdgeInsets.right
+        titleWidth = titleWidth > 0 ? titleWidth : 0
         
+        titleLabel?.frame.origin.x = titleEdgeInsets.left
+        titleLabel?.frame.origin.y = titleEdgeInsets.top
+        titleLabel?.frame.size = CGSize(width: titleWidth, height: titleHeight)
         
-        imageBackView.frame = CGRect(x: (frame.width - imageBackSize) * 0.5, y: (titleLabel?.frame.maxY ?? 0) + titleEdgeInsets.bottom, width: imageBackSize, height: imageBackSize)
+        let imageViewX = (frame.width - _imageViewSize.width) * 0.5 + imageEdgeInsets.left - imageEdgeInsets.right
+        let imageViewY = (titleLabel?.frame.maxY ?? 0) + imageEdgeInsets.top - imageEdgeInsets.bottom
         
-        let imageWidth = imageBackSize - imageEdgeInsets.left - imageEdgeInsets.right
-        let imageHeight = imageBackSize - imageEdgeInsets.top - imageEdgeInsets.bottom
-        
-        imageView?.frame = CGRect(x: (imageBackView.frame.width - imageWidth) * 0.5, y: (imageBackView.frame.height - imageHeight) * 0.5, width: imageWidth, height: imageHeight)
+        imageView?.frame.origin.x = imageViewX
+        imageView?.frame.origin.y = imageViewY
+        imageView?.frame.size = _imageViewSize
     }
 }

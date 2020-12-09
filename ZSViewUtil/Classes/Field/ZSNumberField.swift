@@ -6,7 +6,7 @@
 //  Copyright © 2019 张森. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 @objcMembers open class ZSNumberField: ZSTextField {
     

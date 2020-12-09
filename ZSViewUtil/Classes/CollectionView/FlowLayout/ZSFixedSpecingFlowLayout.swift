@@ -68,7 +68,7 @@ import UIKit
             {
             case .Left:
                 
-                if pre?.frame.minY == attribute.frame.minY
+                if pre?.frame.minY == attribute.frame.minY && pre != nil
                 {
                     attribute.frame.origin.x = pre!.frame.maxX + minimumLineSpacing
                 }
@@ -79,7 +79,7 @@ import UIKit
                 break
             case .Right:
                 
-                if pre?.frame.minY == attribute.frame.minY
+                if pre?.frame.minY == attribute.frame.minY && pre != nil
                 {
                     attribute.frame.origin.x = pre!.frame.minX - attribute.frame.size.width - minimumLineSpacing
                 }
