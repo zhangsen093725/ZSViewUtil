@@ -13,9 +13,10 @@ class ZSFixedSoecingViewController: UIViewController, UICollectionViewDelegateFl
 
     public lazy var collectionView: ZSCollectionView = {
         
-        let layout = ZSFixedSpecingFlowLayout(with: .Left)
+        let layout = ZSFixedSpecingFlowLayout(with: .Center, isLineBreakByClipping: false)
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
         layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         
         let collectionView = ZSCollectionView.init(frame: .zero, collectionViewLayout: layout)
@@ -24,6 +25,7 @@ class ZSFixedSoecingViewController: UIViewController, UICollectionViewDelegateFl
         collectionView.alwaysBounceVertical = true
         collectionView.alwaysBounceHorizontal = false
         collectionView.shouldMultipleGestureRecognize = true
+        collectionView.isScrollEnabled = false
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.identifier)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(UICollectionReusableView.self) + "Footer")
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(UICollectionReusableView.self) + "Header")
@@ -46,25 +48,25 @@ class ZSFixedSoecingViewController: UIViewController, UICollectionViewDelegateFl
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        collectionView.frame = CGRect(x: 0, y: 64, width: 300, height: 120)
+        collectionView.frame = CGRect(x: 0, y: 64, width: view.bounds.width, height: 160)
     }
     
     // TODO: UICollectionViewDataSource
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         
-        return 2
+        return 1
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 5
+        return 15
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell: UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(UICollectionViewCell.self), for: indexPath)
         
-        cell.contentView.backgroundColor = UIColor.brown
+        cell.contentView.backgroundColor = indexPath.row % 2 == 0 ? UIColor.brown : UIColor.red
         
         return cell
     }

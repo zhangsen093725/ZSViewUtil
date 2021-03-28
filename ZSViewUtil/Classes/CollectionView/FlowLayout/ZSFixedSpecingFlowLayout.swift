@@ -9,7 +9,7 @@ import UIKit
 
 @objc public enum ZSFixedSpecingAlignment: Int {
     
-    case Left = 0, Right = 2
+    case Left = 0, Center = 1, Right = 2
 }
 
 @objcMembers open class ZSFixedSpecingFlowLayout: UICollectionViewFlowLayout {
@@ -20,11 +20,19 @@ import UIKit
     }
     
     private var _alignment_: ZSFixedSpecingAlignment = .Left
+    private var _isLineBreakByClipping_: Bool = true
     
-    convenience public init(with alignment: ZSFixedSpecingAlignment) {
+    convenience public init(with alignment: ZSFixedSpecingAlignment = .Left,
+                            isLineBreakByClipping: Bool = true,
+                            interitemSpacing: CGFloat = 0,
+                            sectionInset: UIEdgeInsets = .zero) {
         
         self.init()
         _alignment_ = alignment
+        _isLineBreakByClipping_ = isLineBreakByClipping
+        minimumInteritemSpacing = interitemSpacing
+        self.sectionInset = sectionInset
+        scrollDirection = .vertical
     }
     
     required public init?(coder: NSCoder) {
@@ -50,48 +58,158 @@ import UIKit
         
         // 获得super已经计算好的布局的属性
         let origins = super.layoutAttributesForElements(in: rect) ?? []
-        let attributes: [UICollectionViewLayoutAttributes] = origins.map({$0.copy() as! UICollectionViewLayoutAttributes})
         
-        if (attributes.first?.frame.maxX ?? 0) > (collectionView!.frame.width - sectionInset.left - sectionInset.right)
+        let maxWidth = (collectionView!.frame.width - sectionInset.left - sectionInset.right)
+        
+        if _isLineBreakByClipping_ && (origins.first?.frame.maxX ?? 0) > maxWidth
         {
             return []
         }
         
+        var subAttributes: [UICollectionViewLayoutAttributes] = []
+        
         // 计算collectionView最中心点的值
-        for (index, attribute) in attributes.enumerated()
+        for (index, attribute) in origins.enumerated()
         {
             if attribute.representedElementCategory != .cell { continue }
             
-            let pre = index > 0 ? attributes[index - 1] : nil
+            let pre = index > 0 ? origins[index - 1] : nil
             
-            switch _alignment_
+            if pre?.frame.minY == attribute.frame.minY && pre != nil
             {
-            case .Left:
-                
-                if pre?.frame.minY == attribute.frame.minY && pre != nil
-                {
-                    attribute.frame.origin.x = pre!.frame.maxX + minimumLineSpacing
-                }
-                else
-                {
-                    attribute.frame.origin.x = sectionInset.left
-                }
-                break
-            case .Right:
-                
-                if pre?.frame.minY == attribute.frame.minY && pre != nil
-                {
-                    attribute.frame.origin.x = pre!.frame.minX - attribute.frame.size.width - minimumLineSpacing
-                }
-                else
-                {
-                    attribute.frame.origin.x = collectionView!.frame.maxX - attribute.frame.size.width - sectionInset.right
-                }
-                break
+                attribute.frame.origin.x = pre!.frame.maxX + minimumInteritemSpacing
             }
+            else if collectionView?.isScrollEnabled == false
+            {
+                let isOutOfFrame = attribute.frame.maxY + minimumInteritemSpacing > collectionView!.frame.height
+            
+                if isOutOfFrame
+                {
+                    if _isLineBreakByClipping_ == false
+                    {
+                        attribute.frame.origin.x = (pre?.frame.maxX ?? 0) + minimumInteritemSpacing
+                        attribute.frame.origin.y = pre?.frame.minY ?? 0
+                        attribute.frame.size.width = collectionView!.frame.width - attribute.frame.minX - sectionInset.right
+                        
+                        if attribute.frame.width > 10
+                        {
+                            subAttributes.append(attribute.copy() as! UICollectionViewLayoutAttributes)
+                        }
+                    }
+                    
+                    break
+                }
+            }
+            else
+            {
+                attribute.frame.origin.x = sectionInset.left
+            }
+            
+            subAttributes.append(attribute.copy() as! UICollectionViewLayoutAttributes)
         }
         
-        return attributes
+        switch _alignment_
+        {
+        case .Left:
+            return Array(subAttributes)
+        case .Right:
+            
+            var tempArray: [UICollectionViewLayoutAttributes] = []
+            var preIndex = 0
+            
+            for (index, attribute) in subAttributes.enumerated()
+            {
+                let pre = index > 0 ? subAttributes[index - 1] : nil
+                
+                if pre?.frame.minY != attribute.frame.minY && pre != nil
+                {
+                    tempArray += cellsAlignmentRight(from: subAttributes, start: preIndex, end: index)
+                    preIndex = index
+                }
+                else if index == subAttributes.count - 1
+                {
+                    tempArray += cellsAlignmentRight(from: subAttributes, start: preIndex, end: subAttributes.count)
+                }
+            }
+            
+            return Array(tempArray)
+        case .Center:
+            
+            var tempArray: [UICollectionViewLayoutAttributes] = []
+            var preIndex = 0
+            
+            for (index, attribute) in subAttributes.enumerated()
+            {
+                let pre = index > 0 ? subAttributes[index - 1] : nil
+                
+                if pre?.frame.minY != attribute.frame.minY && pre != nil
+                {
+                    tempArray += cellsAlignmentCenter(from: subAttributes, last: pre!, start: preIndex, end: index)
+                    preIndex = index
+                }
+                else if index == subAttributes.count - 1
+                {
+                    tempArray += cellsAlignmentCenter(from: subAttributes, last: attribute, start: preIndex, end: subAttributes.count)
+                }
+            }
+            
+            return Array(tempArray)
+        }
+    }
+    
+    func cellsAlignmentRight(from subAttributes: [UICollectionViewLayoutAttributes],
+                             start: Int, end: Int) -> [UICollectionViewLayoutAttributes] {
+        
+        var tempArray: [UICollectionViewLayoutAttributes] = []
+        
+        let reversedAttributes: [UICollectionViewLayoutAttributes] = subAttributes[start..<end].reversed()
+        
+        for (index, attribute) in reversedAttributes.enumerated()
+        {
+            let pre = index > 0 ? reversedAttributes[index - 1] : nil
+            
+            if pre?.frame.minY == attribute.frame.minY && pre != nil
+            {
+                attribute.frame.origin.x = pre!.frame.minX - attribute.frame.size.width - minimumInteritemSpacing
+            }
+            else
+            {
+                attribute.frame.origin.x = collectionView!.frame.maxX - attribute.frame.size.width - sectionInset.right
+            }
+            
+            tempArray.append(attribute)
+        }
+        
+        return Array(tempArray)
+    }
+    
+    func cellsAlignmentCenter(from subAttributes: [UICollectionViewLayoutAttributes],
+                              last cell: UICollectionViewLayoutAttributes,
+                              start: Int, end: Int) -> [UICollectionViewLayoutAttributes] {
+        
+        let x = (self.collectionView!.frame.width + sectionInset.left - cell.frame.maxX) * 0.5
+        
+        var tempArray: [UICollectionViewLayoutAttributes] = []
+        
+        let _subAttributes = Array(subAttributes[start..<end])
+        
+        for (index, attribute) in _subAttributes.enumerated()
+        {
+            let pre = index > 0 ? _subAttributes[index - 1] : nil
+            
+            if pre?.frame.minY == attribute.frame.minY && pre != nil
+            {
+                attribute.frame.origin.x = pre!.frame.maxX + minimumInteritemSpacing
+            }
+            else
+            {
+                attribute.frame.origin.x = x
+            }
+            
+            tempArray.append(attribute)
+        }
+        
+        return Array(tempArray)
     }
     
     /**

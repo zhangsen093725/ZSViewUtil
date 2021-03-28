@@ -70,9 +70,13 @@ import UIKit
     override public func layoutSubviews() {
         super.layoutSubviews()
         
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
         _gradientLayer?.frame = bounds
+        CATransaction.commit()
         
-        switch imageInset {
+        switch imageInset
+        {
         case .left:
             
             layoutImageLeft()
@@ -92,16 +96,27 @@ import UIKit
         }
     }
     
+    open override var intrinsicContentSize: CGSize {
+        
+        let imageViewSize = self.imageView?.intrinsicContentSize ?? .zero
+        let titleLabelSize = self.titleLabel?.intrinsicContentSize ?? .zero
+        
+        return CGSize(width: imageViewSize.width + self.imageEdgeInsets.left + self.imageEdgeInsets.right +
+                        titleLabelSize.width + self.titleEdgeInsets.left + self.titleEdgeInsets.right,
+                      height: imageViewSize.height + self.imageEdgeInsets.top + self.imageEdgeInsets.bottom +
+                        titleLabelSize.height + self.titleEdgeInsets.top + self.titleEdgeInsets.bottom)
+    }
+    
     var imageViewSize: CGSize {
         
-        let imageSize = CGSize(width: (imageView?.image?.size.width ?? 0), height: (imageView?.image?.size.height ?? 0))
+        let imageViewSize = self.imageView?.intrinsicContentSize ?? .zero
         
-        var height = min(imageSize.height, frame.height - imageEdgeInsets.top - imageEdgeInsets.bottom)
+        var height = min(imageViewSize.height, frame.height)
         height = height > 0 ? height : 0
         
-        let scale = imageSize.height > 0 ? imageSize.width / imageSize.height : 1
+        let scale = imageViewSize.height > 0 ? imageViewSize.width / imageViewSize.height : 1
         
-        var width = min(height * scale, frame.width - imageEdgeInsets.left - imageEdgeInsets.right)
+        var width = min(height * scale, frame.width)
         width = width > 0 ? width : 0;
         
         return CGSize(width: width, height: height)
@@ -109,91 +124,327 @@ import UIKit
     
     func layoutImageLeft() {
         
-        let _imageViewSize = imageViewSize
+        let titleLabelSize = self.titleLabel?.intrinsicContentSize ?? .zero
         
-        let imageViewX = imageEdgeInsets.left
-        let imageViewY = (frame.height - _imageViewSize.height) * 0.5 + imageEdgeInsets.top - imageEdgeInsets.bottom
+        var imageViewX: CGFloat = 0
+        
+        switch contentHorizontalAlignment
+        {
+        case .center:
+            
+            imageViewX = (frame.width - (imageViewSize.width + imageEdgeInsets.left + imageEdgeInsets.right +
+                                            titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right)) * 0.5
+            break
+            
+        case .left:
+            
+            imageViewX = imageEdgeInsets.left
+            break
+            
+        case .right:
+            
+            imageViewX = (frame.width - (imageViewSize.width + imageEdgeInsets.left + imageEdgeInsets.right +
+                                            titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right))
+            break
+            
+        case .fill:
+            
+            imageViewX = imageEdgeInsets.left
+            break
+            
+        default:
+            break
+        }
+        
+        var titleLabelY: CGFloat = 0
+        var imageViewY: CGFloat = 0
+        
+        switch (contentVerticalAlignment)
+        {
+        case .center:
+            
+            imageViewY = (frame.height - imageViewSize.height - imageEdgeInsets.top - imageEdgeInsets.bottom) * 0.5
+            titleLabelY = (imageViewSize.height - titleLabelSize.height) * 0.5 + (imageViewY +
+                                                                                    titleEdgeInsets.top +
+                                                                                    titleEdgeInsets.bottom)
+            
+            break
+            
+        case .top:
+            
+            imageViewY = imageEdgeInsets.top
+            titleLabelY = titleEdgeInsets.top
+            
+            break
+            
+        case .bottom:
+            
+            imageViewY = (frame.height - imageViewSize.height - imageEdgeInsets.bottom)
+            titleLabelY = (frame.height - titleLabelSize.height - titleEdgeInsets.bottom)
+            
+            break
+            
+        case .fill:
+            
+            imageViewY = imageEdgeInsets.top
+            titleLabelY = titleEdgeInsets.top
+            
+            break
+            
+        default:
+            break;
+        }
         
         imageView?.frame.origin.x = imageViewX
         imageView?.frame.origin.y = imageViewY
-        imageView?.frame.size = _imageViewSize
-        
-        var titleHeight = frame.height - titleEdgeInsets.top - titleEdgeInsets.bottom
-        titleHeight = titleHeight > 0 ? titleHeight : 0
-        
-        var titleWidth = frame.width - _imageViewSize.width - titleEdgeInsets.left - titleEdgeInsets.right
-        titleWidth = titleWidth > 0 ? titleWidth : 0
+        imageView?.frame.size = imageViewSize
         
         titleLabel?.frame.origin.x = (imageView?.frame.maxX ?? 0) + titleEdgeInsets.left
-        titleLabel?.frame.origin.y = titleEdgeInsets.top
-        titleLabel?.frame.size = CGSize(width: titleWidth, height: titleHeight)
+        titleLabel?.frame.origin.y = titleLabelY
+        titleLabel?.frame.size = titleLabelSize
     }
     
     
     func layoutImageRight() {
         
-        let _imageViewSize = imageViewSize
+        let titleLabelSize = self.titleLabel?.intrinsicContentSize ?? .zero
         
-        var titleHeight = frame.height - titleEdgeInsets.top - titleEdgeInsets.bottom
-        titleHeight = titleHeight > 0 ? titleHeight : 0
+        var titleLabelX: CGFloat = 0
         
-        var titleWidth = frame.width - _imageViewSize.width - titleEdgeInsets.left - titleEdgeInsets.right
-        titleWidth = titleWidth > 0 ? titleWidth : 0
+        switch contentHorizontalAlignment
+        {
+        case .center:
+            
+            titleLabelX = (frame.width - (imageViewSize.width + imageEdgeInsets.left + imageEdgeInsets.right +
+                                            titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right)) * 0.5
+            break
+            
+        case .left:
+            
+            titleLabelX = titleEdgeInsets.left
+            break
+            
+        case .right:
+            
+            titleLabelX = (frame.width - (imageViewSize.width + imageEdgeInsets.left + imageEdgeInsets.right +
+                                            titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right))
+            break
+            
+        case .fill:
+            
+            titleLabelX = titleEdgeInsets.left
+            break
+            
+        default:
+            break
+        }
         
-        titleLabel?.frame.origin.x = titleEdgeInsets.left
-        titleLabel?.frame.origin.y = titleEdgeInsets.top
-        titleLabel?.frame.size = CGSize(width: titleWidth, height: titleHeight)
+        var titleLabelY: CGFloat = 0
+        var imageViewY: CGFloat = 0
         
-        let imageViewX = imageEdgeInsets.left + (titleLabel?.frame.maxX ?? 0)
-        let imageViewY = (frame.height - _imageViewSize.height) * 0.5 + imageEdgeInsets.top - imageEdgeInsets.bottom
+        switch (contentVerticalAlignment)
+        {
+        case .center:
+            
+            imageViewY = (frame.height - imageViewSize.height - imageEdgeInsets.top - imageEdgeInsets.bottom) * 0.5
+            titleLabelY = (imageViewSize.height - titleLabelSize.height) * 0.5 + (imageViewY +
+                                                                                    titleEdgeInsets.top +
+                                                                                    titleEdgeInsets.bottom)
+            
+            break
+            
+        case .top:
+            
+            imageViewY = imageEdgeInsets.top
+            titleLabelY = titleEdgeInsets.top
+            
+            break
+            
+        case .bottom:
+            
+            imageViewY = (frame.height - imageViewSize.height - imageEdgeInsets.bottom)
+            titleLabelY = (frame.height - titleLabelSize.height - titleEdgeInsets.bottom)
+            
+            break
+            
+        case .fill:
+            
+            imageViewY = imageEdgeInsets.top
+            titleLabelY = titleEdgeInsets.top
+            
+            break
+            
+        default:
+            break;
+        }
         
-        imageView?.frame.origin.x = imageViewX
+        titleLabel?.frame.origin.x = titleLabelX
+        titleLabel?.frame.origin.y = titleLabelY
+        titleLabel?.frame.size = titleLabelSize
+        
+        imageView?.frame.origin.x = imageEdgeInsets.left + (titleLabel?.frame.maxX ?? 0)
         imageView?.frame.origin.y = imageViewY
-        imageView?.frame.size = _imageViewSize
+        imageView?.frame.size = imageViewSize
     }
     
     
     func layoutImageTop() {
         
-        let _imageViewSize = imageViewSize
+        let titleLabelSize = self.titleLabel?.intrinsicContentSize ?? .zero
         
-        let imageViewX = (frame.width - _imageViewSize.width) * 0.5 + imageEdgeInsets.left - imageEdgeInsets.right
-        let imageViewY = imageEdgeInsets.top
+        var titleLabelX: CGFloat = 0
+        var imageViewX: CGFloat = 0
+        
+        switch contentHorizontalAlignment
+        {
+        case .center:
+            
+            imageViewX = (frame.width - (imageViewSize.width + imageEdgeInsets.left + imageEdgeInsets.right)) * 0.5
+            titleLabelX = (frame.width - (titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right)) * 0.5
+            break
+            
+        case .left:
+            
+            imageViewX = imageEdgeInsets.left
+            titleLabelX = titleEdgeInsets.left
+            break
+            
+        case .right:
+            
+            imageViewX = frame.width - (imageViewSize.width + imageEdgeInsets.left + imageEdgeInsets.right)
+            titleLabelX = frame.width - (titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right)
+            break
+            
+        case .fill:
+            
+            imageViewX = imageEdgeInsets.left
+            titleLabelX = titleEdgeInsets.left
+            break
+            
+        default:
+            break
+        }
+        
+        var imageViewY: CGFloat = 0
+        
+        switch (contentVerticalAlignment)
+        {
+        case .center:
+            
+            imageViewY = (frame.height - (imageViewSize.height + imageEdgeInsets.top + imageEdgeInsets.bottom +
+                                            titleLabelSize.height + titleEdgeInsets.top + titleEdgeInsets.bottom)) * 0.5
+            
+            break
+            
+        case .top:
+            
+            imageViewY = imageEdgeInsets.top
+            
+            break
+            
+        case .bottom:
+            
+            imageViewY = (frame.height - (imageViewSize.height + imageEdgeInsets.top + imageEdgeInsets.bottom +
+                                            titleLabelSize.height + titleEdgeInsets.top + titleEdgeInsets.bottom))
+            
+            break
+            
+        case .fill:
+            
+            imageViewY = imageEdgeInsets.top
+            
+            break
+            
+        default:
+            break;
+        }
         
         imageView?.frame.origin.x = imageViewX
         imageView?.frame.origin.y = imageViewY
-        imageView?.frame.size = _imageViewSize
+        imageView?.frame.size = imageViewSize
         
-        var titleHeight = frame.height - (imageView?.frame.maxY ?? 0) - titleEdgeInsets.top - titleEdgeInsets.bottom
-        titleHeight = titleHeight > 0 ? titleHeight : 0
-        
-        var titleWidth = frame.width - titleEdgeInsets.left - titleEdgeInsets.right
-        titleWidth = titleWidth > 0 ? titleWidth : 0
-        
-        titleLabel?.frame.origin.x = titleEdgeInsets.left
+        titleLabel?.frame.origin.x = titleLabelX
         titleLabel?.frame.origin.y = (imageView?.frame.maxY ?? 0) + titleEdgeInsets.top
-        titleLabel?.frame.size = CGSize(width: titleWidth, height: titleHeight)
+        titleLabel?.frame.size = titleLabelSize
     }
     
     func layoutImageBottom() {
         
-        let _imageViewSize = imageViewSize
+        let titleLabelSize = self.titleLabel?.intrinsicContentSize ?? .zero
         
-        var titleHeight = frame.height - _imageViewSize.height - titleEdgeInsets.top - titleEdgeInsets.bottom
-        titleHeight = titleHeight > 0 ? titleHeight : 0
+        var titleLabelX: CGFloat = 0
+        var imageViewX: CGFloat = 0
         
-        var titleWidth = frame.width - titleEdgeInsets.left - titleEdgeInsets.right
-        titleWidth = titleWidth > 0 ? titleWidth : 0
+        switch contentHorizontalAlignment
+        {
+        case .center:
+            
+            imageViewX = (frame.width - (imageViewSize.width + imageEdgeInsets.left + imageEdgeInsets.right)) * 0.5
+            titleLabelX = (frame.width - (titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right)) * 0.5
+            break
+            
+        case .left:
+            
+            imageViewX = imageEdgeInsets.left
+            titleLabelX = titleEdgeInsets.left
+            break
+            
+        case .right:
+            
+            imageViewX = frame.width - (imageViewSize.width + imageEdgeInsets.left + imageEdgeInsets.right)
+            titleLabelX = frame.width - (titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right)
+            break
+            
+        case .fill:
+            
+            imageViewX = imageEdgeInsets.left
+            titleLabelX = titleEdgeInsets.left
+            break
+            
+        default:
+            break
+        }
         
-        titleLabel?.frame.origin.x = titleEdgeInsets.left
-        titleLabel?.frame.origin.y = titleEdgeInsets.top
-        titleLabel?.frame.size = CGSize(width: titleWidth, height: titleHeight)
+        var titleLabelY: CGFloat = 0
         
-        let imageViewX = (frame.width - _imageViewSize.width) * 0.5 + imageEdgeInsets.left - imageEdgeInsets.right
-        let imageViewY = (titleLabel?.frame.maxY ?? 0) + imageEdgeInsets.top - imageEdgeInsets.bottom
+        switch (contentVerticalAlignment)
+        {
+        case .center:
+            
+            titleLabelY = (frame.height - (imageViewSize.height + imageEdgeInsets.top + imageEdgeInsets.bottom +
+                                            titleLabelSize.height + titleEdgeInsets.top + titleEdgeInsets.bottom)) * 0.5
+            
+            break
+            
+        case .top:
+            
+            titleLabelY = titleEdgeInsets.top
+            
+            break
+            
+        case .bottom:
+            
+            titleLabelY = (frame.height - (imageViewSize.height + imageEdgeInsets.top + imageEdgeInsets.bottom +
+                                            titleLabelSize.height + titleEdgeInsets.top + titleEdgeInsets.bottom))
+            
+            break
+            
+        case .fill:
+            
+            titleLabelY = titleEdgeInsets.top
+            
+            break
+            
+        default:
+            break;
+        }
+        
+        titleLabel?.frame.origin.x = titleLabelX
+        titleLabel?.frame.origin.y = titleLabelY
+        titleLabel?.frame.size = titleLabelSize
         
         imageView?.frame.origin.x = imageViewX
-        imageView?.frame.origin.y = imageViewY
-        imageView?.frame.size = _imageViewSize
+        imageView?.frame.origin.y = (titleLabel?.frame.maxY ?? 0) + imageEdgeInsets.top
+        imageView?.frame.size = imageViewSize
     }
 }
