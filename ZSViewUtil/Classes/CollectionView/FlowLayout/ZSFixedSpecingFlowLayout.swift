@@ -79,29 +79,30 @@ import UIKit
             {
                 attribute.frame.origin.x = pre!.frame.maxX + minimumInteritemSpacing
             }
-            else if collectionView?.isScrollEnabled == false
-            {
-                let isOutOfFrame = attribute.frame.maxY + minimumInteritemSpacing > collectionView!.frame.height
-            
-                if isOutOfFrame
-                {
-                    if _isLineBreakByClipping_ == false
-                    {
-                        attribute.frame.origin.x = (pre?.frame.maxX ?? 0) + minimumInteritemSpacing
-                        attribute.frame.origin.y = pre?.frame.minY ?? 0
-                        attribute.frame.size.width = collectionView!.frame.width - attribute.frame.minX - sectionInset.right
-                        
-                        if attribute.frame.width > 10
-                        {
-                            subAttributes.append(attribute.copy() as! UICollectionViewLayoutAttributes)
-                        }
-                    }
-                    
-                    break
-                }
-            }
             else
             {
+                if collectionView?.isScrollEnabled == false
+                {
+                    let isOutOfFrame = attribute.frame.maxY + minimumInteritemSpacing > collectionView!.frame.height
+                
+                    if isOutOfFrame
+                    {
+                        if _isLineBreakByClipping_ == false
+                        {
+                            attribute.frame.origin.x = (pre?.frame.maxX ?? 0) + minimumInteritemSpacing
+                            attribute.frame.origin.y = pre?.frame.minY ?? 0
+                            attribute.frame.size.width = collectionView!.frame.width - attribute.frame.minX - sectionInset.right
+                            
+                            if attribute.frame.width > 20
+                            {
+                                subAttributes.append(attribute.copy() as! UICollectionViewLayoutAttributes)
+                            }
+                        }
+                        
+                        break
+                    }
+                }
+                
                 attribute.frame.origin.x = sectionInset.left
             }
             
