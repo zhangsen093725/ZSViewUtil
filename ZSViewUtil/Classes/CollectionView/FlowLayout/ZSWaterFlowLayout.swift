@@ -172,7 +172,7 @@ import UIKit
         
         let cell = UICollectionViewLayoutAttributes(forCellWith: indexPath)
         let minColumnLenght = columnLenghts[minLenghtColumn]
-        let shouldBeyondSize = delegate?.zs_collectionView(collectionView!, layout: self, shouldBeyondSizeNumberOf: indexPath.section)
+        let shouldBeyondSize = delegate?.zs_collectionView(collectionView!, layout: self, shouldBeyondSizeOf: indexPath.section)
         
         if scrollDirection == .vertical
         {

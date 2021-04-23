@@ -132,7 +132,7 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDelega
         return 2
     }
     
-    func zs_collectionView(_ collectionView: UICollectionView, layout: ZSWaterFlowLayout, shouldBeyondSizeNumberOf section: Int) -> Bool {
+    func zs_collectionView(_ collectionView: UICollectionView, layout: ZSWaterFlowLayout, shouldBeyondSizeOf section: Int) -> Bool {
         
         return section % 2 == 0 ? true : false
     }
