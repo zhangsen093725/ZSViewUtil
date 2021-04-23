@@ -14,7 +14,7 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDelega
     public lazy var collectionView: ZSCollectionView = {
         
         let layout = ZSWaterFlowLayout()
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
         
         let collectionView = ZSCollectionView.init(frame: .zero, collectionViewLayout: layout)
         
@@ -24,11 +24,10 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDelega
         collectionView.backgroundColor = UIColor(argb: "#6627C1F2")
         collectionView.allowsSelection = true
         collectionView.alwaysBounceVertical = true
-        collectionView.bounces = false
         
         collectionView.alwaysBounceHorizontal = false
         collectionView.shouldMultipleGestureRecognize = true
-        collectionView.register(ZSTextCollectionViewCell.self, forCellWithReuseIdentifier: ZSTextCollectionViewCell.identifier)
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: UICollectionViewCell.identifier)
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: NSStringFromClass(UICollectionReusableView.self) + "Footer")
         collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: NSStringFromClass(UICollectionReusableView.self) + "Header")
         collectionView.dataSource = self
@@ -60,15 +59,27 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDelega
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 10
+        return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell: ZSTextCollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: NSStringFromClass(ZSTextCollectionViewCell.self), for: indexPath) as! ZSTextCollectionViewCell
+        let cell: UICollectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: UICollectionViewCell.identifier, for: indexPath)
         
-        cell.label.text = "\(indexPath)"
-        cell.backgroundColor = .brown
+        cell.contentView.frame = cell.bounds
+
+        for subView in cell.contentView.subviews
+        {
+            subView.removeFromSuperview()
+        }
+        
+        let label = UILabel()
+        
+        label.text = "\(indexPath)"
+        label.backgroundColor = .brown
+        
+        label.frame = cell.contentView.bounds
+        cell.contentView.addSubview(label)
         
         return cell
     }
@@ -121,6 +132,11 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDelega
         return 2
     }
     
+    func zs_collectionView(_ collectionView: UICollectionView, layout: ZSWaterFlowLayout, shouldBeyondSizeNumberOf section: Int) -> Bool {
+        
+        return section % 2 == 0 ? true : false
+    }
+    
     func zs_collectionView(_ collectionView: UICollectionView, layout: ZSWaterFlowLayout, sectionSpacingFor section: Int) -> CGFloat {
         
         return 10.zs_pt
@@ -130,9 +146,9 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDelega
      
         if layout.scrollDirection == .vertical
         {
-            return CGSize(width: minimumSize.width, height: CGFloat(indexPath.item % 10 * 20).zs_pt)
+            return CGSize(width: indexPath.item % 6 == 0 ? (collectionView.zs_width - 20.zs_pt - CGFloat((indexPath.item % 15) * 20)) : (minimumSize.width - CGFloat((indexPath.item % 6) * 20)), height: CGFloat((indexPath.item % 10 + 1) * 20).zs_pt)
         }
         
-        return CGSize(width: CGFloat(indexPath.item % 10 * 20).zs_pt, height: minimumSize.height)
+        return CGSize(width: CGFloat((indexPath.item % 10 + 1) * 20).zs_pt, height: indexPath.item % 6 == 0 ? (collectionView.zs_height - 20.zs_pt - CGFloat((indexPath.item % 15) * 20)) : (minimumSize.height - CGFloat((indexPath.item % 6) * 20)))
     }
 }
