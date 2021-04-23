@@ -70,7 +70,10 @@ import UIKit
     override public func layoutSubviews() {
         super.layoutSubviews()
         
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
         _gradientLayer?.frame = bounds
+        CATransaction.commit()
         
         switch imageInset
         {

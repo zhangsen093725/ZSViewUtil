@@ -1,6 +1,6 @@
 {
   "name": "ZSViewUtil",
-  "version": "0.6.9",
+  "version": "0.7.5",
   "summary": "自定义 View",
   "description": "包含 Web、Toast、Animation、Player等等",
   "homepage": "https://github.com/zhangsen093725/ZSViewUtil",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/zhangsen093725/ZSViewUtil.git",
-    "tag": "0.6.9"
+    "tag": "0.7.5"
   },
   "swift_versions": "5.0",
   "platforms": {
@@ -49,10 +49,6 @@
     {
       "name": "Field",
       "source_files": "ZSViewUtil/Classes/Field/**/*"
-    },
-    {
-      "name": "Image",
-      "source_files": "ZSViewUtil/Classes/Image/**/*"
     },
     {
       "name": "Layout",
