@@ -9,9 +9,24 @@ import UIKit
 
 @objcMembers open class ZSShadowView: UIView {
 
-    private var color: UIColor = UIColor.black.withAlphaComponent(0.2)
-    private var offset: CGPoint = CGPoint(x: 0, y: 4)
-    private var blur: CGFloat = 16
+    public var color: UIColor = UIColor.black.withAlphaComponent(0.2) {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
+    public var offset: CGPoint = CGPoint(x: 0, y: 4) {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
+    public var blur: CGFloat = 16 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
+    
     public var radius: CGFloat = 0 {
         didSet {
             setNeedsDisplay()
@@ -65,25 +80,7 @@ import UIKit
         contentView.frame = pathRect
         contentView.layer.cornerRadius = radius
     }
-    
-    public override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
-    required public init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    convenience public init(offset: CGPoint =  CGPoint(x: 0, y: 4),
-                            blur: CGFloat = 16,
-                            color: UIColor = UIColor.black.withAlphaComponent(0.2)) {
-        self.init()
-        self.offset = offset
-        self.blur = blur
-        self.color = color
-        self.radius = radius
-    }
-    
+
     open override var frame: CGRect {
         didSet {
             setNeedsDisplay()
