@@ -15,6 +15,11 @@ import UIKit
                            minimumSize: CGSize,
                            sizeForItemAt indexPath: IndexPath) -> CGSize
     
+    /// 是否允许超过大小
+    @objc func zs_collectionView(_ collectionView: UICollectionView,
+                           layout: ZSWaterFlowLayout,
+                           shouldBeyondSizeOf section: Int) -> Bool
+    
     /// 每个section 列数（默认2列）
     @objc optional func zs_collectionView(_ collectionView: UICollectionView,
                                           layout: ZSWaterFlowLayout,
@@ -54,6 +59,23 @@ import UIKit
             if min > vaule
             {
                 min = vaule
+                column = index
+            }
+        }
+        return column
+    }
+    
+    /// 返回长度最小的一列
+    private var maxLenghtColumn: Int {
+        
+        var max: CGFloat = 0
+        var column = 0
+        
+        for (index, vaule) in columnLenghts.enumerated()
+        {
+            if max < vaule
+            {
+                max = vaule
                 column = index
             }
         }
@@ -150,6 +172,7 @@ import UIKit
         
         let cell = UICollectionViewLayoutAttributes(forCellWith: indexPath)
         let minColumnLenght = columnLenghts[minLenghtColumn]
+        let shouldBeyondSize = delegate?.zs_collectionView(collectionView!, layout: self, shouldBeyondSizeNumberOf: indexPath.section)
         
         if scrollDirection == .vertical
         {
@@ -159,11 +182,18 @@ import UIKit
             
             let cellSize = self.delegate?.zs_collectionView(collectionView!, layout:self, minimumSize:CGSize(width: cellMinimumWidth, height: CGFloat(MAXFLOAT)), sizeForItemAt: indexPath) ?? .zero
             
-            let cellWidth = min(cellMinimumWidth, cellSize.width)
+            var cellWidth = min(cellMinimumWidth, cellSize.width)
             let cellHeight = cellSize.height
             
-            let cellX = sectionInset.left + CGFloat(minLenghtColumn) * (cellWidth + minimumInteritemSpacing)
-            var cellY: CGFloat = minColumnLenght
+            var cellX = sectionInset.left + CGFloat(minLenghtColumn) * (cellMinimumWidth + minimumInteritemSpacing)
+            var cellY = minColumnLenght
+            
+            if shouldBeyondSize == true && cellSize.width > cellMinimumWidth
+            {
+                cellWidth = cellSize.width
+                cellX = sectionInset.left
+                cellY = columnLenghts[maxLenghtColumn]
+            }
             
             if cellY != self.lastContentLenght
             {
@@ -172,7 +202,17 @@ import UIKit
             
             cell.frame = CGRect(x: cellX, y: cellY, width: cellWidth, height: cellHeight)
             
-            columnLenghts[minLenghtColumn] = cell.frame.maxY
+            if shouldBeyondSize == true && cellSize.width > cellMinimumWidth
+            {
+                for idx in 0..<columnCount
+                {
+                    columnLenghts[idx] = cell.frame.maxY
+                }
+            }
+            else
+            {
+                columnLenghts[minLenghtColumn] = cell.frame.maxY
+            }
         }
         else
         {
@@ -183,10 +223,17 @@ import UIKit
             let cellSize = self.delegate?.zs_collectionView(collectionView!, layout:self, minimumSize:CGSize(width: CGFloat(MAXFLOAT), height: cellMinimumHeight), sizeForItemAt: indexPath) ?? .zero
             
             let cellWidth = cellSize.width
-            let cellHeight = min(cellMinimumHeight, cellSize.height)
+            var cellHeight = min(cellMinimumHeight, cellSize.height)
             
             var cellX: CGFloat = minColumnLenght
-            let cellY = sectionInset.top + CGFloat(minLenghtColumn) * (cellHeight + minimumLineSpacing)
+            var cellY = sectionInset.top + CGFloat(minLenghtColumn) * (cellMinimumHeight + minimumLineSpacing)
+            
+            if shouldBeyondSize == true && cellSize.height > cellMinimumHeight
+            {
+                cellHeight = cellSize.height
+                cellY = sectionInset.top
+                cellX = columnLenghts[maxLenghtColumn]
+            }
             
             if cellX != self.lastContentLenght
             {
@@ -195,7 +242,17 @@ import UIKit
             
             cell.frame = CGRect(x: cellX, y: cellY, width: cellWidth, height: cellHeight)
             
-            columnLenghts[minLenghtColumn] = cell.frame.maxX
+            if shouldBeyondSize == true && cellSize.height > cellMinimumHeight
+            {
+                for idx in 0..<columnCount
+                {
+                    columnLenghts[idx] = cell.frame.maxX
+                }
+            }
+            else
+            {
+                columnLenghts[minLenghtColumn] = cell.frame.maxX
+            }
         }
         
         if contentLenght < minColumnLenght
