@@ -83,7 +83,7 @@ import UIKit
             {
                 if collectionView?.isScrollEnabled == false
                 {
-                    let isOutOfFrame = attribute.frame.maxY + minimumInteritemSpacing > collectionView!.frame.height
+                    let isOutOfFrame = attribute.frame.maxY + sectionInset.bottom > collectionView!.frame.height
                 
                     if isOutOfFrame
                     {
@@ -122,11 +122,13 @@ import UIKit
             {
                 let pre = index > 0 ? subAttributes[index - 1] : nil
                 
+                /// 上一行的右对齐
                 if pre?.frame.minY != attribute.frame.minY && pre != nil
                 {
                     tempArray += cellsAlignmentRight(from: subAttributes, start: preIndex, end: index)
                     preIndex = index
                 }
+                /// 最后一行的右对齐
                 else if index == subAttributes.count - 1
                 {
                     tempArray += cellsAlignmentRight(from: subAttributes, start: preIndex, end: subAttributes.count)
@@ -143,11 +145,13 @@ import UIKit
             {
                 let pre = index > 0 ? subAttributes[index - 1] : nil
                 
+                /// 上一行的居中布局
                 if pre?.frame.minY != attribute.frame.minY && pre != nil
                 {
                     tempArray += cellsAlignmentCenter(from: subAttributes, last: pre!, start: preIndex, end: index)
                     preIndex = index
                 }
+                /// 最后一行的居中布局
                 else if index == subAttributes.count - 1
                 {
                     tempArray += cellsAlignmentCenter(from: subAttributes, last: attribute, start: preIndex, end: subAttributes.count)
@@ -169,10 +173,12 @@ import UIKit
         {
             let pre = index > 0 ? reversedAttributes[index - 1] : nil
             
+            /// 同一行的 Cell 修改 frame
             if pre?.frame.minY == attribute.frame.minY && pre != nil
             {
                 attribute.frame.origin.x = pre!.frame.minX - attribute.frame.size.width - minimumInteritemSpacing
             }
+            /// 修改每行第一个 Cell 的 frame
             else
             {
                 attribute.frame.origin.x = collectionView!.frame.maxX - attribute.frame.size.width - sectionInset.right
@@ -198,10 +204,12 @@ import UIKit
         {
             let pre = index > 0 ? _subAttributes[index - 1] : nil
             
+            /// 同一行的 Cell 修改 frame
             if pre?.frame.minY == attribute.frame.minY && pre != nil
             {
                 attribute.frame.origin.x = pre!.frame.maxX + minimumInteritemSpacing
             }
+            /// 修改每行第一个 Cell 的 frame
             else
             {
                 attribute.frame.origin.x = x

@@ -113,7 +113,7 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDelega
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
        
-        return UIEdgeInsets(top: 10.zs_pt, left: 10.zs_pt, bottom: 10.zs_pt, right: 10.zs_pt)
+        return .zero // UIEdgeInsets(top: 10.zs_pt, left: 10.zs_pt, bottom: 10.zs_pt, right: 10.zs_pt)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -129,7 +129,27 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDelega
     // TODO: ZSWaterFlowLayoutDelegate
     func zs_collectionView(_ collectionView: UICollectionView, layout: ZSWaterFlowLayout, columnNumberOf section: Int) -> Int {
         
-        return 2
+        return 3
+    }
+    
+    func zs_collectionView(_ collectionView: UICollectionView, layout: ZSWaterFlowLayout, insetForColumnAtIndex column: Int, columnCount: Int) -> UIEdgeInsets {
+        
+        if columnCount == 1
+        {
+            return .zero
+        }
+        
+        if column == 0
+        {
+            return UIEdgeInsets(top: 0, left: 16.zs_pt, bottom: 0, right: 0)
+        }
+        
+        if column == columnCount - 1
+        {
+            return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 16.zs_pt)
+        }
+        
+        return UIEdgeInsets(top: 0, left: 8.zs_pt, bottom: 0, right: 8.zs_pt)
     }
     
     func zs_collectionView(_ collectionView: UICollectionView, layout: ZSWaterFlowLayout, shouldBeyondSizeOf section: Int) -> Bool {
@@ -146,7 +166,7 @@ class ZSWaterCollectionViewController: UIViewController, ZSWaterFlowLayoutDelega
      
         if layout.scrollDirection == .vertical
         {
-            return CGSize(width: indexPath.item % 6 == 0 ? (collectionView.zs_width - 20.zs_pt - CGFloat((indexPath.item % 15) * 20)) : (minimumSize.width - CGFloat((indexPath.item % 6) * 20)), height: CGFloat((indexPath.item % 10 + 1) * 20).zs_pt)
+            return CGSize(width: minimumSize.width - 16.zs_pt, height: CGFloat((indexPath.item % 10 + 1) * 20).zs_pt)//CGSize(width: indexPath.item % 6 == 0 ? (collectionView.zs_width - 20.zs_pt - CGFloat((indexPath.item % 15) * 20)) : (minimumSize.width - CGFloat((indexPath.item % 6) * 20)), height: CGFloat((indexPath.item % 10 + 1) * 20).zs_pt)
         }
         
         return CGSize(width: CGFloat((indexPath.item % 10 + 1) * 20).zs_pt, height: indexPath.item % 6 == 0 ? (collectionView.zs_height - 20.zs_pt - CGFloat((indexPath.item % 15) * 20)) : (minimumSize.height - CGFloat((indexPath.item % 6) * 20)))

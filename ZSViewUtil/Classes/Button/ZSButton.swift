@@ -132,8 +132,8 @@ import UIKit
         {
         case .center:
             
-            imageViewX = (frame.width - (imageViewSize.width + imageEdgeInsets.left + imageEdgeInsets.right +
-                                            titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right)) * 0.5
+            imageViewX = (frame.width - (imageViewSize.width + imageEdgeInsets.right +
+                                            titleLabelSize.width + titleEdgeInsets.left)) * 0.5
             break
             
         case .left:
@@ -143,7 +143,7 @@ import UIKit
             
         case .right:
             
-            imageViewX = (frame.width - (imageViewSize.width + imageEdgeInsets.left + imageEdgeInsets.right +
+            imageViewX = (frame.width - (imageViewSize.width + imageEdgeInsets.right +
                                             titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right))
             break
             
@@ -163,10 +163,8 @@ import UIKit
         {
         case .center:
             
-            imageViewY = (frame.height - imageViewSize.height - imageEdgeInsets.top - imageEdgeInsets.bottom) * 0.5
-            titleLabelY = (imageViewSize.height - titleLabelSize.height) * 0.5 + (imageViewY +
-                                                                                    titleEdgeInsets.top +
-                                                                                    titleEdgeInsets.bottom)
+            imageViewY = (frame.height - imageViewSize.height) * 0.5 + imageEdgeInsets.top - imageEdgeInsets.bottom
+            titleLabelY = (frame.height - titleLabelSize.height) * 0.5 + titleEdgeInsets.top - titleEdgeInsets.bottom
             
             break
             
@@ -215,8 +213,8 @@ import UIKit
         {
         case .center:
             
-            titleLabelX = (frame.width - (imageViewSize.width + imageEdgeInsets.left + imageEdgeInsets.right +
-                                            titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right)) * 0.5
+            titleLabelX = (frame.width - (imageViewSize.width + imageEdgeInsets.left +
+                                            titleLabelSize.width + titleEdgeInsets.right)) * 0.5
             break
             
         case .left:
@@ -227,7 +225,7 @@ import UIKit
         case .right:
             
             titleLabelX = (frame.width - (imageViewSize.width + imageEdgeInsets.left + imageEdgeInsets.right +
-                                            titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right))
+                                            titleLabelSize.width + titleEdgeInsets.right))
             break
             
         case .fill:
@@ -246,10 +244,8 @@ import UIKit
         {
         case .center:
             
-            imageViewY = (frame.height - imageViewSize.height - imageEdgeInsets.top - imageEdgeInsets.bottom) * 0.5
-            titleLabelY = (imageViewSize.height - titleLabelSize.height) * 0.5 + (imageViewY +
-                                                                                    titleEdgeInsets.top +
-                                                                                    titleEdgeInsets.bottom)
+            imageViewY = (frame.height - imageViewSize.height) * 0.5 + imageEdgeInsets.top - imageEdgeInsets.bottom
+            titleLabelY = (frame.height - titleLabelSize.height) * 0.5 + titleEdgeInsets.top - titleEdgeInsets.bottom
             
             break
             
@@ -299,8 +295,8 @@ import UIKit
         {
         case .center:
             
-            imageViewX = (frame.width - (imageViewSize.width + imageEdgeInsets.left + imageEdgeInsets.right)) * 0.5
-            titleLabelX = (frame.width - (titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right)) * 0.5
+            imageViewX = (frame.width - imageViewSize.width) * 0.5 + imageEdgeInsets.left - imageEdgeInsets.right
+            titleLabelX = (frame.width - titleLabelSize.width) * 0.5 + titleEdgeInsets.left - titleEdgeInsets.right
             break
             
         case .left:
@@ -311,8 +307,8 @@ import UIKit
             
         case .right:
             
-            imageViewX = frame.width - (imageViewSize.width + imageEdgeInsets.left + imageEdgeInsets.right)
-            titleLabelX = frame.width - (titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right)
+            imageViewX = frame.width - imageViewSize.width - imageEdgeInsets.right
+            titleLabelX = frame.width - titleLabelSize.width - titleEdgeInsets.right
             break
             
         case .fill:
@@ -331,8 +327,8 @@ import UIKit
         {
         case .center:
             
-            imageViewY = (frame.height - (imageViewSize.height + imageEdgeInsets.top + imageEdgeInsets.bottom +
-                                            titleLabelSize.height + titleEdgeInsets.top + titleEdgeInsets.bottom)) * 0.5
+            imageViewY = (frame.height - (imageViewSize.height + imageEdgeInsets.bottom +
+                                            titleLabelSize.height + titleEdgeInsets.top)) * 0.5
             
             break
             
@@ -344,7 +340,7 @@ import UIKit
             
         case .bottom:
             
-            imageViewY = (frame.height - (imageViewSize.height + imageEdgeInsets.top + imageEdgeInsets.bottom +
+            imageViewY = (frame.height - (imageViewSize.height + imageEdgeInsets.bottom +
                                             titleLabelSize.height + titleEdgeInsets.top + titleEdgeInsets.bottom))
             
             break
@@ -379,8 +375,8 @@ import UIKit
         {
         case .center:
             
-            imageViewX = (frame.width - (imageViewSize.width + imageEdgeInsets.left + imageEdgeInsets.right)) * 0.5
-            titleLabelX = (frame.width - (titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right)) * 0.5
+            imageViewX = (frame.width - imageViewSize.width) * 0.5 + imageEdgeInsets.left - imageEdgeInsets.right
+            titleLabelX = (frame.width - titleLabelSize.width) * 0.5 + titleEdgeInsets.left - titleEdgeInsets.right
             break
             
         case .left:
@@ -391,8 +387,8 @@ import UIKit
             
         case .right:
             
-            imageViewX = frame.width - (imageViewSize.width + imageEdgeInsets.left + imageEdgeInsets.right)
-            titleLabelX = frame.width - (titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right)
+            imageViewX = frame.width - imageViewSize.width - imageEdgeInsets.right
+            titleLabelX = frame.width - titleLabelSize.width - titleEdgeInsets.right
             break
             
         case .fill:
@@ -411,8 +407,8 @@ import UIKit
         {
         case .center:
             
-            titleLabelY = (frame.height - (imageViewSize.height + imageEdgeInsets.top + imageEdgeInsets.bottom +
-                                            titleLabelSize.height + titleEdgeInsets.top + titleEdgeInsets.bottom)) * 0.5
+            titleLabelY = (frame.height - (imageViewSize.height + imageEdgeInsets.top +
+                                            titleLabelSize.height + titleEdgeInsets.bottom)) * 0.5
             
             break
             
@@ -425,7 +421,7 @@ import UIKit
         case .bottom:
             
             titleLabelY = (frame.height - (imageViewSize.height + imageEdgeInsets.top + imageEdgeInsets.bottom +
-                                            titleLabelSize.height + titleEdgeInsets.top + titleEdgeInsets.bottom))
+                                            titleLabelSize.height + titleEdgeInsets.bottom))
             
             break
             

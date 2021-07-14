@@ -16,9 +16,15 @@ import UIKit
                            sizeForItemAt indexPath: IndexPath) -> CGSize
     
     /// 是否允许超过大小
-    @objc func zs_collectionView(_ collectionView: UICollectionView,
-                           layout: ZSWaterFlowLayout,
-                           shouldBeyondSizeOf section: Int) -> Bool
+    @objc optional func zs_collectionView(_ collectionView: UICollectionView,
+                                          layout: ZSWaterFlowLayout,
+                                          shouldBeyondSizeOf section: Int) -> Bool
+    
+    /// 设置每列的 inset（在sectionInset基础上，加上每列的 inset）
+    @objc optional func zs_collectionView(_ collectionView: UICollectionView,
+                                          layout: ZSWaterFlowLayout,
+                                          insetForColumnAtIndex column: Int,
+                                          columnCount: Int) -> UIEdgeInsets
     
     /// 每个section 列数（默认2列）
     @objc optional func zs_collectionView(_ collectionView: UICollectionView,
@@ -65,7 +71,7 @@ import UIKit
         return column
     }
     
-    /// 返回长度最小的一列
+    /// 返回长度最大的一列
     private var maxLenghtColumn: Int {
         
         var max: CGFloat = 0
@@ -172,27 +178,41 @@ import UIKit
         
         let cell = UICollectionViewLayoutAttributes(forCellWith: indexPath)
         let minColumnLenght = columnLenghts[minLenghtColumn]
-        let shouldBeyondSize = delegate?.zs_collectionView(collectionView!, layout: self, shouldBeyondSizeOf: indexPath.section)
+        let shouldBeyondSize = delegate?.zs_collectionView?(collectionView!, layout: self, shouldBeyondSizeOf: indexPath.section)
         
         if scrollDirection == .vertical
         {
             let width = collectionView!.frame.width - sectionInset.left - sectionInset.right - CGFloat(columnCount - 1) * minimumInteritemSpacing
             
-            let cellMinimumWidth = width / CGFloat(columnCount)
+            let minimumWidth = width / CGFloat(columnCount)
             
-            let cellSize = self.delegate?.zs_collectionView(collectionView!, layout:self, minimumSize:CGSize(width: cellMinimumWidth, height: CGFloat(MAXFLOAT)), sizeForItemAt: indexPath) ?? .zero
+            let cellSize = self.delegate?.zs_collectionView(collectionView!, layout:self, minimumSize:CGSize(width: minimumWidth, height: CGFloat(MAXFLOAT)), sizeForItemAt: indexPath) ?? .zero
             
-            var cellWidth = min(cellMinimumWidth, cellSize.width)
-            let cellHeight = cellSize.height
+            var cellWidth: CGFloat = 0.0
+            var cellHeight: CGFloat = 0.0
             
-            var cellX = sectionInset.left + CGFloat(minLenghtColumn) * (cellMinimumWidth + minimumInteritemSpacing)
-            var cellY = minColumnLenght
+            var cellX: CGFloat = 0.0
+            var cellY: CGFloat = 0.0
             
-            if shouldBeyondSize == true && cellSize.width > cellMinimumWidth
+            if shouldBeyondSize == true && cellSize.width > minimumWidth
             {
-                cellWidth = cellSize.width
-                cellX = sectionInset.left
-                cellY = columnLenghts[maxLenghtColumn]
+                let columnInset = delegate?.zs_collectionView?(collectionView!, layout: self, insetForColumnAtIndex: 0, columnCount: 1) ?? .zero
+                
+                cellX = sectionInset.left + columnInset.left
+                cellWidth = min(width - columnInset.right - columnInset.left, cellSize.width)
+                cellY = columnLenghts[maxLenghtColumn] + columnInset.top
+                cellHeight = cellSize.height + columnInset.bottom
+            }
+            else
+            {
+                let columnInset = delegate?.zs_collectionView?(collectionView!, layout: self, insetForColumnAtIndex: minLenghtColumn, columnCount: columnCount) ?? .zero
+                
+                let itemSpacing = CGFloat(minLenghtColumn) * (minimumWidth + minimumInteritemSpacing)
+                
+                cellX = sectionInset.left + itemSpacing + columnInset.left
+                cellWidth = min(minimumWidth - columnInset.right - columnInset.left, cellSize.width)
+                cellY = minColumnLenght + columnInset.top
+                cellHeight = cellSize.height + columnInset.bottom
             }
             
             if cellY != self.lastContentLenght
@@ -202,7 +222,7 @@ import UIKit
             
             cell.frame = CGRect(x: cellX, y: cellY, width: cellWidth, height: cellHeight)
             
-            if shouldBeyondSize == true && cellSize.width > cellMinimumWidth
+            if shouldBeyondSize == true && cellSize.width > minimumWidth
             {
                 for idx in 0..<columnCount
                 {
@@ -222,17 +242,31 @@ import UIKit
             
             let cellSize = self.delegate?.zs_collectionView(collectionView!, layout:self, minimumSize:CGSize(width: CGFloat(MAXFLOAT), height: cellMinimumHeight), sizeForItemAt: indexPath) ?? .zero
             
-            let cellWidth = cellSize.width
-            var cellHeight = min(cellMinimumHeight, cellSize.height)
+            var cellWidth: CGFloat = 0.0
+            var cellHeight: CGFloat = 0.0
             
-            var cellX: CGFloat = minColumnLenght
-            var cellY = sectionInset.top + CGFloat(minLenghtColumn) * (cellMinimumHeight + minimumLineSpacing)
+            var cellX: CGFloat = 0.0
+            var cellY: CGFloat = 0.0
             
             if shouldBeyondSize == true && cellSize.height > cellMinimumHeight
             {
-                cellHeight = cellSize.height
-                cellY = sectionInset.top
-                cellX = columnLenghts[maxLenghtColumn]
+                let columnInset = delegate?.zs_collectionView?(collectionView!, layout: self, insetForColumnAtIndex: 0, columnCount: 1) ?? .zero
+                
+                cellY = sectionInset.top + columnInset.top
+                cellHeight = cellSize.height - columnInset.bottom
+                cellX = columnLenghts[maxLenghtColumn] + columnInset.left
+                cellWidth = cellSize.width - columnInset.right
+            }
+            else
+            {
+                let columnInset = delegate?.zs_collectionView?(collectionView!, layout: self, insetForColumnAtIndex: minLenghtColumn, columnCount: columnCount) ?? .zero
+                
+                let itemSpacing = CGFloat(minLenghtColumn) * (cellMinimumHeight + minimumLineSpacing)
+                
+                cellY = sectionInset.top + itemSpacing + columnInset.top
+                cellHeight = min(cellMinimumHeight, cellSize.height) - columnInset.bottom
+                cellX = minColumnLenght + columnInset.left
+                cellWidth = cellSize.width - columnInset.right
             }
             
             if cellX != self.lastContentLenght
@@ -272,44 +306,44 @@ import UIKit
         return cell
     }
     
-        open override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-    
-            let supplementaryView = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, with: indexPath)
-    
-            if elementKind == UICollectionView.elementKindSectionHeader
+    open override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+        
+        let supplementaryView = UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: elementKind, with: indexPath)
+        
+        if elementKind == UICollectionView.elementKindSectionHeader
+        {
+            contentLenght += minimumSectionSpacing
+            
+            if scrollDirection == .vertical
             {
-                contentLenght += minimumSectionSpacing
-                
-                if scrollDirection == .vertical
-                {
-                    supplementaryView.frame = CGRect(x: 0, y: contentLenght, width: headerReferenceSize.width, height: headerReferenceSize.height)
-                    contentLenght += headerReferenceSize.height
-                    contentLenght += sectionInset.top
-                }
-                else
-                {
-                    supplementaryView.frame = CGRect(x: contentLenght, y: 0, width: headerReferenceSize.width, height: headerReferenceSize.height)
-                    contentLenght += headerReferenceSize.width
-                    contentLenght += sectionInset.left
-                }
+                supplementaryView.frame = CGRect(x: 0, y: contentLenght, width: headerReferenceSize.width, height: headerReferenceSize.height)
+                contentLenght += headerReferenceSize.height
+                contentLenght += sectionInset.top
             }
-            else if elementKind == UICollectionView.elementKindSectionFooter
+            else
             {
-                if scrollDirection == .vertical
-                {
-                    contentLenght += sectionInset.bottom
-                    supplementaryView.frame = CGRect(x: 0, y: contentLenght, width: footerReferenceSize.width, height: footerReferenceSize.height)
-                    contentLenght += footerReferenceSize.height
-                }
-                else
-                {
-                    contentLenght += sectionInset.right
-                    supplementaryView.frame = CGRect(x: contentLenght, y: 0, width: footerReferenceSize.width, height: footerReferenceSize.height)
-                    contentLenght += footerReferenceSize.width
-                }
+                supplementaryView.frame = CGRect(x: contentLenght, y: 0, width: headerReferenceSize.width, height: headerReferenceSize.height)
+                contentLenght += headerReferenceSize.width
+                contentLenght += sectionInset.left
             }
-            return supplementaryView
         }
+        else if elementKind == UICollectionView.elementKindSectionFooter
+        {
+            if scrollDirection == .vertical
+            {
+                contentLenght += sectionInset.bottom
+                supplementaryView.frame = CGRect(x: 0, y: contentLenght, width: footerReferenceSize.width, height: footerReferenceSize.height)
+                contentLenght += footerReferenceSize.height
+            }
+            else
+            {
+                contentLenght += sectionInset.right
+                supplementaryView.frame = CGRect(x: contentLenght, y: 0, width: footerReferenceSize.width, height: footerReferenceSize.height)
+                contentLenght += footerReferenceSize.width
+            }
+        }
+        return supplementaryView
+    }
     
     open override var collectionViewContentSize: CGSize {
         
