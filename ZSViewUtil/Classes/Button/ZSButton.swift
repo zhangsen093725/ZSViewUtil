@@ -124,7 +124,13 @@ import UIKit
     
     func layoutImageLeft() {
         
-        let titleLabelSize = self.titleLabel?.intrinsicContentSize ?? .zero
+        var titleLabelSize = self.titleLabel?.intrinsicContentSize ?? .zero
+        
+        let contentWidth = frame.width - (imageViewSize.width + imageEdgeInsets.right + imageEdgeInsets.left +
+                                            titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right)
+        let contentHeight = frame.height
+        
+        titleLabelSize = CGSize(width: min(titleLabelSize.width, contentWidth), height: min(contentHeight, titleLabelSize.height))
         
         var imageViewX: CGFloat = 0
         
@@ -205,7 +211,13 @@ import UIKit
     
     func layoutImageRight() {
         
-        let titleLabelSize = self.titleLabel?.intrinsicContentSize ?? .zero
+        var titleLabelSize = self.titleLabel?.intrinsicContentSize ?? .zero
+        
+        let contentWidth = frame.width - (imageViewSize.width + imageEdgeInsets.right + imageEdgeInsets.left +
+                                            titleLabelSize.width + titleEdgeInsets.left + titleEdgeInsets.right)
+        let contentHeight = frame.height
+        
+        titleLabelSize = CGSize(width: min(titleLabelSize.width, contentWidth), height: min(contentHeight, titleLabelSize.height))
         
         var titleLabelX: CGFloat = 0
         
@@ -286,7 +298,13 @@ import UIKit
     
     func layoutImageTop() {
         
-        let titleLabelSize = self.titleLabel?.intrinsicContentSize ?? .zero
+        var titleLabelSize = self.titleLabel?.intrinsicContentSize ?? .zero
+        
+        let contentWidth = frame.width
+        let contentHeight = frame.height - (imageViewSize.height + imageEdgeInsets.top + imageEdgeInsets.bottom +
+                                                titleLabelSize.width + titleEdgeInsets.top + titleEdgeInsets.bottom)
+        
+        titleLabelSize = CGSize(width: min(titleLabelSize.width, contentWidth), height: min(contentHeight, titleLabelSize.height))
         
         var titleLabelX: CGFloat = 0
         var imageViewX: CGFloat = 0
@@ -366,7 +384,13 @@ import UIKit
     
     func layoutImageBottom() {
         
-        let titleLabelSize = self.titleLabel?.intrinsicContentSize ?? .zero
+        var titleLabelSize = self.titleLabel?.intrinsicContentSize ?? .zero
+        
+        let contentWidth = frame.width
+        let contentHeight = frame.height - (imageViewSize.height + imageEdgeInsets.top + imageEdgeInsets.bottom +
+                                                titleLabelSize.width + titleEdgeInsets.top + titleEdgeInsets.bottom)
+        
+        titleLabelSize = CGSize(width: min(titleLabelSize.width, contentWidth), height: min(contentHeight, titleLabelSize.height))
         
         var titleLabelX: CGFloat = 0
         var imageViewX: CGFloat = 0
