@@ -98,8 +98,18 @@ import UIKit
     
     open override var intrinsicContentSize: CGSize {
         
-        let imageViewSize = self.imageView?.intrinsicContentSize ?? .zero
-        let titleLabelSize = self.titleLabel?.intrinsicContentSize ?? .zero
+        var imageViewSize = self.imageView?.intrinsicContentSize ?? .zero
+        var titleLabelSize = self.titleLabel?.intrinsicContentSize ?? .zero
+
+        if imageViewSize == CGSize(width: -1, height: -1)
+        {
+            imageViewSize = .zero;
+        }
+        
+        if titleLabelSize == CGSize(width: -1, height: -1)
+        {
+            titleLabelSize = .zero;
+        }
         
         return CGSize(width: imageViewSize.width + self.imageEdgeInsets.left + self.imageEdgeInsets.right +
                         titleLabelSize.width + self.titleEdgeInsets.left + self.titleEdgeInsets.right,
