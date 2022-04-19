@@ -9,8 +9,27 @@ import UIKit
 
 @objcMembers open class ZSFocusFlowLayout: UICollectionViewFlowLayout {
     
-    /// 聚焦位置放大的倍数，默认是 1.1
-    public var zoomScale: CGFloat = 1.1
+    /// 聚焦位置缩放比例，默认是 1
+    public var focusZoom: CGFloat = 1
+    
+    /// 聚焦位置的透明度，默认是 1
+    public var focusAlpha: CGFloat = 1
+    
+    /// 透明度的公差
+    public var toleranceAlpha: CGFloat = 0
+    
+    private var __minimumLineSpacing: CGFloat = 0
+    override open var minimumLineSpacing: CGFloat {
+        
+        set
+        {
+            __minimumLineSpacing = newValue
+        }
+        get
+        {
+            return 0
+        }
+    }
     
     /*
      返回值决定了collectionView停止滚动时, 最终的偏移量
@@ -78,7 +97,24 @@ import UIKit
             for attribute in attributes
             {
                 let distance = CGFloat(fabsf(Float(attribute.center.x - centerX)))
-                let zoom = collectionView?.frame.size.width == 0 ? 0 : zoomScale - distance / collectionView!.frame.size.width * 0.5
+                
+                var n: CGFloat = 0
+                var ratio: CGFloat = 0
+                
+                if distance > 0 && attribute.frame.size.width > 0
+                {
+                    n = distance / attribute.frame.size.width
+                    ratio = (attribute.frame.size.width - CGFloat(2) * __minimumLineSpacing) / attribute.frame.size.width
+                }
+                
+                let toleranceZoom = focusZoom - ratio
+                var zoom = focusZoom - toleranceZoom * n
+                zoom = zoom < 0 ? 0 : zoom
+                
+                var alpha = focusAlpha - n * toleranceAlpha
+                alpha = alpha < 0 ? 0 : alpha
+                
+                attribute.alpha = alpha
                 attribute.transform3D = CATransform3DMakeScale(zoom, zoom, 5.5)
             }
         }
@@ -89,7 +125,19 @@ import UIKit
             for attribute in attributes
             {
                 let distance = CGFloat(fabsf(Float(attribute.center.y - centerY)))
-                let zoom = collectionView?.frame.size.height == 0 ? 0 : zoomScale - distance / collectionView!.frame.size.height * 0.5
+                
+                var n: CGFloat = 0
+                var ratio: CGFloat = 0
+                
+                if distance > 0 && attribute.frame.size.height > 0
+                {
+                    n = distance / attribute.frame.size.height
+                    ratio = (attribute.frame.size.height - CGFloat(2) * __minimumLineSpacing) / attribute.frame.size.height
+                }
+                
+                let tolerance = focusZoom - ratio
+                var zoom = focusZoom - tolerance * n
+                zoom = zoom < 0 ? 0 : zoom
                 attribute.transform3D = CATransform3DMakeScale(zoom, zoom, 5.5)
             }
         }
